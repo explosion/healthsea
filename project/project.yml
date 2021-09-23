@@ -1,5 +1,5 @@
 title: "Healthsea"
-description: "This project trains a Named-Entity-Recognition and a custom Clause Classification model builds custom components and assembles them to one end-to-end pipeline."
+description: "This project trains a Named-Entity-Recognition model, a Text Classification model, and assembles them together with custom components into a finished end-to-end pipeline."
 # Variables can be referenced across the project.yml using ${vars.var_name}
 vars:
   version: "0.0.0"

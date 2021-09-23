@@ -2,7 +2,7 @@
 
 # 🪐 spaCy Project: Healthsea
 
-This project trains a Named-Entity-Recognition and a custom Clause Classification model builds custom components and assembles them to one end-to-end pipeline.
+This project trains a Named-Entity-Recognition model, a Text Classification model, and assembles them together with custom components into a finished end-to-end pipeline.
 
 ## 📋 project.yml
 
