@@ -1,0 +1,161 @@
+title: "Healthsea"
+description: "This project trains a Named-Entity-Recognition and a custom Clause Classification model builds custom components and assembles them to one end-to-end pipeline."
+# Variables can be referenced across the project.yml using ${vars.var_name}
+vars:
+  version: "0.0.0"
+  name: "healthsea"
+
+  # config_trf & config_tok2vec
+  config: "config_tok2vec"
+  train: "train"
+  dev: "dev"
+
+  models:
+    model_ner: "training/ner/${vars.config}/model-best"
+    model_textcat: "training/textcat/${vars.config}/model-best"
+    model_healthsea: "training/healthsea/${vars.config}"
+
+  prodigy:
+    annotation_ner: "healthsea_ner_annotation"
+
+  gpu_id: -1
+  eval_split: 0.25
+
+# These are the directories that the project needs. The project CLI will make
+# sure that they always exist.
+directories: ["assets","training","configs","scripts"]
+
+# Assets that should be downloaded or available in the directory. We're shipping
+# them with the project, so they won't have to be downloaded. But the
+# 'project assets' command still lets you verify that the checksums match.
+assets:
+  - dest: "assets/ner/ner_annotation.jsonl"
+    description: "Named-Entity-Recognition annotations exported from Prodigy with 5000 examples and 2 labels"
+  - dest: "assets/ner/train.spacy"
+    description: "Training dataset for Named-Entity-Recognition"
+  - dest: "assets/ner/dev.spacy"
+    description: "Development dataset for Named-Entity-Recognition"
+  - dest: "assets/textcat/textcat_annotation.jsonl"
+    description: "Text Classification annotations exported from Prodigy with 5000 examples and 4 classes"
+  - dest: "assets/textcat/train.spacy"
+    description: "Training dataset for Text Classification"
+  - dest: "assets/textcat/dev.spacy"
+    description: "Development dataset for Text Classification"
+  - dest: "assets/end_to_end_evaluation.json"
+    description: "Examples for end-to-end evaluation of the pipeline"
+  - dest: "assets/pretrained_weights.bin"
+    description: "Pretrained weights trained with IHerb reviews for initializing tok2vec components"
+
+# Workflows are sequences of commands (see below) executed in order. You can
+# run them via "spacy project run [workflow]". If a commands's inputs/outputs
+# haven't changed, it won't be re-run.
+workflows:
+  install:
+    - requirements
+  parse:
+    - parse_ner
+    - parse_textcat
+  train:
+    - train_ner
+    - train_textcat
+  evaluate:
+    - evaluate_ner
+    - evaluate_textcat
+  assemble:
+    - assemble_healthsea
+    - evaluate_healthsea
+
+# Project commands, specified in a style similar to CI config files (e.g. Azure
+# pipelines). The name is the command name that lets you trigger the command
+# via "spacy project run [command] [path]". The help message is optional and
+# shown when executing "spacy project run [optional command] [path] --help".
+commands:
+  - name: "requirements"
+    help: "Install dependencies and requirements"
+    script:
+      - "pip install -r requirements.txt"
+      - "python -m spacy download en_core_web_lg"
+
+  # Works only with prodigy, training files for the ner are already available in the assets folder
+  - name: "parse_ner"
+    help: "Load the annotations to Prodigy and use data-to-spacy to split the data into a training and development set"
+    script:
+      - "python -m prodigy db-in ${vars.prodigy.annotation_ner} assets/ner/ner_annotation.jsonl"
+      - "python -m prodigy data-to-spacy assets/ner/ -n ${vars.prodigy.annotation_ner} -es ${vars.eval_split}"
+      - "python scripts/parsing/analyze_ner_annotation.py assets/ner/ner_annotation.jsonl"
+    deps:
+      - "assets/ner/ner_annotation.jsonl"
+    outputs:
+      - "data/ner/${vars.train}.spacy"
+      - "data/ner/${vars.dev}.spacy"
+
+  # You can skip this command, the training files are already present in the assets folder
+  - name: "parse_textcat"
+    help: "Parse the textcat annotation file manually into a training and development set"
+    script:
+      - "python scripts/parsing/parse_textcat_annotation.py assets/textcat/textcat_annotation.jsonl assets/textcat/${vars.train}.spacy assets/textcat/${vars.dev}.spacy ${vars.eval_split}"
+    deps:
+      - "assets/textcat/textcat_annotation.jsonl"
+    outputs:
+      - "assets/textcat/${vars.train}.spacy"
+      - "assets/textcat/${vars.dev}.spacy"
+
+  - name: "train_ner"
+    help: "Train a Named-Entity-Recognition model"
+    script:
+      - "python -m spacy train configs/ner/${vars.config}.cfg --output training/ner/${vars.config}/ --paths.train assets/ner/${vars.train}.spacy --paths.dev assets/ner/${vars.dev}.spacy --paths.init_tok2vec assets/pretrained_weights.bin --gpu-id ${vars.gpu_id}"
+    deps:
+      - "configs/ner/${vars.config}.cfg"
+      - "assets/ner/${vars.train}.spacy"
+      - "assets/ner/${vars.dev}.spacy"
+    outputs:
+      - ${vars.models.model_ner}
+
+  - name: "evaluate_ner"
+    help: "Evaluate a trained Named-Entity-Recognition model"
+    script:
+      - "python -m spacy evaluate ${vars.models.model_ner} assets/ner/${vars.dev}.spacy --gpu-id ${vars.gpu_id}"
+    deps:
+      - "assets/ner/${vars.dev}.spacy"
+      - ${vars.models.model_ner}
+
+  - name: "train_textcat"
+    help: "Train a Text Classification model"
+    script:
+      - "python -m spacy train configs/textcat/${vars.config}.cfg --output training/textcat/${vars.config}/ --paths.train assets/textcat/${vars.train}.spacy --paths.dev assets/textcat/${vars.dev}.spacy --paths.init_tok2vec assets/pretrained_weights.bin --gpu-id ${vars.gpu_id}"
+    deps:
+      - "configs/textcat/${vars.config}.cfg"
+      - "assets/textcat/${vars.train}.spacy"
+      - "assets/textcat/${vars.dev}.spacy"
+    outputs:
+      - ${vars.models.model_textcat}
+
+  - name: "evaluate_textcat"
+    help: "Evaluate a trained Text Classification model"
+    script:
+      - "python -m spacy evaluate ${vars.models.model_textcat} assets/textcat/${vars.dev}.spacy --gpu-id ${vars.gpu_id}"
+    deps:
+      - "assets/textcat/${vars.dev}.spacy"
+      - ${vars.models.model_textcat}
+
+  - name: "assemble_healthsea"
+    help: "Assemble trained components into the healthsea pipeline"
+    script:
+      - "python -m spacy assemble configs/healthsea/${vars.config}.cfg training/healthsea/${vars.config}/ -c scripts/clause_component.py --paths.textcat_model ${vars.models.model_textcat} --paths.ner_model ${vars.models.model_ner}"
+    deps:
+      - "configs/healthsea/${vars.config}.cfg"
+      - "scripts/clause_component.py"
+      - ${vars.models.model_ner}
+      - ${vars.models.model_textcat}
+    outputs:
+      - ${vars.models.model_healthsea}
+
+  - name: "evaluate_healthsea"
+    help: "Evaluate the finished healthsea pipeline"
+    script:
+      - "python scripts/end_to_end_evaluation.py ${vars.models.model_healthsea} assets/end_to_end_evaluation.json ${vars.gpu_id}"
+    deps:
+      - "scripts/end_to_end_evaluation.py"
+      - "assets/end_to_end_evaluation.json"
+      - ${vars.models.model_healthsea}
+
