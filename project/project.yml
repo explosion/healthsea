@@ -19,7 +19,7 @@ vars:
   prodigy:
     annotation_ner: "healthsea_ner_annotation"
 
-  gpu_id: 0
+  gpu_id: -1
   eval_split: 0.25
 
 # These are the directories that the project needs. The project CLI will make
@@ -89,6 +89,14 @@ commands:
     outputs:
       - "data/ner/${vars.train}.spacy"
       - "data/ner/${vars.dev}.spacy"
+
+  - name: "analyze_ner"
+    help: "Analyze the NER annotation dataset"
+    script:
+      - "python scripts/parsing/analyze_ner_annotation.py assets/ner/ner_annotation.jsonl"
+    deps:
+      - "assets/ner/ner_annotation.jsonl"
+
 
   # You can skip this command, the training files are already present in the assets folder
   - name: "parse_textcat"
