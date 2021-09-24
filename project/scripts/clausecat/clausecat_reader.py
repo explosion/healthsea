@@ -13,6 +13,8 @@ import random
 import srsly
 import copy
 
+from scripts.clausecat import clausecat_component
+
 
 @util.registry.readers("clausecat.reader.v1")
 def create_docbin_reader(path):
@@ -27,19 +29,19 @@ class Clausecat_corpus:
         if not Doc.has_extension("clauses"):
             Doc.set_extension("clauses", default=[])
 
-        ref_docs = self.read_docbin(nlp.vocab, walk_corpus(self.path, ".spacy"))
-        for reference in ref_docs:
+        pred_docs = self.read_docbin(nlp.vocab, walk_corpus(self.path, ".spacy"))
+        for reference in pred_docs:
 
-            ref_doc = Doc(
+            pred_doc = Doc(
                 nlp.vocab,
                 words=[t.text for t in reference],
                 spaces=[t.whitespace_ for t in reference],
             )
 
-            ref_doc._.clauses = [(reference, None, None)]
-            gold_doc = copy.deepcopy(ref_doc)
+            pred_doc._.clauses = [(reference, None, None)]
+            gold_doc = copy.deepcopy(pred_doc)
 
-            yield Example(ref_doc, gold_doc)
+            yield Example(pred_doc, gold_doc)
 
     def read_docbin(
         self, vocab: Vocab, locs: Iterable[Union[str, Path]]
