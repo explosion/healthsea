@@ -1,3 +1,5 @@
 training
 project.lock
 __pycache__/
+*.ipynb_checkpoints
+*.ipynb

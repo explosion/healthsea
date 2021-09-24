@@ -14,6 +14,7 @@ vars:
     model_ner: "training/ner/${vars.config}/model-best"
     model_textcat: "training/textcat/${vars.config}/model-best"
     model_healthsea: "training/healthsea/${vars.config}"
+    model_clausecat: "training/clausecat/${vars.config}"
 
   prodigy:
     ner_db: "healthsea_ner_annotation"
@@ -89,6 +90,14 @@ commands:
       - "data/ner/${vars.train}.spacy"
       - "data/ner/${vars.dev}.spacy"
 
+  - name: "analyze_ner"
+    help: "Analyze the NER annotation dataset"
+    script:
+      - "python scripts/parsing/analyze_ner_annotation.py assets/ner/ner_annotation.jsonl"
+    deps:
+      - "assets/ner/ner_annotation.jsonl"
+
+
   # You can skip this command if you're happy with the training files in the assets folder generated with the default split
   - name: "parse_textcat"
     help: "Parse the textcat annotation file into a training and development set"
@@ -158,4 +167,17 @@ commands:
       - "scripts/end_to_end_evaluation.py"
       - "assets/end_to_end_evaluation.json"
       - ${vars.models.model_healthsea}
+
+  - name: "train_clausecat"
+    help: "Train a Clausecat component"
+    script:
+      - "python -m spacy train configs/clausecat/${vars.config}.cfg --output training/clausecat/${vars.config}/ -c scripts/clausecat/clausecat_reader.py --paths.train assets/textcat/${vars.train}.spacy --paths.dev assets/textcat/${vars.dev}.spacy --paths.init_tok2vec assets/pretrained_weights.bin --gpu-id ${vars.gpu_id} --paths.vectors en_core_web_lg"
+    deps:
+      - "configs/clausecat/${vars.config}.cfg"
+      - "assets/textcat/${vars.train}.spacy"
+      - "assets/textcat/${vars.dev}.spacy"
+    outputs:
+      - ${vars.models.model_clausecat}
+
+
 

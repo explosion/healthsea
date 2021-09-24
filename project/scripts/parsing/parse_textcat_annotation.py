@@ -56,11 +56,13 @@ def main(
     train = []
     dev = []
     table_data = []
+    checksum = 0
 
     for label in label_dict:
         split = int(len(label_dict[label]) * eval_split)
         train += label_dict[label][split:]
         dev += label_dict[label][:split]
+        checksum += len(label_dict[label])
         table_data.append(
             (
                 label,
@@ -72,7 +74,7 @@ def main(
 
     msg.divider("TEXTCAT dataset summary")
     msg.info(f"Evaluation split: {eval_split}")
-    table_data.append(("All", len(examples), len(train), len(dev)))
+    table_data.append(("All", checksum, len(train), len(dev)))
     header = ("Label", "Total", "Training", "Development")
     print(table(table_data, header=header, divider=True))
 
