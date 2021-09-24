@@ -17,7 +17,7 @@ def main(
     dev_file: Path,
     eval_split: float,
 ):
-    """Parse the textcat annotation into a training and development set."""
+    """Parse the textcat annotations into a training and development set."""
 
     examples = []
     label_dict = {}
