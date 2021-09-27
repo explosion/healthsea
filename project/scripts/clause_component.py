@@ -1,13 +1,12 @@
 from spacy.tokens import Doc
 from spacy.language import Language
 from typing import Tuple, List
-
-# Fix import
-import scripts.clause_segmentation
-
-# import clause_segmentation
-
 import operator
+
+try:
+    from scripts import clause_segmentation
+except:
+    import clause_segmentation
 
 
 @Language.factory("clause_component")

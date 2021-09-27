@@ -19,11 +19,7 @@ from wasabi import Printer
 msg = Printer()
 
 
-def main(model_path: Path, eval_path: Path, use_gpu: int):
-
-    if use_gpu != -1:
-        spacy.prefer_gpu()
-
+def main(model_path: Path, eval_path: Path):
     nlp = spacy.load(model_path)
 
     with open(eval_path, "r", encoding="utf8") as jsonfile:

@@ -163,7 +163,7 @@ commands:
   - name: "evaluate_healthsea"
     help: "Evaluate the finished healthsea pipeline"
     script:
-      - "python scripts/end_to_end_evaluation.py ${vars.models.model_healthsea} assets/end_to_end_evaluation.json ${vars.gpu_id}"
+      - "python scripts/end_to_end_evaluation.py ${vars.models.model_healthsea} assets/end_to_end_evaluation.json"
     deps:
       - "scripts/end_to_end_evaluation.py"
       - "assets/end_to_end_evaluation.json"
