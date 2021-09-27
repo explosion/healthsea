@@ -81,6 +81,7 @@ commands:
   - name: "parse_ner"
     help: "Load the annotations to Prodigy and use data-to-spacy to split the data into a training and development set"
     script:
+      - "python scripts/check_prodigy.py"
       - "python -m prodigy db-in ${vars.prodigy.ner_db} assets/ner/ner_annotation.jsonl"
       - "python -m prodigy data-to-spacy assets/ner/ -n ${vars.prodigy.ner_db} -es ${vars.eval_split}"
       - "python scripts/parsing/analyze_ner_annotation.py assets/ner/ner_annotation.jsonl"

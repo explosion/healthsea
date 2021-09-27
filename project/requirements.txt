@@ -1,2 +1,7 @@
 spacy_transformers>=1.0.1,<1.1.0
+cupy-cuda111>=9.0.0
+thinc>=8.0.8
+torch>=1.8.1+cu111
+spacy-transformers>=1.0.3
+spacy
 benepar
