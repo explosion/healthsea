@@ -1,5 +1,5 @@
 title: "Healthsea"
-description: "This project trains a Named-Entity-Recognition model, a Text Classification model, and assembles them together with custom components into a finished end-to-end pipeline."
+description: "This project trains a Named Entity Recognition (NER) model, a Text Classification model, and assembles them together with custom components into a finished end-to-end pipeline."
 # Variables can be referenced across the project.yml using ${vars.var_name}
 vars:
   version: "0.0.0"
@@ -17,7 +17,7 @@ vars:
     model_clausecat: "training/clausecat/${vars.config}"
 
   prodigy:
-    annotation_ner: "healthsea_ner_annotation"
+    ner_db: "healthsea_ner_annotation"
 
   gpu_id: -1
   eval_split: 0.25
@@ -28,14 +28,14 @@ directories: ["assets","training","configs","scripts"]
 
 # Assets that should be downloaded or available in the directory. We're shipping
 # them with the project, so they won't have to be downloaded. But the
-# 'project assets' command still lets you verify that the checksums match.
+# 'project assets' command still lets you verify that all required files are available.
 assets:
   - dest: "assets/ner/ner_annotation.jsonl"
-    description: "Named-Entity-Recognition annotations exported from Prodigy with 5000 examples and 2 labels"
+    description: "NER annotations exported from Prodigy with 5000 examples and 2 labels"
   - dest: "assets/ner/train.spacy"
-    description: "Training dataset for Named-Entity-Recognition"
+    description: "Training dataset for NER"
   - dest: "assets/ner/dev.spacy"
-    description: "Development dataset for Named-Entity-Recognition"
+    description: "Development dataset for NER"
   - dest: "assets/textcat/textcat_annotation.jsonl"
     description: "Text Classification annotations exported from Prodigy with 5000 examples and 4 classes"
   - dest: "assets/textcat/train.spacy"
@@ -77,12 +77,12 @@ commands:
       - "pip install -r requirements.txt"
       - "python -m spacy download en_core_web_lg"
 
-  # Works only with prodigy, training files for the ner are already available in the assets folder
+  # Works only with prodigy. Can be skipped otherwise, as the training files for the NER are already available in the assets folder
   - name: "parse_ner"
     help: "Load the annotations to Prodigy and use data-to-spacy to split the data into a training and development set"
     script:
-      - "python -m prodigy db-in ${vars.prodigy.annotation_ner} assets/ner/ner_annotation.jsonl"
-      - "python -m prodigy data-to-spacy assets/ner/ -n ${vars.prodigy.annotation_ner} -es ${vars.eval_split}"
+      - "python -m prodigy db-in ${vars.prodigy.ner_db} assets/ner/ner_annotation.jsonl"
+      - "python -m prodigy data-to-spacy assets/ner/ -n ${vars.prodigy.ner_db} -es ${vars.eval_split}"
       - "python scripts/parsing/analyze_ner_annotation.py assets/ner/ner_annotation.jsonl"
     deps:
       - "assets/ner/ner_annotation.jsonl"
@@ -98,9 +98,9 @@ commands:
       - "assets/ner/ner_annotation.jsonl"
 
 
-  # You can skip this command, the training files are already present in the assets folder
+  # You can skip this command if you're happy with the training files in the assets folder generated with the default split
   - name: "parse_textcat"
-    help: "Parse the textcat annotation file manually into a training and development set"
+    help: "Parse the textcat annotation file into a training and development set"
     script:
       - "python scripts/parsing/parse_textcat_annotation.py assets/textcat/textcat_annotation.jsonl assets/textcat/${vars.train}.spacy assets/textcat/${vars.dev}.spacy ${vars.eval_split}"
     deps:
@@ -110,7 +110,7 @@ commands:
       - "assets/textcat/${vars.dev}.spacy"
 
   - name: "train_ner"
-    help: "Train a Named-Entity-Recognition model"
+    help: "Train an NER model"
     script:
       - "python -m spacy train configs/ner/${vars.config}.cfg --output training/ner/${vars.config}/ --paths.train assets/ner/${vars.train}.spacy --paths.dev assets/ner/${vars.dev}.spacy --paths.init_tok2vec assets/pretrained_weights.bin --gpu-id ${vars.gpu_id}"
     deps:
@@ -121,7 +121,7 @@ commands:
       - ${vars.models.model_ner}
 
   - name: "evaluate_ner"
-    help: "Evaluate a trained Named-Entity-Recognition model"
+    help: "Evaluate a trained NER model"
     script:
       - "python -m spacy evaluate ${vars.models.model_ner} assets/ner/${vars.dev}.spacy --gpu-id ${vars.gpu_id}"
     deps:
