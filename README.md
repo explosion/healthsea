@@ -20,12 +20,12 @@ Healthsea aims to reduce manual work by automizing this process and thus create 
 ## 🪐 spaCy project
 The ```project``` folder contains a [spaCy project](https://spacy.io/usage/projects) which builds and trains the healthsea pipeline with spaCy v3.
 
-Use ```spacy project run``` inside the project folder to get an overview of all possible commands and assets. For more detailed documentation visits the [project folders readme](https://github.com/thomashacker/healthsea/tree/main/project). The ```project.yml``` file contains all commands, scripts and variables, which can be also changed.
+Use ```spacy project run``` inside the project folder to get an overview of all possible commands and assets. For more detailed documentation, visit the [project folders readme](https://github.com/thomashacker/healthsea/tree/main/project). The ```project.yml``` file contains all commands, scripts and variables, which can be also changed.
 
 ## ✨ Demo
-The ```demo``` folder contains a [streamlit app](https://streamlit.io/) which visualizes an analyzed dataset and gives product recommendation for specific health conditions.
+The ```demo``` folder contains a [streamlit app](https://streamlit.io/) which visualizes an analyzed dataset and gives product recommendations for specific health conditions.
 
-For more detailed documentation visits the [demo folders readme](https://github.com/thomashacker/healthsea/tree/main/demo).
+For more detailed documentation, visit the [demo folders readme](https://github.com/thomashacker/healthsea/tree/main/demo).
 
 ## ⭐️ Features
 This project includes following features:
@@ -33,5 +33,5 @@ This project includes following features:
 - Training a custom Text Classificaton model
 - Building a [custom spaCy component](https://spacy.io/usage/processing-pipelines#custom-components)
 - Assembling spaCy components into one [pipeline](https://spacy.io/usage/processing-pipelines#pipelines)
-- Visualizing the an analyzed dataset and providing product/substance recommendation
+- Visualizing an analyzed dataset and providing product/substance recommendations
 
