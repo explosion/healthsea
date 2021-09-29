@@ -98,7 +98,6 @@ commands:
     deps:
       - "assets/ner/ner_annotation.jsonl"
 
-
   # You can skip this command if you're happy with the training files in the assets folder generated with the default split
   - name: "parse_textcat"
     help: "Parse the textcat annotation file into a training and development set"
@@ -179,6 +178,3 @@ commands:
       - "assets/textcat/${vars.dev}.spacy"
     outputs:
       - ${vars.models.model_clausecat}
-
-
-
