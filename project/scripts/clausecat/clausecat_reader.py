@@ -1,17 +1,14 @@
 from typing import Union
-from spacy import language, util
+from spacy import util
 from spacy.tokens import Doc, DocBin
 from spacy.vocab import Vocab
 from spacy.training.example import Example
 from spacy.training.corpus import walk_corpus
-import warnings
-from typing import Union, List, Iterable, Iterator, TYPE_CHECKING, Callable
-from typing import Optional
+from typing import Union, Iterable, Iterator
 from pathlib import Path
 import typer
-import random
-import srsly
 import copy
+
 
 from scripts.clausecat import clausecat_component
 
@@ -24,10 +21,10 @@ def create_docbin_reader(path):
 class Clausecat_corpus:
     def __init__(self, path: Union[str, Path]):
         self.path = util.ensure_path(path)
-
-    def __call__(self, nlp) -> Iterator[Example]:
         if not Doc.has_extension("clauses"):
             Doc.set_extension("clauses", default=[])
+
+    def __call__(self, nlp) -> Iterator[Example]:
 
         pred_docs = self.read_docbin(nlp.vocab, walk_corpus(self.path, ".spacy"))
         for reference in pred_docs:
@@ -37,9 +34,21 @@ class Clausecat_corpus:
                 words=[t.text for t in reference],
                 spaces=[t.whitespace_ for t in reference],
             )
+            pred_clause = Doc(
+                nlp.vocab,
+                words=[t.text for t in reference],
+                spaces=[t.whitespace_ for t in reference],
+            )
+            pred_clause.cats = copy.deepcopy(reference.cats)
 
-            pred_doc._.clauses = [(reference, None, None)]
-            gold_doc = copy.deepcopy(pred_doc)
+            gold_doc = Doc(
+                nlp.vocab,
+                words=[t.text for t in reference],
+                spaces=[t.whitespace_ for t in reference],
+            )
+
+            pred_doc._.clauses = [(pred_clause, None, None)]
+            gold_doc._.clauses = [(reference, None, None)]
 
             yield Example(pred_doc, gold_doc)
 

@@ -59,6 +59,11 @@ def main(
     total_condition = sum(conditions.values())
     total_benefits = sum(benefits.values())
 
+    sorted_conditions = sorted(conditions.items(), key=lambda x: x[1], reverse=True)[
+        :10
+    ]
+    sorted_benefits = sorted(benefits.items(), key=lambda x: x[1], reverse=True)[:10]
+
     # Printing
     msg.divider("NER dataset summary")
     msg.info(
@@ -77,6 +82,24 @@ def main(
     header = ("Label", "Total", "Unique")
     aligns = ("c", "c", "c")
     print(table(table_data, header=header, divider=True, aligns=aligns))
+
+    # Print top entities per group
+    table_data_condition = []
+    table_data_benefit = []
+    header_condition = ("Condition", "Total")
+    header_benefit = ("Benefit", "Total")
+    aligns = ("c", "c")
+
+    for top_benefit, top_condition in zip(sorted_benefits, sorted_conditions):
+        table_data_condition.append((top_condition[0], top_condition[1]))
+        table_data_benefit.append((top_benefit[0], top_benefit[1]))
+
+    print(
+        table(
+            table_data_condition, header=header_condition, divider=True, aligns=aligns
+        )
+    )
+    print(table(table_data_benefit, header=header_benefit, divider=True, aligns=aligns))
 
 
 if __name__ == "__main__":
