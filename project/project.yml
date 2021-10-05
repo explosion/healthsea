@@ -53,18 +53,15 @@ assets:
 workflows:
   install:
     - requirements
-  parse:
+  process_ner:
     - parse_ner
-    - parse_textcat
-  train:
+    - analyze_ner
     - train_ner
-    - train_textcat
-  evaluate:
     - evaluate_ner
+  process_textcat:
+    - parse_textcat
+    - train_textcat
     - evaluate_textcat
-  assemble:
-    - assemble_healthsea
-    - evaluate_healthsea
 
 # Project commands, specified in a style similar to CI config files (e.g. Azure
 # pipelines). The name is the command name that lets you trigger the command
@@ -84,7 +81,6 @@ commands:
       - "python scripts/check_prodigy.py"
       - "python -m prodigy db-in ${vars.prodigy.ner_db} assets/ner/ner_annotation.jsonl"
       - "python -m prodigy data-to-spacy assets/ner/ -n ${vars.prodigy.ner_db} -es ${vars.eval_split}"
-      - "python scripts/parsing/analyze_ner_annotation.py assets/ner/ner_annotation.jsonl"
     deps:
       - "assets/ner/ner_annotation.jsonl"
     outputs:

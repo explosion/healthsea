@@ -25,9 +25,8 @@ class Clausecat_corpus:
             Doc.set_extension("clauses", default=[])
 
     def __call__(self, nlp) -> Iterator[Example]:
-
-        pred_docs = self.read_docbin(nlp.vocab, walk_corpus(self.path, ".spacy"))
-        for reference in pred_docs:
+        docs = self.read_docbin(nlp.vocab, walk_corpus(self.path, ".spacy"))
+        for reference in docs:
 
             pred_doc = Doc(
                 nlp.vocab,
@@ -46,9 +45,15 @@ class Clausecat_corpus:
                 words=[t.text for t in reference],
                 spaces=[t.whitespace_ for t in reference],
             )
+            gold_clause = Doc(
+                nlp.vocab,
+                words=[t.text for t in reference],
+                spaces=[t.whitespace_ for t in reference],
+            )
+            gold_clause.cats = copy.deepcopy(reference.cats)
 
             pred_doc._.clauses = [(pred_clause, None, None)]
-            gold_doc._.clauses = [(reference, None, None)]
+            gold_doc._.clauses = [(gold_clause, None, None)]
 
             yield Example(pred_doc, gold_doc)
 
