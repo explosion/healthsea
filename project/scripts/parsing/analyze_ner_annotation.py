@@ -26,35 +26,31 @@ def main(
         if example["answer"] == "accept":
 
             # Count examples with no entity
-            if "spans" not in example:
+            if "spans" not in example or len(example["spans"]) == 0:
                 entry_with_no_entity += 1
-                continue
 
-            elif len(example["spans"]) == 0:
-                entry_with_no_entity += 1
-                continue
+            else:
+                for span in example["spans"]:
+                    token_start = span["token_start"]
+                    token_end = span["token_end"]
+                    entity = ""
 
-            for span in example["spans"]:
-                token_start = span["token_start"]
-                token_end = span["token_end"]
-                entity = ""
+                    # Collect entites with multiple tokens
+                    for token in example["tokens"]:
+                        if token["id"] in range(token_start, token_end + 1):
+                            entity += token["text"]
 
-                # Collect entites with multiple tokens
-                for token in example["tokens"]:
-                    if token["id"] in range(token_start, token_end + 1):
-                        entity += token["text"]
+                    entity = entity.replace(" ", "_").strip().lower()
 
-                entity = entity.replace(" ", "_").strip().lower()
+                    if span["label"] == "CONDITION":
+                        if entity not in conditions:
+                            conditions[entity] = 0
+                        conditions[entity] += 1
 
-                if span["label"] == "CONDITION":
-                    if entity not in conditions:
-                        conditions[entity] = 0
-                    conditions[entity] += 1
-
-                else:
-                    if entity not in benefits:
-                        benefits[entity] = 0
-                    benefits[entity] += 1
+                    else:
+                        if entity not in benefits:
+                            benefits[entity] = 0
+                        benefits[entity] += 1
 
     total_condition = sum(conditions.values())
     total_benefits = sum(benefits.values())
