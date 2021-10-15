@@ -5,7 +5,7 @@ from wasabi import Printer
 
 
 @spacy.registry.misc("clause_segmentation")
-def return_clause_segmentation():
+def create_clause_segmentation():
     return clause_segmentation
 
 

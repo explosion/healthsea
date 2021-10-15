@@ -167,7 +167,7 @@ commands:
   - name: "train_clausecat"
     help: "Train a Clausecat component"
     script:
-      - "python -m spacy train configs/clausecat/${vars.config}.cfg --output training/clausecat/${vars.config}/ -c scripts/clausecat/clausecat_reader.py --paths.train assets/textcat/${vars.train}.spacy --paths.dev assets/textcat/${vars.dev}.spacy --paths.init_tok2vec assets/pretrained_weights.bin --gpu-id ${vars.gpu_id} --paths.vectors en_core_web_lg"
+      - "python -m spacy train configs/clausecat/${vars.config}.cfg --output training/clausecat/${vars.config}/ -c scripts/clausecat/custom_code.py --paths.train assets/textcat/${vars.train}.spacy --paths.dev assets/textcat/${vars.dev}.spacy --gpu-id ${vars.gpu_id} --paths.vectors en_core_web_lg"
     deps:
       - "configs/clausecat/${vars.config}.cfg"
       - "assets/textcat/${vars.train}.spacy"

@@ -1,64 +1,56 @@
 from spacy.tokens import Doc, Span
 from thinc.api import Model
+from thinc.api import chain
 from thinc.types import Floats2d, Ragged
 from typing import List, Callable, Tuple, Optional
 from spacy import registry
 
 
-@registry.architectures("spacy.clausecat.v1")
-def clausecat(
-    textcat: Model[List[Doc], Floats2d], get_clauses: Callable[[Doc], List[Span]]
-) -> Model[List[Doc], List[Ragged]]:
-    """Wrap a text classification model so that it is applied over individual
-    clauses, rather than, whole documents.
-    """
+@registry.architectures("spacy.clausecat_model.v1")
+def build_text_classifier_lowdata(
+    blinder: Model[List[Doc], List[Doc]], textcat: Model[List[Doc], Floats2d]
+) -> Model[List[Doc], Floats2d]:
+
+    with Model.define_operators({">>": chain}):
+        model = blinder >> textcat
+    return model
+
+
+@registry.layers("spacy.blinder.v1")
+def build_blinder() -> Model[List[Doc], List[Doc]]:
+
     return Model(
-        "clausecat",
-        forward,
-        init=init,
-        attrs={"get_clauses": get_clauses},
-        layers=[textcat],
-        refs={"textcat": textcat},
+        "blinder",
+        forward=forward,
     )
 
 
 def forward(
-    model: Model[List[Doc], Ragged], docs: List[Doc], is_train: bool
-) -> Tuple[Ragged, Callable]:
-    get_clauses = model.attrs["get_clauses"]
-    textcat = model.get_ref("textcat")
+    model: Model[List[Doc], List[Doc]], docs: List[Doc], is_train: bool
+) -> List[Doc]:
+
     clauses = []
-    lengths = []
-
     for doc in docs:
-        doc_clauses = get_clauses(doc)
-        clauses.extend([span[0] for span in doc_clauses])
-        lengths.append(len(doc_clauses))
+        for clause in doc._.clauses:
+            words = []
+            clause_slice = doc[clause["split_indices"][0] : clause["split_indices"][1]]
 
-    clause_scores, backprop_textcat = textcat(clauses, is_train=is_train)
-    output = Ragged(clause_scores, textcat.ops.asarray1i(lengths))
+            if clause["has_ent"]:
+                for i, token in enumerate(clause_slice):
+                    if i + 1 == clause["ent_indices"][0]:
+                        words.append(clause["blinder"])
+                    elif i + 1 not in range(
+                        clause["ent_indices"][0], clause["ent_indices"][1]
+                    ):
+                        words.append(token.text)
+                clauses.append(Doc(doc.vocab, words=words))
 
-    def backprop(d_output: Ragged) -> List[Doc]:
-        # We don't have to get a gradient with respect to the docs themselves,
-        # we just need to backprop through the textcat layer.
-        _ = backprop_textcat(d_output)
-        return docs
+            else:
+                for token in clause_slice:
+                    words.append(token.text)
+                clauses.append(Doc(doc.vocab, words=words))
 
-    return output, backprop
+    def backprop():
+        return
 
-
-def init(
-    model: Model[List[Doc], Ragged],
-    X: Optional[List[Doc]] = None,
-    Y: Optional[Ragged] = None,
-):
-    textcat = model.get_ref("textcat")
-    if X is None and Y is None:
-        textcat.initialize()
-    elif Y is None:
-        textcat.initialize(X=X)
-    elif len(X) == 0:
-        textcat.initialize(X=X, Y=Y)
-    else:
-        textcat.initialize(X=X[:1], Y=Y)
-    return
+    return clauses, backprop

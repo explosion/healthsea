@@ -6,11 +6,7 @@ from spacy.training.example import Example
 from spacy.training.corpus import walk_corpus
 from typing import Union, Iterable, Iterator
 from pathlib import Path
-import typer
 import copy
-
-
-from scripts.clausecat import clausecat_component
 
 
 @util.registry.readers("clausecat.reader.v1")
@@ -26,36 +22,46 @@ class Clausecat_corpus:
 
     def __call__(self, nlp) -> Iterator[Example]:
         docs = self.read_docbin(nlp.vocab, walk_corpus(self.path, ".spacy"))
-        for reference in docs:
+        for doc in docs:
 
-            pred_doc = Doc(
+            reference_doc = Doc(
                 nlp.vocab,
-                words=[t.text for t in reference],
-                spaces=[t.whitespace_ for t in reference],
+                words=[word.text for word in doc],
+                spaces=[bool(word.whitespace_) for word in doc],
             )
-            pred_clause = Doc(
-                nlp.vocab,
-                words=[t.text for t in reference],
-                spaces=[t.whitespace_ for t in reference],
-            )
-            pred_clause.cats = copy.deepcopy(reference.cats)
 
-            gold_doc = Doc(
+            prediction_doc = Doc(
                 nlp.vocab,
-                words=[t.text for t in reference],
-                spaces=[t.whitespace_ for t in reference],
+                words=[word.text for word in doc],
+                spaces=[bool(word.whitespace_) for word in doc],
             )
-            gold_clause = Doc(
-                nlp.vocab,
-                words=[t.text for t in reference],
-                spaces=[t.whitespace_ for t in reference],
-            )
-            gold_clause.cats = copy.deepcopy(reference.cats)
 
-            pred_doc._.clauses = [(pred_clause, None, None)]
-            gold_doc._.clauses = [(gold_clause, None, None)]
+            has_ent = False
+            entity_index = 0
+            for index, token in enumerate(doc):
+                # Because our annotations already have blinded entities we're looking for '<', '>' inside a token (<CONDITION>, <BENEFIT>)
+                if ">" in token.text and "<" in token.text:
+                    entity_index = index
+                    has_ent = True
+                    break
 
-            yield Example(pred_doc, gold_doc)
+            # ._.clause format
+            ## split_indices: Tuple[int,int], has_ent: bool, ent_indices: Tuple[int,int], blinder: str, ent_name: str, cats: dict[str,float]
+            ## Note that future entity indices have to be reduced by the clause indices, (e.g index 0 of an entity is the first token of the doc slice and not the whole doc)
+            clauses = [
+                {
+                    "split_indices": (0, len(doc) - 1),
+                    "has_ent": has_ent,
+                    "ent_indices": (entity_index, entity_index),
+                    "blinder": doc[entity_index].text,
+                    "ent_name": "Entity",
+                    "cats": doc.cats,
+                }
+            ]
+            reference_doc._.clauses = clauses
+            prediction_doc._.clauses = copy.deepcopy(clauses)
+
+            yield Example(prediction_doc, reference_doc)
 
     def read_docbin(
         self, vocab: Vocab, locs: Iterable[Union[str, Path]]
@@ -71,15 +77,3 @@ class Clausecat_corpus:
                     if len(doc):
                         yield doc
                         i += 1
-
-
-def test(path: Path):
-    from spacy.lang.en import English
-
-    reader = Clausecat_corpus(path)
-    nlp = English()
-    reader(nlp)
-
-
-if __name__ == "__main__":
-    typer.run(test)
