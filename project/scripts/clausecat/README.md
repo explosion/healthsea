@@ -1,7 +1,7 @@
 # 🐾 Clausecat
 Modified Text Classification component which classifies segmented clauses instead of the whole doc.
 
-![Architecture Visualization](./img/Clausecat.PNG)
+![Architecture Visualization](https://github.com/thomashacker/healthsea/blob/main/project/scripts/clausecat/img/Clausecat.png)
 
 
 ### Clause Segmentation Component (ToDo)
