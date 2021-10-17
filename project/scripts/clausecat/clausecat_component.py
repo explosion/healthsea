@@ -71,7 +71,15 @@ DEFAULT_SINGLE_CLAUSECAT_MODEL = Config().from_str(single_label_default_config)[
 def make_clausecat(
     nlp: Language, name: str, model: Model[List[Doc], List[Floats2d]], threshold: float
 ) -> "Clausecat":
+    """Create a Clausecat component. The clausecat is a modified textcat component
+    which uses a custom model to classify segmented clauses inside a doc instead of the whole doc.
 
+    model (Model[List[Doc], List[Floats2d]]): A model instance that
+        is given a list of documents with the custom attribute ._.clauses that provides indices for splitting. It also provides indices of entities for blinding.
+    threshold (float): Minimum probability to consider a prediction positive.
+        Spans with a positive prediction will be saved on the Doc. Defaults to
+        0.5.
+    """
     return Clausecat(nlp.vocab, model, name, threshold=threshold)
 
 
@@ -93,6 +101,10 @@ class Clausecat(TrainablePipe):
     @property
     def labels(self) -> Tuple[str]:
         return tuple(self.cfg["labels"])
+
+    @property
+    def threshold(self):
+        return self.cfg["threshold"]
 
     @property
     def label_data(self) -> List[str]:
@@ -274,7 +286,22 @@ class Clausecat(TrainablePipe):
             for clause_pred, clause_ref in zip(
                 prediction._.clauses, reference._.clauses
             ):
-                examples_clauses.append(Example(clause_pred, clause_ref))
+
+                reference_doc = Doc(
+                    reference.vocab,
+                    words=[word.text for word in reference],
+                    spaces=[bool(word.whitespace_) for word in reference],
+                )
+                reference_doc.cats = clause_ref["cats"]
+
+                prediction_doc = Doc(
+                    prediction.vocab,
+                    words=[word.text for word in prediction],
+                    spaces=[bool(word.whitespace_) for word in prediction],
+                )
+                prediction_doc.cats = clause_pred["cats"]
+
+                examples_clauses.append(Example(prediction_doc, reference_doc))
 
         kwargs.setdefault("threshold", self.cfg["threshold"])
         kwargs.setdefault("positive_label", self.cfg["positive_label"])

@@ -1,16 +1,18 @@
-from spacy.tokens import Doc, Span
+from spacy.tokens import Doc
 from thinc.api import Model
 from thinc.api import chain
-from thinc.types import Floats2d, Ragged
-from typing import List, Callable, Tuple, Optional
+from thinc.types import Floats2d
+from typing import List
 from spacy import registry
 
 
 @registry.architectures("spacy.clausecat_model.v1")
-def build_text_classifier_lowdata(
+def build_clausecat(
     blinder: Model[List[Doc], List[Doc]], textcat: Model[List[Doc], Floats2d]
 ) -> Model[List[Doc], Floats2d]:
-
+    """
+    Build a wrapper model that chains a blinder layer to a textcat model
+    """
     with Model.define_operators({">>": chain}):
         model = blinder >> textcat
     return model
@@ -18,7 +20,9 @@ def build_text_classifier_lowdata(
 
 @registry.layers("spacy.blinder.v1")
 def build_blinder() -> Model[List[Doc], List[Doc]]:
-
+    """
+    Build a blinder layer that uses the custom attribute ._.clauses to split docs into clauses and blinds entities
+    """
     return Model(
         "blinder",
         forward=forward,
@@ -50,7 +54,7 @@ def forward(
                     words.append(token.text)
                 clauses.append(Doc(doc.vocab, words=words))
 
-    def backprop():
+    def backprop(dY):
         return
 
     return clauses, backprop

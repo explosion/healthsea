@@ -3,6 +3,8 @@ from spacy.tokens import Span, Doc, Token
 from typing import Tuple, List
 from wasabi import Printer
 
+# To do
+
 
 @spacy.registry.misc("clause_segmentation")
 def create_clause_segmentation():
