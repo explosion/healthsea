@@ -16,10 +16,10 @@ from spacy.vocab import Vocab
 single_label_default_config = """
 
 [model]
-@architectures = "spacy.clausecat_model.v1"
+@architectures = "healthsea.clausecat_model"
 
 [model.blinder]
-@layers = "spacy.blinder.v1"
+@layers = "healthsea.blinder"
 
 [model.textcat]
 @architectures = "spacy.TextCatEnsemble.v2"
@@ -51,7 +51,7 @@ DEFAULT_SINGLE_CLAUSECAT_MODEL = Config().from_str(single_label_default_config)[
 
 
 @Language.factory(
-    "clausecat.v1",
+    "healthsea.clausecat",
     requires=["doc._.clauses"],
     default_config={"threshold": 0.5, "model": DEFAULT_SINGLE_CLAUSECAT_MODEL},
     default_score_weights={

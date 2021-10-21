@@ -116,6 +116,12 @@ commands:
     outputs:
       - ${vars.models.model_ner}
 
+  # Delete later
+  #- name: "train_search_ner"
+  #  help: "Hyperparameter optimization of an NER model"
+  #  script:
+  #    - "python ./scripts/wandb/sweeps_using_config.py configs/ner/${vars.config}.cfg training/ner/optimization/"
+
   - name: "evaluate_ner"
     help: "Evaluate a trained NER model"
     script:

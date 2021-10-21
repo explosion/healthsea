@@ -6,7 +6,7 @@ from typing import List
 from spacy import registry
 
 
-@registry.architectures("spacy.clausecat_model.v1")
+@registry.architectures("healthsea.clausecat_model")
 def build_clausecat(
     blinder: Model[List[Doc], List[Doc]], textcat: Model[List[Doc], Floats2d]
 ) -> Model[List[Doc], Floats2d]:
@@ -18,7 +18,7 @@ def build_clausecat(
     return model
 
 
-@registry.layers("spacy.blinder.v1")
+@registry.layers("healthsea.blinder")
 def build_blinder() -> Model[List[Doc], List[Doc]]:
     """
     Build a blinder layer that uses the custom attribute ._.clauses to split docs into clauses and blinds entities

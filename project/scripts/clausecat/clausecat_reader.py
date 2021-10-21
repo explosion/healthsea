@@ -9,7 +9,7 @@ from pathlib import Path
 import copy
 
 
-@util.registry.readers("clausecat.reader.v1")
+@util.registry.readers("healthsea.clausecat_reader")
 def create_docbin_reader(path):
     return Clausecat_corpus(path)
 
