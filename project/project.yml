@@ -19,7 +19,7 @@ vars:
   prodigy:
     ner_db: "healthsea_ner_annotation"
 
-  gpu_id: -1
+  gpu_id: 0
   eval_split: 0.25
 
 # These are the directories that the project needs. The project CLI will make
@@ -74,6 +74,11 @@ commands:
       - "pip install -r requirements.txt"
       - "python -m spacy download en_core_web_lg"
 
+  - name: "test"
+    help: "Run several pytest to verify that everything works as intended (Run only after all models are trained)"
+    script:
+      - "python -m py.test -s scripts/clausecat/test"
+
   # Works only with prodigy. Can be skipped otherwise, as the training files for the NER are already available in the assets folder
   - name: "parse_ner"
     help: "Load the annotations to Prodigy and use data-to-spacy to split the data into a training and development set"
@@ -86,6 +91,15 @@ commands:
     outputs:
       - "data/ner/${vars.train}.spacy"
       - "data/ner/${vars.dev}.spacy"
+
+  - name: "parse_clausecat"
+    help: "Parse the textcat annotation file into the clausecat format"
+    script:
+      - "python scripts/parsing/parse_clausecat.py assets/textcat/dev.spacy assets/clausecat/dev.spacy"
+    deps:
+      - "assets/textcat/dev.spacy"
+    outputs:
+      - "assets/clausecat/dev.spacy"
 
   - name: "analyze_ner"
     help: "Analyze the NER annotation dataset"
@@ -108,7 +122,7 @@ commands:
   - name: "train_ner"
     help: "Train an NER model"
     script:
-      - "python -m spacy train configs/ner/${vars.config}.cfg --output training/ner/${vars.config}/ --paths.train assets/ner/${vars.train}.spacy --paths.dev assets/ner/${vars.dev}.spacy --paths.init_tok2vec assets/pretrained_weights.bin --gpu-id ${vars.gpu_id}"
+      - "python -m spacy train configs/ner/${vars.config}.cfg --output training/ner/${vars.config}/ --paths.train assets/ner/${vars.train}.spacy --paths.dev assets/ner/${vars.dev}.spacy --paths.init_tok2vec assets/pretrained_weights.bin --gpu-id ${vars.gpu_id} -c scripts/clausecat/clause_segmentation.py"
     deps:
       - "configs/ner/${vars.config}.cfg"
       - "assets/ner/${vars.train}.spacy"
@@ -133,7 +147,7 @@ commands:
   - name: "train_clausecat"
     help: "Train a custom Clausecat component"
     script:
-      - "python -m spacy train configs/clausecat/${vars.config}.cfg --output training/clausecat/${vars.config}/ -c scripts/clausecat/custom_code.py --paths.train assets/textcat/${vars.train}.spacy --paths.dev assets/textcat/${vars.dev}.spacy --gpu-id ${vars.gpu_id} --paths.vectors en_core_web_lg"
+      - "python -m spacy train configs/clausecat/${vars.config}.cfg --output training/clausecat/${vars.config}/ -c scripts/clausecat/custom_code.py --paths.train assets/textcat/${vars.train}.spacy --paths.dev assets/textcat/${vars.dev}.spacy --paths.init_tok2vec assets/pretrained_weights.bin --gpu-id ${vars.gpu_id} --paths.ner_model ${vars.models.model_ner}"
     deps:
       - "configs/clausecat/${vars.config}.cfg"
       - "assets/textcat/${vars.train}.spacy"
@@ -144,9 +158,9 @@ commands:
   - name: "evaluate_clausecat"
     help: "Evaluate a custom Clausecat component"
     script:
-      - "python scripts/evaluate_clausecat.py ${vars.models.model_clausecat} assets/textcat/${vars.dev}.spacy"
+      - "python scripts/evaluate_clausecat.py ${vars.models.model_clausecat}  assets/textcat/${vars.dev}.spacy"
     deps:
-      - "assets/textcat/${vars.dev}.spacy"
+      - "assets/clausecat/${vars.dev}.spacy"
       - ${vars.models.model_clausecat}
 
   - name: "train_textcat"
@@ -171,12 +185,10 @@ commands:
   - name: "assemble_healthsea"
     help: "Assemble trained components into the healthsea pipeline"
     script:
-      - "python -m spacy assemble configs/healthsea/${vars.config}.cfg training/healthsea/${vars.config}/ -c scripts/clause_component.py --paths.textcat_model ${vars.models.model_textcat} --paths.ner_model ${vars.models.model_ner}"
+      - "python -m spacy assemble configs/healthsea/${vars.config}.cfg training/healthsea/${vars.config}/ -c scripts/clausecat/custom_code.py --paths.clausecat_model ${vars.models.model_clausecat} --paths.ner_model ${vars.models.model_ner}"
     deps:
-      - "configs/healthsea/${vars.config}.cfg"
-      - "scripts/clause_component.py"
       - ${vars.models.model_ner}
-      - ${vars.models.model_textcat}
+      - ${vars.models.model_clausecat}
     outputs:
       - ${vars.models.model_healthsea}
 

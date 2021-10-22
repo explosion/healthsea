@@ -37,23 +37,27 @@ class Clausecat_corpus:
             )
 
             has_ent = False
-            entity_index = 0
-            for index, token in enumerate(doc):
+            start_entity_index = 0
+            end_entity_index = 0
+            for token in doc:
                 # Because our annotations already have blinded entities we're looking for '<', '>' inside a token (<CONDITION>, <BENEFIT>)
-                if ">" in token.text and "<" in token.text:
-                    entity_index = index
-                    has_ent = True
+                if "<" == token.text:
+                    for tokenx2 in doc[token.i :]:
+                        if tokenx2.text == ">":
+                            start_entity_index = token.i
+                            end_entity_index = tokenx2.i + 1
+                            has_ent = True
+                            break
                     break
 
             # ._.clause format
             ## split_indices: Tuple[int,int], has_ent: bool, ent_indices: Tuple[int,int], blinder: str, ent_name: str, cats: dict[str,float]
-            ## Note that future entity indices have to be reduced by the clause indices, (e.g index 0 of an entity is the first token of the doc slice and not the whole doc)
             clauses = [
                 {
-                    "split_indices": (0, len(doc) - 1),
+                    "split_indices": (0, len(doc)),
                     "has_ent": has_ent,
-                    "ent_indices": (entity_index, entity_index),
-                    "blinder": doc[entity_index].text,
+                    "ent_indices": (start_entity_index, end_entity_index),
+                    "blinder": str(doc[start_entity_index:end_entity_index].text),
                     "ent_name": "Entity",
                     "cats": doc.cats,
                 }

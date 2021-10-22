@@ -7,8 +7,8 @@ from spacy.training.example import Example
 @pytest.mark.parametrize(
     "path",
     [
-        ("../../assets/textcat/dev.spacy"),
-        ("../../assets/textcat/train.spacy"),
+        ("assets/textcat/dev.spacy"),
+        ("assets/textcat/train.spacy"),
     ],
 )
 # fmt: on
@@ -22,3 +22,7 @@ def test_reader(path):
     assert not wrong
     assert examples[0].reference.has_extension("clauses")
     assert type(examples[0].reference._.clauses[0]["blinder"]) == str
+
+    for example in examples[:6]:
+        print(example.predicted.text, len(example.predicted))
+        print(f">> {example.predicted._.clauses} \n")

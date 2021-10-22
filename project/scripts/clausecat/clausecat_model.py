@@ -15,6 +15,7 @@ def build_clausecat(
     """
     with Model.define_operators({">>": chain}):
         model = blinder >> textcat
+    model.set_ref("tok2vec", textcat.get_ref("tok2vec"))
     return model
 
 
@@ -37,22 +38,28 @@ def forward(
     for doc in docs:
         for clause in doc._.clauses:
             words = []
+            spaces = []
             clause_slice = doc[clause["split_indices"][0] : clause["split_indices"][1]]
 
             if clause["has_ent"]:
-                for i, token in enumerate(clause_slice):
-                    if i + 1 == clause["ent_indices"][0]:
+                for token in clause_slice:
+                    if token.i == clause["ent_indices"][0]:
                         words.append(clause["blinder"])
-                    elif i + 1 not in range(
+                        spaces.append(True)
+                    elif token.i not in range(
                         clause["ent_indices"][0], clause["ent_indices"][1]
                     ):
                         words.append(token.text)
-                clauses.append(Doc(doc.vocab, words=words))
+                        spaces.append(token.whitespace_)
+                clauses.append(Doc(doc.vocab, words=words, spaces=spaces))
 
             else:
                 for token in clause_slice:
                     words.append(token.text)
-                clauses.append(Doc(doc.vocab, words=words))
+                    spaces.append(token.whitespace_)
+                clauses.append(Doc(doc.vocab, words=words, spaces=spaces))
+
+            clause["prediction_text"] = words
 
     def backprop(dY):
         return
