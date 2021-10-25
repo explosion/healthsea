@@ -12,8 +12,6 @@ vars:
 
   models:
     model_ner: "training/ner/${vars.config}/model-best"
-    model_textcat: "training/textcat/${vars.config}/model-best"
-    model_healthsea: "training/healthsea/${vars.config}"
     model_clausecat: "training/clausecat/${vars.config}/model-best"
 
   prodigy:
@@ -24,7 +22,7 @@ vars:
 
 # These are the directories that the project needs. The project CLI will make
 # sure that they always exist.
-directories: ["assets","training","configs","scripts"]
+directories: ["assets","training","configs","scripts","package"]
 
 # Assets that should be downloaded or available in the directory. We're shipping
 # them with the project, so they won't have to be downloaded. But the
@@ -139,7 +137,7 @@ commands:
   - name: "train_clausecat"
     help: "Train a custom Clausecat component"
     script:
-      - "python -m spacy train configs/clausecat/${vars.config}.cfg --output training/clausecat/${vars.config}/ -c scripts/clausecat/custom_code.py --paths.train assets/textcat/${vars.train}.spacy --paths.dev assets/textcat/${vars.dev}.spacy --paths.init_tok2vec assets/pretrained_weights.bin --gpu-id ${vars.gpu_id} --paths.ner_model ${vars.models.model_ner}"
+      - "python -m spacy train configs/clausecat/${vars.config}.cfg --output training/clausecat/${vars.config}/ -c scripts/clausecat/custom_code.py --paths.train assets/textcat/${vars.train}.spacy --paths.dev assets/textcat/${vars.dev}.spacy --paths.init_tok2vec assets/pretrained_weights.bin --gpu-id ${vars.gpu_id}"
     deps:
       - "configs/clausecat/${vars.config}.cfg"
       - "assets/textcat/${vars.train}.spacy"
