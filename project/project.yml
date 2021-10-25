@@ -137,7 +137,7 @@ commands:
   - name: "train_clausecat"
     help: "Train a custom Clausecat component"
     script:
-      - "python -m spacy train configs/clausecat/${vars.config}.cfg --output training/clausecat/${vars.config}/ -c scripts/clausecat/custom_code.py --paths.train assets/textcat/${vars.train}.spacy --paths.dev assets/textcat/${vars.dev}.spacy --paths.init_tok2vec assets/pretrained_weights.bin --gpu-id ${vars.gpu_id}"
+      - "python -m spacy train configs/clausecat/${vars.config}.cfg --output training/clausecat/${vars.config}/ -c scripts/clausecat/custom_code.py --paths.train assets/textcat/${vars.train}.spacy --paths.dev assets/textcat/${vars.dev}.spacy --paths.init_tok2vec assets/pretrained_weights_clausecat.bin --gpu-id ${vars.gpu_id} --paths.ner_model ${vars.models.model_ner}"
     deps:
       - "configs/clausecat/${vars.config}.cfg"
       - "assets/textcat/${vars.train}.spacy"
@@ -152,3 +152,9 @@ commands:
     deps:
       - "assets/clausecat/${vars.dev}.spacy"
       - ${vars.models.model_clausecat}
+
+  # Delete later
+  - name: "pretrain"
+    help: "Pretraining"
+    script:
+      - "python -m spacy pretrain configs/clausecat/config_tok2vec_pretrain.cfg training/pretrain/ --paths.train assets/_archive/reviews.jsonl --gpu-id ${vars.gpu_id} -c scripts/clausecat/custom_code.py"
