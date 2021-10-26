@@ -112,9 +112,8 @@ commands:
   - name: "train_ner"
     help: "Train an NER model"
     script:
-      - "python -m spacy train configs/ner/${vars.config}.cfg --output training/ner/${vars.config}/ --paths.train assets/ner/${vars.train}.spacy --paths.dev assets/ner/${vars.dev}.spacy --paths.init_tok2vec assets/pretrained_weights.bin --gpu-id ${vars.gpu_id} -c scripts/clausecat/clause_segmentation.py"
+      - "python -m spacy train configs/ner/${vars.config}.cfg --output training/ner/${vars.config}/ --paths.train assets/ner/${vars.train}.spacy --paths.dev assets/ner/${vars.dev}.spacy --paths.init_tok2vec assets/pretrained_weights.bin --gpu-id ${vars.gpu_id}"
     deps:
-      - "configs/ner/${vars.config}.cfg"
       - "assets/ner/${vars.train}.spacy"
       - "assets/ner/${vars.dev}.spacy"
     outputs:
