@@ -6,7 +6,7 @@ vars:
   name: "healthsea"
 
   # config_trf & config_tok2vec
-  config: "config_tok2vec"
+  config: "config_trf"
   train: "train"
   dev: "dev"
 
@@ -17,7 +17,7 @@ vars:
   prodigy:
     ner_db: "healthsea_ner_annotation"
 
-  gpu_id: -1
+  gpu_id: 0
   eval_split: 0.25
 
 # These are the directories that the project needs. The project CLI will make
