@@ -63,14 +63,14 @@ in the project directory.
 <!-- SPACY PROJECT: AUTO-GENERATED DOCS END (do not remove) -->
 
 ### 💾 Data
-The data for training and evaluation (25% split) is provided in the assets folder. The ```parse_ner``` command requires [prodigy](https://prodi.gy/) to work but it's not necessary for training.
+The data for training and evaluation (25% split) is provided in the assets folder. The ```parse_ner``` command requires [prodigy](https://prodi.gy/) to work but is not necessary since the training data is already present.
 
 ### 🤖 Training with GPU
 
 To train with the gpu it's required to have ```cuda``` installed which is compatible with your current ```torch``` version. More information about installation can be found in the [spaCy installation docs](https://spacy.io/usage#quickstart) and in the [requirements file](https://github.com/thomashacker/healthsea/blob/main/project/requirements.txt).
 
-You can change the ```gpu_id``` variable inside the ```project.yml``` to your current gpu device (normally 0, no gpu is -1).
+You can change the ```gpu_id``` variable inside the ```project.yml``` to your current gpu device (normally 0, cpu is -1).
 
 ### ⚙️Tok2Vec & Transformer
 
-Two configs are provided for every trainable pipeline, one which uses ```tok2vec``` as embedding layer and one which uses ```transformers```. To change the config, you can change the ```config``` variable to either ```config_tok2vec``` or ```config_trf```
+There are two configs for training the pipeline, one that uses ```tok2vec embedding``` and one that uses ```transformers```. You can choose your config by changing the ```config``` variable to either ```config_tok2vec``` or ```config_trf```
