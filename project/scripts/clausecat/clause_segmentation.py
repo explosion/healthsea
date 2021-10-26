@@ -10,6 +10,8 @@ def make_segmentation(nlp: Language, name: str):
 
 
 class Clause_segmentation:
+    """Use the benepar tree to split sentences and blind entities."""
+
     def __init__(self, nlp, name):
         self.nlp = nlp
         self.name = name

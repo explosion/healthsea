@@ -1,27 +1,23 @@
 import spacy
-import json
+from spacy.scorer import PRFScore
 import typer
-from spacy.tokens import Span, DocBin, Doc
-from spacy.vocab import Vocab
-import random
+import json
+from pathlib import Path
 from wasabi import Printer
 from wasabi import table
 
-from pathlib import Path
-import json
-import operator
-from spacy.scorer import PRFScore
-
-import clause_component
-
-from wasabi import Printer
+from clausecat import clausecat_component
+from clausecat import clausecat_model
+from clausecat import clausecat_reader
+from clausecat import clause_segmentation
+from clausecat import clause_aggregation
 
 msg = Printer()
 
-# To do
-
 
 def main(model_path: Path, eval_path: Path):
+    """This script is used to evaluate the healthsea pipeline with manually created examples."""
+
     nlp = spacy.load(model_path)
 
     with open(eval_path, "r", encoding="utf8") as jsonfile:
@@ -88,17 +84,18 @@ def main(model_path: Path, eval_path: Path):
         # Compare TEXTCAT results
         for entity_index in middle_join:
             if (
-                health_effects_pred[entity_index]["classification"]
+                health_effects_pred[entity_index]["effect"]
                 == health_effects_gold[entity_index]["classification"]
             ):
                 scorer[health_effects_gold[entity_index]["classification"]].tp += 1
             else:
                 uncorrect_textcat.append(
-                    f"({eval['number']}) {entity_index} (Prediction: {health_effects_pred[entity_index]['classification']}) (Expected: {health_effects_gold[entity_index]['classification']}) ({eval['text']})"
+                    f"({eval['number']}) {entity_index} (Prediction: {health_effects_pred[entity_index]['effect']}) (Expected: {health_effects_gold[entity_index]['classification']}) ({eval['text']})"
                 )
-                scorer[health_effects_pred[entity_index]["classification"]].fp += 1
+                scorer[health_effects_pred[entity_index]["effect"]].fp += 1
                 scorer[health_effects_gold[entity_index]["classification"]].fn += 1
 
+    # Printing results
     msg.divider(f"Total reviews: {len(evaluation)}")
     msg.divider(f"Evaluating Named Entity Recognition")
     msg.info(

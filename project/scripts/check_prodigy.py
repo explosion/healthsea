@@ -1,3 +1,5 @@
+"""This script is used to check whether the current user has prodigy installed"""
+
 try:
     import prodigy
 except ModuleNotFoundError:

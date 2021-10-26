@@ -1,66 +1,91 @@
-from typing import Union
-from spacy import util
-from spacy.tokens import Doc, DocBin
-from spacy.vocab import Vocab
+from spacy.tokens import DocBin
 from spacy.lang.en import English
-from spacy.training.example import Example
-from spacy.training.corpus import walk_corpus
-from typing import Union, Iterable, Iterator
-from pathlib import Path
-import copy
-import typer
+
 from wasabi import Printer
+from wasabi import table
+
+import json
+from pathlib import Path
+import typer
 
 msg = Printer()
 
 
-def main(dev_path, output_path):
-    Doc.set_extension("clauses", default=[])
+def main(
+    json_loc: Path,
+    train_file: Path,
+    dev_file: Path,
+    eval_split: float,
+):
+    """Parse the textcat annotations into a training and development set."""
+
+    examples = []
+    label_dict = {}
     nlp = English()
-    docs = read_docbin(nlp.vocab, walk_corpus(dev_path, ".spacy"))
 
-    for doc in docs:
-        has_ent = False
-        entity_index = 0
-        for index, token in enumerate(doc):
-            # Because our annotations already have blinded entities we're looking for '<', '>' inside a token (<CONDITION>, <BENEFIT>)
-            if ">" in token.text and "<" in token.text:
-                entity_index = index
-                has_ent = True
-                break
+    # Load dataset
+    with json_loc.open("r", encoding="utf8") as jsonfile:
+        for line in jsonfile:
+            example = json.loads(line)
 
-        # ._.clause format
-        ## split_indices: Tuple[int,int], has_ent: bool, ent_indices: Tuple[int,int], blinder: str, ent_name: str, cats: dict[str,float]
-        ## Note that future entity indices have to be reduced by the clause indices, (e.g index 0 of an entity is the first token of the doc slice and not the whole doc)
-        clauses = [
-            {
-                "split_indices": (0, len(doc) - 1),
-                "has_ent": has_ent,
-                "ent_indices": (entity_index, entity_index),
-                "blinder": doc[entity_index].text,
-                "ent_name": "Entity",
-                "cats": doc.cats,
-            }
-        ]
-        doc._.clauses = clauses
+            labels = example["accept"]
+            for label in labels:
+                if label not in label_dict:
+                    label_dict[label] = []
 
-    docbin = DocBin(docs=docs, store_user_data=True)
-    docbin.to_disk(output_path)
+            examples.append(example)
+
+    # Group information
+    for example in examples:
+        if example["answer"] == "accept":
+
+            doc = nlp(example["text"])
+            labels = example["accept"]
+
+            cats_dict = {}
+            for label in label_dict.keys():
+                cats_dict[label] = 0.0
+
+            for label in labels:
+                cats_dict[label] = 1.0
+
+            doc.cats = cats_dict
+            label_dict[label].append(doc)
+
+    # Split
+    train = []
+    dev = []
+    table_data = []
+    checksum = 0
+
+    for label in label_dict:
+        split = int(len(label_dict[label]) * eval_split)
+        train += label_dict[label][split:]
+        dev += label_dict[label][:split]
+        checksum += len(label_dict[label])
+        table_data.append(
+            (
+                label,
+                len(label_dict[label]),
+                len(label_dict[label][split:]),
+                len(label_dict[label][:split]),
+            )
+        )
+
+    # Printing
+    msg.divider("TEXTCAT dataset summary")
+    msg.info(f"Evaluation split: {eval_split}")
+    table_data.append(("All", checksum, len(train), len(dev)))
+    header = ("Label", "Total", "Training", "Development")
+    print(table(table_data, header=header, divider=True))
+
+    # Save to disk
+    docbin = DocBin(docs=train, store_user_data=True)
+    docbin.to_disk(train_file)
+
+    docbin = DocBin(docs=dev, store_user_data=True)
+    docbin.to_disk(dev_file)
     msg.good(f"Parsing complete")
-
-
-def read_docbin(vocab: Vocab, locs: Iterable[Union[str, Path]]) -> Iterator[Doc]:
-    """Yield training examples as example dicts"""
-    i = 0
-    for loc in locs:
-        loc = util.ensure_path(loc)
-        if loc.parts[-1].endswith(".spacy"):
-            doc_bin = DocBin().from_disk(loc)
-            docs = doc_bin.get_docs(vocab)
-            for doc in docs:
-                if len(doc):
-                    yield doc
-                    i += 1
 
 
 if __name__ == "__main__":

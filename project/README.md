@@ -2,7 +2,7 @@
 
 # 🪐 spaCy Project: Healthsea
 
-This project trains a Named Entity Recognition (NER) model, a Text Classification model, and assembles them together with custom components into a finished end-to-end pipeline.
+This is the spaCy project for the Healthsea pipeline. It holds all training data and workflows for training a Named Entity Recognition model and a custom Text Classification model (Clausecat). You can read more in this [blog post](explosion.ai)
 
 ## 📋 project.yml
 
@@ -20,13 +20,14 @@ Commands are only re-run if their inputs have changed.
 | --- | --- |
 | `requirements` | Install dependencies and requirements |
 | `parse_ner` | Load the annotations to Prodigy and use data-to-spacy to split the data into a training and development set |
-| `parse_textcat` | Parse the textcat annotation file manually into a training and development set |
+| `analyze_ner` | Analyze the NER annotation dataset |
+| `parse_clausecat` | Parse the textcat annotations into clausecat format and split into training and development set |
 | `train_ner` | Train an NER model |
-| `evaluate_ner` | Evaluate a trained NER model |
-| `train_textcat` | Train a Text Classification model |
-| `evaluate_textcat` | Evaluate a trained Text Classification model |
-| `assemble_healthsea` | Assemble trained components into the healthsea pipeline |
-| `evaluate_healthsea` | Evaluate the finished healthsea pipeline |
+| `evaluate_ner` | Evaluate the trained NER model |
+| `train_clausecat` | Train the custom Clausecat component |
+| `evaluate_clausecat` | Evaluate a custom Clausecat component |
+| `evaluate` | Evaluate the healthsea pipeline |
+| `reset` | Reset the project to its original state and delete all training process |
 
 ### ⏭ Workflows
 
@@ -38,10 +39,8 @@ inputs have changed.
 | Workflow | Steps |
 | --- | --- |
 | `install` | `requirements` |
-| `parse` | `parse_ner` &rarr; `parse_textcat` |
-| `train` | `train_ner` &rarr; `train_textcat` |
-| `evaluate` | `evaluate_ner` &rarr; `evaluate_textcat` |
-| `assemble` | `assemble_healthsea` &rarr; `evaluate_healthsea` |
+| `process_ner` | `parse_ner` &rarr; `analyze_ner` &rarr; `train_ner` &rarr; `evaluate_ner` |
+| `process_clausecat` | `parse_clausecat` &rarr; `train_clausecat` &rarr; `evaluate_clausecat` |
 
 ### 🗂 Assets
 
@@ -51,14 +50,15 @@ in the project directory.
 
 | File | Source | Description |
 | --- | --- | --- |
-| [`assets/ner/ner_annotation.jsonl`](assets/ner/ner_annotation.jsonl) | Local | NER annotations exported from Prodigy with 5000 examples and 2 labels |
+| [`assets/ner/annotation.jsonl`](assets/ner/annotation.jsonl) | Local | NER annotations exported from Prodigy with 5000 examples and 2 labels |
 | [`assets/ner/train.spacy`](assets/ner/train.spacy) | Local | Training dataset for NER |
 | [`assets/ner/dev.spacy`](assets/ner/dev.spacy) | Local | Development dataset for NER |
-| [`assets/textcat/textcat_annotation.jsonl`](assets/textcat/textcat_annotation.jsonl) | Local | Text Classification annotations exported from Prodigy with 5000 examples and 4 classes |
-| [`assets/textcat/train.spacy`](assets/textcat/train.spacy) | Local | Training dataset for Text Classification |
-| [`assets/textcat/dev.spacy`](assets/textcat/dev.spacy) | Local | Development dataset for Text Classification |
-| [`assets/end_to_end_evaluation.json`](assets/end_to_end_evaluation.json) | Local | Examples for end-to-end evaluation of the pipeline |
-| [`assets/pretrained_weights.bin`](assets/pretrained_weights.bin) | Local | Pretrained weights trained with IHerb reviews for initializing tok2vec components |
+| [`assets/clausecat/annotation.jsonl`](assets/clausecat/annotation.jsonl) | Local | Annotations exported from Prodigy with 5000 examples and 4 classes (textcat.recipe) |
+| [`assets/clausecat/train.spacy`](assets/clausecat/train.spacy) | Local | Training dataset for Clausecat (Text Classification) |
+| [`assets/clausecat/dev.spacy`](assets/clausecat/dev.spacy) | Local | Development dataset for Clausecat (Text Classification) |
+| [`assets/end_to_end_evaluation.json`](assets/end_to_end_evaluation.json) | Local | End-to-end evaluation dataset |
+| [`assets/pretrained_weights_ner.bin`](assets/pretrained_weights_ner.bin) | Local | Pretrained weights trained on IHerb reviews for initializing NER tok2vec |
+| [`assets/pretrained_weights_clausecat.bin`](assets/pretrained_weights_clausecat.bin) | Local | Pretrained weights trained on IHerb reviews for initializing Clausecat tok2vec |
 
 <!-- SPACY PROJECT: AUTO-GENERATED DOCS END (do not remove) -->
 

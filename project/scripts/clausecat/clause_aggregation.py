@@ -9,6 +9,8 @@ def create_clause_aggregation(nlp: Language, name: str):
 
 
 class Clause_aggregation:
+    """Aggregate the predicted effects from the clausecat and apply the patient information logic"""
+
     def __init__(self, nlp: Language):
         self.nlp = nlp
 
@@ -18,8 +20,10 @@ class Clause_aggregation:
         health_effects = {}
 
         for clause in doc._.clauses:
+            if not clause["has_ent"]:
+                continue
             classification = max(clause["cats"].items(), key=operator.itemgetter(1))[0]
-            entity = clause["ent_name"].replace(" ", "_").strip()
+            entity = str(clause["ent_name"]).replace(" ", "_").strip().lower()
 
             # Collect patient information
             if classification == "ANAMNESIS" and entity != None:
@@ -34,7 +38,9 @@ class Clause_aggregation:
                     health_effects[entity] = {
                         "effects": [],
                         "effect": "NEUTRAL",
-                        "label": clause["blinder"],
+                        "label": str(clause["blinder"])
+                        .replace("<", "")
+                        .replace(">", ""),
                         "text": clause["ent_name"],
                     }
                 health_effects[entity]["effects"].append(classification)
@@ -64,7 +70,7 @@ class Clause_aggregation:
 
             health_effects[entity]["effect"] = aggregated_classification
 
-        doc.set_extension("effects", default={}, force=True)
-        doc._.effects = health_effects
+        doc.set_extension("health_effects", default={}, force=True)
+        doc._.health_effects = health_effects
 
         return doc

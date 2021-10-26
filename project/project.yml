@@ -1,12 +1,12 @@
 title: "Healthsea"
-description: "This project trains a Named Entity Recognition (NER) model, a Text Classification model, and assembles them together with custom components into a finished end-to-end pipeline."
+description: "This is the spaCy project for the Healthsea pipeline. It holds all training data and workflows for training a Named Entity Recognition model and a custom Text Classification model (Clausecat). You can read more in this [blog post](explosion.ai)"
 # Variables can be referenced across the project.yml using ${vars.var_name}
 vars:
   version: "0.0.0"
   name: "healthsea"
 
   # config_trf & config_tok2vec
-  config: "config_trf"
+  config: "config_tok2vec"
   train: "train"
   dev: "dev"
 
@@ -17,33 +17,35 @@ vars:
   prodigy:
     ner_db: "healthsea_ner_annotation"
 
-  gpu_id: 0
+  gpu_id: -1
   eval_split: 0.25
 
 # These are the directories that the project needs. The project CLI will make
 # sure that they always exist.
-directories: ["assets","training","configs","scripts","package"]
+directories: ["assets","training","configs","scripts"]
 
 # Assets that should be downloaded or available in the directory. We're shipping
 # them with the project, so they won't have to be downloaded. But the
 # 'project assets' command still lets you verify that all required files are available.
 assets:
-  - dest: "assets/ner/ner_annotation.jsonl"
+  - dest: "assets/ner/annotation.jsonl"
     description: "NER annotations exported from Prodigy with 5000 examples and 2 labels"
   - dest: "assets/ner/train.spacy"
     description: "Training dataset for NER"
   - dest: "assets/ner/dev.spacy"
     description: "Development dataset for NER"
-  - dest: "assets/textcat/textcat_annotation.jsonl"
-    description: "Text Classification annotations exported from Prodigy with 5000 examples and 4 classes"
-  - dest: "assets/textcat/train.spacy"
-    description: "Training dataset for Text Classification"
-  - dest: "assets/textcat/dev.spacy"
-    description: "Development dataset for Text Classification"
+  - dest: "assets/clausecat/annotation.jsonl"
+    description: "Annotations exported from Prodigy with 5000 examples and 4 classes (textcat.recipe)"
+  - dest: "assets/clausecat/train.spacy"
+    description: "Training dataset for Clausecat (Text Classification)"
+  - dest: "assets/clausecat/dev.spacy"
+    description: "Development dataset for Clausecat (Text Classification)"
   - dest: "assets/end_to_end_evaluation.json"
-    description: "Examples for end-to-end evaluation of the pipeline"
-  - dest: "assets/pretrained_weights.bin"
-    description: "Pretrained weights trained with IHerb reviews for initializing tok2vec components"
+    description: "End-to-end evaluation dataset"
+  - dest: "assets/pretrained_weights_ner.bin"
+    description: "Pretrained weights trained on IHerb reviews for initializing NER tok2vec"
+  - dest: "assets/pretrained_weights_clausecat.bin"
+    description: "Pretrained weights trained on IHerb reviews for initializing Clausecat tok2vec"
 
 # Workflows are sequences of commands (see below) executed in order. You can
 # run them via "spacy project run [workflow]". If a commands's inputs/outputs
@@ -57,7 +59,7 @@ workflows:
     - train_ner
     - evaluate_ner
   process_clausecat:
-    - parse_textcat
+    - parse_clausecat
     - train_clausecat
     - evaluate_clausecat
 
@@ -72,21 +74,15 @@ commands:
       - "pip install -r requirements.txt"
       - "python -m spacy download en_core_web_lg"
 
-  # Delete later
-  - name: "test"
-    help: "Run several pytest to verify that everything works as intended (Run only after all models are trained)"
-    script:
-      - "python -m py.test -s scripts/clausecat/test"
-
   # Works only with prodigy. Can be skipped otherwise, as the training files for the NER are already available in the assets folder
   - name: "parse_ner"
     help: "Load the annotations to Prodigy and use data-to-spacy to split the data into a training and development set"
     script:
       - "python scripts/check_prodigy.py"
-      - "python -m prodigy db-in ${vars.prodigy.ner_db} assets/ner/ner_annotation.jsonl"
+      - "python -m prodigy db-in ${vars.prodigy.ner_db} assets/ner/annotation.jsonl"
       - "python -m prodigy data-to-spacy assets/ner/ -n ${vars.prodigy.ner_db} -es ${vars.eval_split}"
     deps:
-      - "assets/ner/ner_annotation.jsonl"
+      - "assets/ner/annotation.jsonl"
     outputs:
       - "data/ner/${vars.train}.spacy"
       - "data/ner/${vars.dev}.spacy"
@@ -94,39 +90,33 @@ commands:
   - name: "analyze_ner"
     help: "Analyze the NER annotation dataset"
     script:
-      - "python scripts/parsing/analyze_ner_annotation.py assets/ner/ner_annotation.jsonl"
+      - "python scripts/parsing/analyze_ner_annotation.py assets/ner/annotation.jsonl"
     deps:
-      - "assets/ner/ner_annotation.jsonl"
+      - "assets/ner/annotation.jsonl"
 
   # You can skip this command if you're happy with the training files in the assets folder generated with the default split
-  - name: "parse_textcat"
-    help: "Parse the textcat annotation file into a training and development set"
+  - name: "parse_clausecat"
+    help: "Parse the textcat annotations into clausecat format and split into training and development set"
     script:
-      - "python scripts/parsing/parse_textcat_annotation.py assets/textcat/textcat_annotation.jsonl assets/textcat/${vars.train}.spacy assets/textcat/${vars.dev}.spacy ${vars.eval_split}"
+      - "python scripts/parsing/parse_clausecat.py assets/clausecat/annotation.jsonl assets/clausecat/${vars.train}.spacy assets/clausecat/${vars.dev}.spacy ${vars.eval_split}"
     deps:
-      - "assets/textcat/textcat_annotation.jsonl"
+      - "assets/clausecat/annotation.jsonl"
     outputs:
-      - "assets/textcat/${vars.train}.spacy"
-      - "assets/textcat/${vars.dev}.spacy"
+      - "assets/clausecat/${vars.train}.spacy"
+      - "assets/clausecat/${vars.dev}.spacy"
 
   - name: "train_ner"
     help: "Train an NER model"
     script:
-      - "python -m spacy train configs/ner/${vars.config}.cfg --output training/ner/${vars.config}/ --paths.train assets/ner/${vars.train}.spacy --paths.dev assets/ner/${vars.dev}.spacy --paths.init_tok2vec assets/pretrained_weights.bin --gpu-id ${vars.gpu_id}"
+      - "python -m spacy train configs/ner/${vars.config}.cfg --output training/ner/${vars.config}/ --paths.train assets/ner/${vars.train}.spacy --paths.dev assets/ner/${vars.dev}.spacy --paths.init_tok2vec assets/pretrained_weights_ner.bin --gpu-id ${vars.gpu_id}"
     deps:
       - "assets/ner/${vars.train}.spacy"
       - "assets/ner/${vars.dev}.spacy"
     outputs:
       - ${vars.models.model_ner}
 
-  # Delete later
-  #- name: "train_search_ner"
-  #  help: "Hyperparameter optimization of an NER model"
-  #  script:
-  #    - "python ./scripts/wandb/sweeps_using_config.py configs/ner/${vars.config}.cfg training/ner/optimization/"
-
   - name: "evaluate_ner"
-    help: "Evaluate a trained NER model"
+    help: "Evaluate the trained NER model"
     script:
       - "python -m spacy evaluate ${vars.models.model_ner} assets/ner/${vars.dev}.spacy --gpu-id ${vars.gpu_id}"
     deps:
@@ -134,26 +124,33 @@ commands:
       - ${vars.models.model_ner}
 
   - name: "train_clausecat"
-    help: "Train a custom Clausecat component"
+    help: "Train the custom Clausecat component"
     script:
-      - "python -m spacy train configs/clausecat/${vars.config}.cfg --output training/clausecat/${vars.config}/ -c scripts/clausecat/custom_code.py --paths.train assets/textcat/${vars.train}.spacy --paths.dev assets/textcat/${vars.dev}.spacy --paths.init_tok2vec assets/pretrained_weights_clausecat.bin --gpu-id ${vars.gpu_id} --paths.ner_model ${vars.models.model_ner}"
+      - "python -m spacy train configs/clausecat/${vars.config}.cfg --output training/clausecat/${vars.config}/ -c scripts/clausecat/custom_code.py --paths.train assets/clausecat/${vars.train}.spacy --paths.dev assets/clausecat/${vars.dev}.spacy --paths.init_tok2vec assets/pretrained_weights_clausecat.bin --gpu-id ${vars.gpu_id} --paths.ner_model ${vars.models.model_ner}"
     deps:
       - "configs/clausecat/${vars.config}.cfg"
-      - "assets/textcat/${vars.train}.spacy"
-      - "assets/textcat/${vars.dev}.spacy"
+      - "assets/clausecat/${vars.train}.spacy"
+      - "assets/clausecat/${vars.dev}.spacy"
     outputs:
       - ${vars.models.model_clausecat}
 
   - name: "evaluate_clausecat"
     help: "Evaluate a custom Clausecat component"
     script:
-      - "python scripts/evaluate_clausecat.py ${vars.models.model_clausecat}  assets/textcat/${vars.dev}.spacy"
+      - "python scripts/evaluate_clausecat.py ${vars.models.model_clausecat} assets/clausecat/${vars.dev}.spacy"
     deps:
+      - ${vars.models.model_clausecat}
       - "assets/clausecat/${vars.dev}.spacy"
+
+  - name: "evaluate"
+    help: "Evaluate the healthsea pipeline"
+    script:
+      - "python scripts/end_to_end_evaluation.py ${vars.models.model_clausecat} assets/end_to_end_evaluation.json"
+    deps:
       - ${vars.models.model_clausecat}
 
-  # Delete later
-  - name: "pretrain"
-    help: "Pretraining"
+  - name: "reset"
+    help: "Reset the project to its original state and delete all training process"
     script:
-      - "python -m spacy pretrain configs/clausecat/config_tok2vec_pretrain.cfg training/pretrain/ --paths.train assets/_archive/reviews.jsonl --gpu-id ${vars.gpu_id} -c scripts/clausecat/custom_code.py"
+      - "python scripts/reset.py training/ner"
+      - "python scripts/reset.py training/clausecat"

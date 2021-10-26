@@ -1,28 +1,28 @@
 import spacy
+from spacy.scorer import PRFScore
 import typer
 from pathlib import Path
 from wasabi import Printer, table
-from spacy import util
-from spacy.tokens import Doc, DocBin
-from spacy.vocab import Vocab
-from typing import Union, Iterable, Iterator
-from spacy.scorer import PRFScore
 import operator
+import benepar
+
+from clausecat import clausecat_component
+from clausecat import clausecat_model
+from clausecat import clausecat_reader
+from clausecat import clause_segmentation
+from clausecat import clause_aggregation
 
 msg = Printer()
 
-from clausecat import clausecat_component, clausecat_model, clausecat_reader
-
-# To do
-
 
 def main(model_path: Path, eval_path: Path):
+    """This script is used to evaulate the clausecat component"""
+
     nlp = spacy.load(model_path)
     reader = clausecat_reader.Clausecat_corpus(eval_path)
     examples = reader(nlp)
 
     clausecat = nlp.get_pipe("clausecat")
-    threshold = clausecat.threshold
 
     scorer = {
         "POSITIVE": PRFScore(),
@@ -35,11 +35,10 @@ def main(model_path: Path, eval_path: Path):
         prediction = example.predicted
         reference = example.reference
 
-        try:
-            prediction = clausecat(prediction)
-        except Exception as error:
-            print(f"ERROR at {i} {error}")
+        # Prediction
+        prediction = clausecat(prediction)
 
+        # Iterate through prediction and references
         for pred_clause, ref_clause in zip(prediction._.clauses, reference._.clauses):
             prediction_cats = pred_clause["cats"]
             reference_cats = ref_clause["cats"]
@@ -47,6 +46,7 @@ def main(model_path: Path, eval_path: Path):
                 0
             ]
 
+            # Add to matrix
             for label in prediction_cats:
                 if label != prediction_class:
                     prediction = 0
@@ -62,6 +62,7 @@ def main(model_path: Path, eval_path: Path):
                 elif prediction == 1 and reference_cats[label] == 1:
                     scorer[label].tp += 1
 
+    # Printing
     textcat_data = []
     avg_fscore = 0
     avg_recall = 0

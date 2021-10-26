@@ -75,7 +75,7 @@ def make_clausecat(
     which uses a custom model to classify segmented clauses inside a doc instead of the whole doc.
 
     model (Model[List[Doc], List[Floats2d]]): A model instance that
-        is given a list of documents with the custom attribute ._.clauses that provides indices for splitting. It also provides indices of entities for blinding.
+        is given a list of documents with the custom attribute ._.clauses that provides indices for splitting and indices of entities for blinding.
     threshold (float): Minimum probability to consider a prediction positive.
         Spans with a positive prediction will be saved on the Doc. Defaults to
         0.5.
@@ -95,7 +95,7 @@ class Clausecat(TrainablePipe):
         self.vocab = vocab
         self.model = model
         self.name = name
-        cfg = {"labels": [], "threshold": threshold, "positive_label": None}
+        cfg = {"labels": [], "threshold": threshold}
         self.cfg = dict(cfg)
 
     @property
@@ -151,7 +151,6 @@ class Clausecat(TrainablePipe):
         *,
         nlp: Optional[Language] = None,
         labels: Optional[Iterable[str]] = None,
-        positive_label: Optional[str] = None,
     ) -> None:
 
         if labels is None:
@@ -165,14 +164,7 @@ class Clausecat(TrainablePipe):
 
         if len(self.labels) < 2:
             raise ValueError(Errors.E867)
-        if positive_label is not None:
-            if positive_label not in self.labels:
-                err = Errors.E920.format(pos_label=positive_label, labels=self.labels)
-                raise ValueError(err)
-            if len(self.labels) != 2:
-                err = Errors.E919.format(pos_label=positive_label, labels=self.labels)
-                raise ValueError(err)
-        self.cfg["positive_label"] = positive_label
+
         subbatch = list(islice(get_examples(), 10))
         doc_sample = [eg.reference for eg in subbatch]
         label_sample, _ = self._examples_to_truth(subbatch)
@@ -304,7 +296,6 @@ class Clausecat(TrainablePipe):
                 examples_clauses.append(Example(prediction_doc, reference_doc))
 
         kwargs.setdefault("threshold", self.cfg["threshold"])
-        kwargs.setdefault("positive_label", self.cfg["positive_label"])
         return Scorer.score_cats(
             examples_clauses,
             "cats",
