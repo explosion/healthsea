@@ -22,7 +22,7 @@ vars:
 
 # These are the directories that the project needs. The project CLI will make
 # sure that they always exist.
-directories: ["assets","training","configs","scripts"]
+directories: ["assets","training","configs","scripts","package"]
 
 # Assets that should be downloaded or available in the directory. We're shipping
 # them with the project, so they won't have to be downloaded. But the
@@ -154,3 +154,11 @@ commands:
     script:
       - "python scripts/reset.py training/ner"
       - "python scripts/reset.py training/clausecat"
+      - "python scripts/reset.py package/${vars.config}"
+
+  - name: "package"
+    help: "Package your trained healthsea pipeline"
+    script:
+      - "python -m spacy package ${vars.models.model_clausecat} package --code scripts/clausecat/custom_code.py --name healthsea"
+    deps:
+      - ${vars.models.model_clausecat}

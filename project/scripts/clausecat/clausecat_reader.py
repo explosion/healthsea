@@ -50,6 +50,12 @@ class Clausecat_corpus:
                             break
                     break
 
+            # Changing prefix & suffix of the blinder to make sure tokenizer tokenizes the blinder as one token
+            blinder = str(doc[start_entity_index:end_entity_index].text)
+            if "<CONDITION>" in blinder:
+                blinder = "_CONDITION_"
+            elif "<BENEFIT>" in blinder:
+                blinder = "_BENEFIT_"
             # ._.clause format
             ## split_indices: Tuple[int,int], has_ent: bool, ent_indices: Tuple[int,int], blinder: str, ent_name: str, cats: dict[str,float]
             clauses = [
@@ -57,7 +63,7 @@ class Clausecat_corpus:
                     "split_indices": (0, len(doc)),
                     "has_ent": has_ent,
                     "ent_indices": (start_entity_index, end_entity_index),
-                    "blinder": str(doc[start_entity_index:end_entity_index].text),
+                    "blinder": blinder,
                     "ent_name": "Entity",
                     "cats": doc.cats,
                 }
