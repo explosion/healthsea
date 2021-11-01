@@ -63,12 +63,15 @@ class Clause_segmentation:
         """
         split_indices = []
         for sentence in doc.sents:
+            can_split = False
             for constituent in sentence._.constituents:
                 # Include every clause with the label "S" (Sentence) and with the root sentence as parent
                 if "S" in constituent._.labels and constituent._.parent == sentence:
                     split_indices.append((constituent.start, constituent.end))
+                    can_split = True
 
-        # If no clause found just append the whole sentence
-        if len(split_indices) == 0:
-            split_indices.append((0, len(doc)))
+            # If no clause found just append the whole sentence
+            if not can_split:
+                split_indices.append((sentence.start, sentence.end))
+
         return split_indices

@@ -18,7 +18,7 @@
         }
     },
     {
-        "text":"After taking these, my anxiety and depression worsen and I got very nauseous!",
+        "text":"After taking these, my anxiety and depression got worse and I got very nauseous!",
         "number": 2,
         "health_effects":
         {
@@ -86,7 +86,7 @@
         "number": 9,
         "health_effects":
         {
-            "insomnia": {"classification": "NEUTRAL", "label": "CONDITION"},
+            "insomnia": {"classification": "POSITIVE", "label": "CONDITION"},
             "sleep": {"classification": "POSITIVE", "label": "BENEFIT"}
         }
     },
@@ -100,7 +100,7 @@
         }
     },
     {
-        "text":"This increased mental clarity. This increased heartburn. This decreased alertness. This decreased fatigue",
+        "text":"This increased mental clarity. This increased heartburn. This decreased alertness. This decreased fatigue.",
         "number": 11,
         "health_effects":
         {
@@ -111,7 +111,7 @@
         }
     },
     {
-        "text":"My reflux symptoms did not disappear and I also don't feel any improvement in my joint health",
+        "text":"My reflux did not disappear and I also don't feel any improvement in my joint health",
         "number": 12,
         "health_effects":
         {
@@ -129,7 +129,7 @@
         }
     },
     {
-        "text":"What a waste. I am suffering from constipation for some month now. This supplement did nothing for it, it even made much more worse",
+        "text":"What a waste. I am suffering from constipation for some months now. This supplement did nothing for it, it even made much more worse",
         "number": 14,
         "health_effects":
         {
@@ -255,6 +255,101 @@
         {
             "blood_coagulation": {"classification": "POSITIVE", "label": "CONDITION"},
             "chronic_infections": {"classification": "POSITIVE", "label": "CONDITION"}
+        }
+    },
+    {
+        "text":"I'm suffering from reflux problems for months now. After taking Pantoprazol, the symptoms got better but I feel very nauseous now.",
+        "number": 28,
+        "health_effects":
+        {
+            "reflux": {"classification": "POSITIVE", "label": "CONDITION"},
+            "nauseous": {"classification": "NEGATIVE", "label": "CONDITION"}
+        }
+    },
+    {
+        "text":"Wow, this actually caused more tinnitus in my ears than before! At least it didn't make my running nose worse.",
+        "number": 29,
+        "health_effects":
+        {
+            "tinnitus": {"classification": "NEGATIVE", "label": "CONDITION"},
+            "running nose": {"classification": "NEUTRAL", "label": "CONDITION"}
+        }
+    },
+    {
+        "text":"Great product. Got glowing skin and it's also good for your digestion but not for your alterness though.",
+        "number": 30,
+        "health_effects":
+        {
+            "skin": {"classification": "POSITIVE", "label": "BENEFIT"},
+            "digestion": {"classification": "POSITIVE", "label": "BENEFIT"},
+            "alterness": {"classification": "NEUTRAL", "label": "BENEFIT"}
+        }
+    },
+    {
+        "text":"My energy level decreased and got pretty bad mood from this product. I also have stress. It helped with that.",
+        "number": 31,
+        "health_effects":
+        {
+            "energy": {"classification": "NEGATIVE", "label": "BENEFIT"},
+            "mood": {"classification": "NEGATIVE", "label": "BENEFIT"},
+            "stress": {"classification": "POSITIVE", "label": "CONDITION"}
+        }
+    },
+    {
+        "text":"Took my muscle growth to the next level and reduced acne on my face immensly! Some might say it's also good for lyme.",
+        "number": 32,
+        "health_effects":
+        {
+            "muscle_growth": {"classification": "POSITIVE", "label": "BENEFIT"},
+            "acne": {"classification": "POSITIVE", "label": "CONDITION"},
+            "lyme": {"classification": "POSITIVE", "label": "CONDITION"}
+        }
+    },
+    {
+        "text":"Helped heartache just barely, I don't think it had any effect on it. I can't focus but this product might help.",
+        "number": 33,
+        "health_effects":
+        {
+            "heartache": {"classification": "NEUTRAL", "label": "CONDITION"},
+            "focus": {"classification": "NEUTRAL", "label": "BENEFIT"}
+        }
+    },
+    {
+        "text":"I have terrible insomnia because of this product. However, it support heart function.",
+        "number": 34,
+        "health_effects":
+        {
+            "insomnia": {"classification": "NEGATIVE", "label": "CONDITION"},
+            "heart_function": {"classification": "POSITIVE", "label": "BENEFIT"}
+        }
+    },
+    {
+        "text":"Made my fever worse. No effect on asthma. Didn't do anything for my hair.",
+        "number": 35,
+        "health_effects":
+        {
+            "fever": {"classification": "NEGATIVE", "label": "CONDITION"},
+            "asthma": {"classification": "NEUTRAL", "label": "CONDITION"},
+            "hair": {"classification": "NEUTRAL", "label": "BENEFIT"}
+        }
+    },
+    {
+        "text":"This is really bad for energy. I can't sleep because of this. I got terrible nightmares after taking this. No improvement on adhs.",
+        "number": 36,
+        "health_effects":
+        {
+            "energy": {"classification": "NEGATIVE", "label": "BENEFIT"},
+            "sleep": {"classification": "NEGATIVE", "label": "BENEFIT"},
+            "nightmares": {"classification": "NEGATIVE", "label": "CONDITION"},
+            "adhs": {"classification": "NEUTRAL", "label": "CONDITION"}
+        }
+    },
+    {
+        "text":"The doctor diagnosed me with gastritis and recommended me this product. It really worked wonders!",
+        "number": 37,
+        "health_effects":
+        {
+            "gastritis": {"classification": "POSITIVE", "label": "BENEFIT"}
         }
     }
 ]

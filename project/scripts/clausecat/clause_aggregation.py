@@ -20,17 +20,19 @@ class Clause_aggregation:
         health_effects = {}
 
         for clause in doc._.clauses:
-            if not clause["has_ent"]:
-                continue
+
             classification = max(clause["cats"].items(), key=operator.itemgetter(1))[0]
+
+            if not clause["has_ent"]:
+                if len(patient_information) > 0:
+                    patient_information[-1][1].append(classification)
+                continue
+
             entity = str(clause["ent_name"]).replace(" ", "_").strip().lower()
 
             # Collect patient information
             if classification == "ANAMNESIS" and entity != None:
                 patient_information.append((entity, []))
-            elif entity == None:
-                for patient_health in patient_information:
-                    patient_health[1].append(classification)
 
             # Collect health effects
             if entity != None:
@@ -49,8 +51,7 @@ class Clause_aggregation:
         for patient_health in patient_information:
             entity = patient_health[0]
             score = 0
-            for classification in patient_health[1]:
-                health_effects[entity]["effects"].append(classification)
+            health_effects[entity]["effects"] += patient_health[1]
 
         # Aggregate health effects
         for entity in health_effects:
