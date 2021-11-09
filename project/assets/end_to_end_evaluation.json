@@ -137,12 +137,12 @@
         }
     },
     {
-        "text":"Caused more thyroid issues. Caused more stability muscle",
+        "text":"Caused more thyroid issues. Caused more stability in muscle",
         "number": 15,
         "health_effects":
         {
             "thyroid_issues": {"classification": "NEGATIVE", "label": "CONDITION"},
-            "stability_muscle": {"classification": "POSITIVE", "label": "BENEFIT"}
+            "muscle": {"classification": "POSITIVE", "label": "BENEFIT"}
         }
     },
     {
@@ -244,7 +244,7 @@
         "health_effects":
         {
             "pcos": {"classification": "NEUTRAL", "label": "CONDITION"},
-            "weight": {"classification": "NEUTRAL", "label": "BENEFIT"},
+            "weight": {"classification": "NEUTRAL", "label": "CONDITION"},
             "digestion": {"classification": "POSITIVE", "label": "BENEFIT"}
         }
     },
@@ -258,7 +258,7 @@
         }
     },
     {
-        "text":"I'm suffering from reflux problems for months now. After taking Pantoprazol, the symptoms got better but I feel very nauseous now.",
+        "text":"I'm suffering from reflux for months now. After taking Pantoprazol, the symptoms got better but I feel very nauseous now.",
         "number": 28,
         "health_effects":
         {
@@ -349,7 +349,290 @@
         "number": 37,
         "health_effects":
         {
-            "gastritis": {"classification": "POSITIVE", "label": "BENEFIT"}
+            "gastritis": {"classification": "POSITIVE", "label": "CONDITION"}
+        }
+    },
+    {
+        "text":"Great way to add extra Potassium to your diet",
+        "number": 38,
+        "health_effects":
+        {
+
+        }
+    },
+    {
+        "text":"This product was recommended by a health shop and since he takes it every morning he noticable improved his immunsystem.",
+        "number": 39,
+        "health_effects":
+        {
+            "immunsystem": {"classification": "POSITIVE", "label": "BENEFIT"}
+        }
+    },
+    {
+        "text":"Helps with Rheumatiod Arthritis over a long period of time - shows in blood tests.",
+        "number": 40,
+        "health_effects":
+        {
+            "rheumatiod_arthritis": {"classification": "POSITIVE", "label": "CONDITION"}
+        }
+    },
+    {
+        "text":"Helps with my son’s digestion. Bloating issues gone.",
+        "number": 41,
+        "health_effects":
+        {
+            "digestion": {"classification": "POSITIVE", "label": "BENEFIT"},
+            "bloating": {"classification": "POSITIVE", "label": "CONDITION"}
+        }
+    },
+    {
+        "text":"Noticed less hair loss after 10 days.",
+        "number": 42,
+        "health_effects":
+        {
+            "hair_loss": {"classification": "POSITIVE", "label": "CONDITION"}
+        }
+    },
+    {
+        "text":"This product has helped my husband with his enlarged prostate.",
+        "number": 43,
+        "health_effects":
+        {
+            "enlarged_prostate": {"classification": "POSITIVE", "label": "CONDITION"}
+        }
+    },
+    {
+        "text":"Did not reduce the swelling.",
+        "number": 44,
+        "health_effects":
+        {
+            "swelling": {"classification": "NEUTRAL", "label": "CONDITION"}
+        }
+    },
+    {
+        "text":"Made my muscle connection more worse. Made my liver function more worse.",
+        "number": 45,
+        "health_effects":
+        {
+            "muscle_connection": {"classification": "NEGATIVE", "label": "BENEFIT"},
+            "liver_function": {"classification": "NEGATIVE", "label": "BENEFIT"}
+        }
+    },
+    {
+        "text":"I often have eye inflammation and I think it's caused by this product.",
+        "number": 46,
+        "health_effects":
+        {
+            "eye_inflammation": {"classification": "NEGATIVE", "label": "CONDITION"}
+        }
+    },
+    {
+        "text":"Best remedy for toothache. I was diagnosed with cavaties. This product made it worse.",
+        "number": 47,
+        "health_effects":
+        {
+            "toothache": {"classification": "POSITIVE", "label": "CONDITION"},
+            "cavaties": {"classification": "NEGATIVE", "label": "CONDITION"}
+        }
+    },
+    {
+        "text":"Best remedy for toothache. I was diagnosed with cavaties. This product made it worse.",
+        "number": 48,
+        "health_effects":
+        {
+            "toothache": {"classification": "POSITIVE", "label": "CONDITION"},
+            "cavaties": {"classification": "NEGATIVE", "label": "CONDITION"}
+        }
+    },
+    {
+        "text":"Can't say I feel any improvement on my kidney pain.",
+        "number": 49,
+        "health_effects":
+        {
+            "kidney_pain": {"classification": "NEUTRAL", "label": "CONDITION"}
+        }
+    },
+    {
+        "text":"Increases productivity!",
+        "number": 50,
+        "health_effects":
+        {
+            "productivity": {"classification": "POSITIVE", "label": "BENEFIT"}
+        }
+    },
+    {
+        "text":"This is absolutely perfect for fibromyalgia and osteoarthritis! It also helped me with my Gout,autism and bebesiosis. Perfect for the occasional bird flu and black long, these things happen all the time",
+        "number": 51,
+        "health_effects":
+        {
+            "fibromyalgia": {"classification": "POSITIVE", "label": "CONDITION"},
+            "osteoarthritis": {"classification": "POSITIVE", "label": "CONDITION"},
+            "gout": {"classification": "POSITIVE", "label": "CONDITION"},
+            "autism": {"classification": "POSITIVE", "label": "CONDITION"},
+            "bebesiosis": {"classification": "POSITIVE", "label": "CONDITION"},
+            "bird_flu": {"classification": "POSITIVE", "label": "CONDITION"},
+            "black_lung": {"classification": "POSITIVE", "label": "CONDITION"}
+        }
+    },
+    {
+        "text":"Product is bonkers for blood clots and it helps severe bronchitis. It had a postive effect on my herpes b virus and seemed to ease the symtomps of lung inflammation. I have anemia and dementia. This product is perfect for them.",
+        "number": 52,
+        "health_effects":
+        {
+            "blood_clots": {"classification": "POSITIVE", "label": "CONDITION"},
+            "bronchitis": {"classification": "POSITIVE", "label": "CONDITION"},
+            "herpes_b_virus": {"classification": "POSITIVE", "label": "CONDITION"},
+            "lung_inflammation": {"classification": "POSITIVE", "label": "CONDITION"},
+            "anemia": {"classification": "POSITIVE", "label": "CONDITION"},
+            "dementia": {"classification": "POSITIVE", "label": "CONDITION"}
+        }
+    },
+    {
+        "text":"I got infected with worms and parasites. This product cleared them all out! I got an ear infection and echinococcosis I heard that this might help. I did an I really recommend taking it. I suffer from epilepsy and this is great to prevent more severe symptoms.",
+        "number": 53,
+        "health_effects":
+        {
+            "worms": {"classification": "POSITIVE", "label": "CONDITION"},
+            "parasites": {"classification": "POSITIVE", "label": "CONDITION"},
+            "ear_infection": {"classification": "POSITIVE", "label": "CONDITION"},
+            "echinococcosis": {"classification": "POSITIVE", "label": "CONDITION"},
+            "epilepsy": {"classification": "POSITIVE", "label": "CONDITION"}
+        }
+    },
+    {
+        "text":"This causes fungal infections and virus infections because this product is so bad. I also got an bacteria infection from this, do not recommend taking. It's terrible for rubella virus, especically for covid. It made the symptoms of the corona virus much more worse.",
+        "number": 54,
+        "health_effects":
+        {
+            "fungal_infections": {"classification": "NEGATIVE", "label": "CONDITION"},
+            "virus_infections": {"classification": "NEGATIVE", "label": "CONDITION"},
+            "bacteria_infection": {"classification": "NEGATIVE", "label": "CONDITION"},
+            "rubella_virus": {"classification": "NEGATIVE", "label": "CONDITION"},
+            "covid": {"classification": "NEGATIVE", "label": "CONDITION"},
+            "corona_virus": {"classification": "NEGATIVE", "label": "CONDITION"}
+        }
+    },
+    {
+        "text":"I'm suffering from heat attacks and herpes. This product really made the symptoms worse. I got hiv and aids, after taking the symptoms got unbearable. I got infected with the hookworm and the product made it worse.",
+        "number": 55,
+        "health_effects":
+        {
+            "heat_attacks": {"classification": "NEGATIVE", "label": "CONDITION"},
+            "herpes": {"classification": "NEGATIVE", "label": "CONDITION"},
+            "hiv": {"classification": "NEGATIVE", "label": "CONDITION"},
+            "aids": {"classification": "NEGATIVE", "label": "CONDITION"},
+            "hook_worm": {"classification": "NEGATIVE", "label": "CONDITION"}
+        }
+    },
+    {
+        "text":"Causes hyperthermia and hypertension, this makes it more worse. This product causes infertility and keratitis. Beware, it's not good for kidney disease. I have lice and measles. It made everything more bad.",
+        "number": 56,
+        "health_effects":
+        {
+            "hyperthermia": {"classification": "NEGATIVE", "label": "CONDITION"},
+            "hypertension": {"classification": "NEGATIVE", "label": "CONDITION"},
+            "infertility": {"classification": "NEGATIVE", "label": "CONDITION"},
+            "keratitis": {"classification": "NEGATIVE", "label": "CONDITION"},
+            "kidney_disease": {"classification": "NEGATIVE", "label": "CONDITION"},
+            "lice": {"classification": "NEGATIVE", "label": "CONDITION"},
+            "measles": {"classification": "NEGATIVE", "label": "CONDITION"}
+        }
+    },
+    {
+        "text":"Made more meningitis and myiasis. Actually makes norovirus and obesity more increased. Symptoms of skin outbreaks increased. Causes more overweight and underweight. This makes sense.",
+        "number": 56,
+        "health_effects":
+        {
+            "meningitis": {"classification": "NEGATIVE", "label": "CONDITION"},
+            "myiasis": {"classification": "NEGATIVE", "label": "CONDITION"},
+            "norovirus": {"classification": "NEGATIVE", "label": "CONDITION"},
+            "obesity": {"classification": "NEGATIVE", "label": "CONDITION"},
+            "skin_outbreaks": {"classification": "NEGATIVE", "label": "CONDITION"},
+            "overweight": {"classification": "NEGATIVE", "label": "CONDITION"},
+            "underweight": {"classification": "NEGATIVE", "label": "CONDITION"}
+        }
+    },
+    {
+        "text":"Does nothing for rabies or rotavirus. I have a salmonella infection. This product didn't help.",
+        "number": 57,
+        "health_effects":
+        {
+            "rabies": {"classification": "NEUTRAL", "label": "CONDITION"},
+            "rotavirus": {"classification": "NEUTRAL", "label": "CONDITION"},
+            "salmonella_infection": {"classification": "NEUTRAL", "label": "CONDITION"}
+        }
+    },
+    {
+        "text":"Fantastic for hearing and mental health. Seems to be perfect for my prostate and liver. Amazing results on my throat after long time of suffering. My back is feeling great again. Hands and fingers are healthy again!",
+        "number": 58,
+        "health_effects":
+        {
+            "hearing": {"classification": "POSITIVE", "label": "BENEFIT"},
+            "mental_health": {"classification": "POSITIVE", "label": "BENEFIT"},
+            "prostate": {"classification": "POSITIVE", "label": "BENEFIT"},
+            "liver": {"classification": "POSITIVE", "label": "BENEFIT"},
+            "throat": {"classification": "POSITIVE", "label": "BENEFIT"},
+            "hands": {"classification": "POSITIVE", "label": "BENEFIT"},
+            "fingers": {"classification": "POSITIVE", "label": "BENEFIT"}
+        }
+    },
+    {
+        "text":"Not sure if it helped my legs. Feel no effect on bones. My veins and stomache feel no improvement. No big effect on circulatory health and lymphatic health. No indication of a better respiratory health or integumentary health.",
+        "number": 59,
+        "health_effects":
+        {
+            "legs": {"classification": "NEUTRAL", "label": "BENEFIT"},
+            "bones": {"classification": "NEUTRAL", "label": "BENEFIT"},
+            "veins": {"classification": "NEUTRAL", "label": "BENEFIT"},
+            "stomache": {"classification": "NEUTRAL", "label": "BENEFIT"},
+            "circulatory_health": {"classification": "NEUTRAL", "label": "BENEFIT"},
+            "lymphatic_health": {"classification": "NEUTRAL", "label": "BENEFIT"},
+            "respiratory_health": {"classification": "NEUTRAL", "label": "BENEFIT"},
+            "integumentary_health": {"classification": "NEUTRAL", "label": "BENEFIT"}
+        }
+    },
+    {
+        "text":"Seems to be effectless on endocrine health and also gastrointestinal health. Weird, urinary health is the same as before. I want to have better blood vessels and lymph nodes. Hopefully this will make my lymph vessels and lung function better. Hope to achieve improvement in my trachea and sweat glands.",
+        "number": 60,
+        "health_effects":
+        {
+            "endocrine_health": {"classification": "NEUTRAL", "label": "BENEFIT"},
+            "gastrointestinal_health": {"classification": "NEUTRAL", "label": "BENEFIT"},
+            "urinary_health": {"classification": "NEUTRAL", "label": "BENEFIT"},
+            "blood_vessels": {"classification": "NEUTRAL", "label": "BENEFIT"},
+            "lymph_nodes": {"classification": "NEUTRAL", "label": "BENEFIT"},
+            "lymph_vessels": {"classification": "NEUTRAL", "label": "BENEFIT"},
+            "lung_function": {"classification": "NEUTRAL", "label": "BENEFIT"},
+            "trachea": {"classification": "NEUTRAL", "label": "BENEFIT"},
+            "sweat_glands": {"classification": "NEUTRAL", "label": "BENEFIT"}
+        }
+    },
+    {
+        "text":"The doctor said that this product might improve esophagus and intestines. I wonder if this product helps the ureters and bladder. I should try it to improve my skeleton and brain. I heard it increases appetite and physical wellbeing.",
+        "number": 61,
+        "health_effects":
+        {
+            "esophagus": {"classification": "NEUTRAL", "label": "BENEFIT"},
+            "intestines": {"classification": "NEUTRAL", "label": "BENEFIT"},
+            "ureters": {"classification": "NEUTRAL", "label": "BENEFIT"},
+            "bladder": {"classification": "NEUTRAL", "label": "BENEFIT"},
+            "skeleton": {"classification": "NEUTRAL", "label": "BENEFIT"},
+            "brain": {"classification": "NEUTRAL", "label": "BENEFIT"},
+            "appetite": {"classification": "NEUTRAL", "label": "BENEFIT"},
+            "physical_wellbeing": {"classification": "NEUTRAL", "label": "BENEFIT"}
+        }
+    },
+    {
+        "text":"It had an negative effect on my psychological wellbeing and reduced my joint mobility drastically. Muscle strength decreased and I feel a significant drop in joint strength. This is the worst for bone density. Made muscle mobility worse than it already is.",
+        "number": 62,
+        "health_effects":
+        {
+            "psychological_wellbeing": {"classification": "NEGATIVE", "label": "BENEFIT"},
+            "joint_mobility": {"classification": "NEGATIVE", "label": "BENEFIT"},
+            "muscle_strength": {"classification": "NEGATIVE", "label": "BENEFIT"},
+            "joint_strength": {"classification": "NEGATIVE", "label": "BENEFIT"},
+            "bone_density": {"classification": "NEGATIVE", "label": "BENEFIT"},
+            "muscle_mobility": {"classification": "NEGATIVE", "label": "BENEFIT"}
         }
     }
 ]

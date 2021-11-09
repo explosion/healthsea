@@ -76,6 +76,7 @@ def main(model_path: Path, eval_path: Path):
         for entity in left_join:
             scorer[health_effects_gold[entity]["label"]].fn += 1
             uncorrect_ner.append(f"({eval['number']}) False negative {entity}")
+            data[eval["health_effects"][entity]["classification"]] -= 1
 
         for entity in right_join:
             scorer[health_effects_pred[entity]["label"]].fp += 1
@@ -127,7 +128,13 @@ def main(model_path: Path, eval_path: Path):
     aligns = ("l", "c", "c", "c")
     print(table(ner_data, header=header, divider=True, widths=widths, aligns=aligns))
 
-    msg.fail(f"{len(uncorrect_ner)} false predictions")
+    ner_error_percentage = round(
+        (len(uncorrect_ner) / (len(data["BENEFIT"]) + len(data["CONDITION"]))) * 100, 2
+    )
+
+    msg.fail(
+        f"{len(uncorrect_ner)}/{len(data['BENEFIT'])+len(data['CONDITION'])} false predictions ({ner_error_percentage}%)"
+    )
     for error_ner in uncorrect_ner:
         print("  >> " + error_ner)
 
@@ -193,7 +200,17 @@ def main(model_path: Path, eval_path: Path):
         table(textcat_data, header=header, divider=True, widths=widths, aligns=aligns)
     )
 
-    msg.fail(f"{len(uncorrect_textcat)} false predictions")
+    clausecat_error_percentage = round(
+        (
+            len(uncorrect_textcat)
+            / (data["POSITIVE"] + data["NEGATIVE"] + data["NEUTRAL"])
+        )
+        * 100,
+        2,
+    )
+    msg.fail(
+        f"{len(uncorrect_textcat)}/{data['POSITIVE']+data['NEGATIVE']+data['NEUTRAL']} false predictions ({clausecat_error_percentage}%)"
+    )
     for error_textcat in uncorrect_textcat:
         print("  >> " + error_textcat)
 
