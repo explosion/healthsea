@@ -1,3 +1,9 @@
-.KPI{
+.kpi{
     text-align: center;
+    margin: auto;
+}
+
+.central_text{
+    text-align: center;
+    top: 50%;
 }

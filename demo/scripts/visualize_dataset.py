@@ -33,11 +33,15 @@ def load_data(
 # Functions
 def kpi(n, text):
     html = f"""
-    <div class='KPI'>
+    <div class='kpi'>
         <h1>{n}</h1>
         <span>{text}</span>
     </div>
     """
+    return html
+
+def central_text(text):
+    html = f"""<h2 class='central_text'>{text}</h2>"""
     return html
 
 
@@ -60,12 +64,19 @@ jellyfish.image("data/img/jellyfish.png", use_column_width="auto")
 intro.markdown(
     "With healthsea we analyzed up to 1 million reviews. You can use the app to explore the results and get product and substance recommendations based on your choosen health aspect."
 )
-intro.markdown(kpi(len(products), "Products"), unsafe_allow_html=True)
-intro.markdown(kpi(933.240, "Reviews"), unsafe_allow_html=True)
+intro.markdown("""Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.""")
+
+st.markdown("""---""")
 
 # KPI
+
+st.markdown(central_text("Dataset stats"), unsafe_allow_html=True)
+
+tmp1,kpi_products,tmp3,kpi_reviews,tmp5 = st.columns(5)
 kpi_aspects, kpi_condition, kpi_benefit = st.columns(3)
-kpi_positive, kpi_negative, kpi_neutral = st.columns(3)
+
+kpi_products.markdown(kpi(len(products), "Products"), unsafe_allow_html=True)
+kpi_reviews.markdown(kpi(933.240, "Reviews"), unsafe_allow_html=True)
 
 kpi_aspects.markdown(
     kpi(len(conditions) + len(benefits), "Health aspects"), unsafe_allow_html=True
@@ -79,20 +90,33 @@ st.markdown("""---""")
 search = st.text_input(label="Search for an health aspect", value="joint pain")
 n = st.slider("Show top n results", min_value=1, max_value=100, value=10)
 
-# KPI
-kpi_mentions, kpi_product_mentions, kpi_alias = st.columns(3)
-kpi_mentions.markdown(
-    kpi(search_engine.get_aspect_meta(search)["frequency"], "Mentions"),
-    unsafe_allow_html=True,
-)
-kpi_product_mentions.markdown(
-    kpi(len(search_engine.get_aspect(search)["products"]), "Products"),
-    unsafe_allow_html=True,
-)
-kpi_alias.write("Including similar aspects")
-kpi_alias.json(search_engine.get_aspect(search)["alias"])
-
 # DataFrame
 st.write(search_engine.get_products_df(search, n))
+
+# KPI & Alias
+aspect_alias = search_engine.get_aspect(search)["alias"]
+
+if len(aspect_alias) > 0:
+    kpi_mentions, kpi_product_mentions, kpi_alias = st.columns(3)
+    kpi_mentions.markdown(
+        kpi(search_engine.get_aspect_meta(search)["frequency"], "Mentions"),
+        unsafe_allow_html=True,
+    )
+    kpi_product_mentions.markdown(
+        kpi(len(search_engine.get_aspect(search)["products"]), "Products"),
+        unsafe_allow_html=True,
+    )
+    kpi_alias.write("Including similar aspects")
+    kpi_alias.json(aspect_alias)
+else:
+    kpi_mentions, kpi_product_mentions = st.columns(2)
+    kpi_mentions.markdown(
+        kpi(search_engine.get_aspect_meta(search)["frequency"], "Mentions"),
+        unsafe_allow_html=True,
+    )
+    kpi_product_mentions.markdown(
+        kpi(len(search_engine.get_aspect(search)["products"]), "Products"),
+        unsafe_allow_html=True,
+    )
 
 st.markdown("""---""")
