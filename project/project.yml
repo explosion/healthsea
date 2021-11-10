@@ -73,6 +73,7 @@ commands:
     script:
       - "pip install -r requirements.txt"
       - "python -m spacy download en_core_web_lg"
+      - "python scripts/benepar_download.py"
 
   # Works only with prodigy. Can be skipped otherwise, as the training files for the NER are already available in the assets folder
   - name: "parse_ner"
@@ -154,7 +155,7 @@ commands:
     script:
       - "python scripts/reset.py training/ner"
       - "python scripts/reset.py training/clausecat"
-      - "python scripts/reset.py package/${vars.config}"
+      - "python scripts/reset.py package"
 
   - name: "package"
     help: "Package your trained healthsea pipeline"
