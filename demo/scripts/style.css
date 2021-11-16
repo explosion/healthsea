@@ -1,7 +1,15 @@
 .kpi{
     text-align: center;
-    margin: auto;
+    border-style: solid;
+    border-width:  1px;
+    border-radius: 5px;
+    border-color: #0c0c0e;
+    box-shadow: 0px 5px #0c0c0e;
 }
+
+.kpi:hover {
+    transform: scale(1.1);
+  }
 
 .central_text{
     text-align: center;

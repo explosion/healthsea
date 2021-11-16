@@ -160,6 +160,6 @@ commands:
   - name: "package"
     help: "Package your trained healthsea pipeline"
     script:
-      - "python -m spacy package ${vars.models.model_clausecat} package --code scripts/clausecat/custom_code.py --name healthsea"
+      - "python -m spacy package ${vars.models.model_clausecat} package --code scripts/clausecat/custom_code.py --name healthsea --build wheel --force"
     deps:
       - ${vars.models.model_clausecat}

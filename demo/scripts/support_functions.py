@@ -2,6 +2,11 @@ from altair.vegalite.v4.api import condition
 import pandas as pd
 import difflib
 
+import plotly
+import plotly.graph_objs as go
+from sklearn.manifold import TSNE
+import numpy as np
+
 
 class HealthseaSearch:
     def __init__(self, _health_aspects, _products, _conditions, _benefits):
@@ -109,3 +114,150 @@ class HealthseaSearch:
         else:
             _aspect = difflib.get_close_matches("_aspect", self.conditions.keys())[0]
             return self.conditions[_aspect]
+
+    # Plotting vectors (2D/3D)
+    def tsne_plot(self, dataset):
+        "Creates and TSNE model and plots it"
+        labels = []
+        tokens = []
+
+        for i in dataset:
+            tokens.append(np.array(i[1]))
+            labels.append(i[0])
+
+        if len(dataset) > 2:
+            tsne_model = TSNE(
+                perplexity=40, n_components=3, init="pca", n_iter=2500, random_state=23
+            )
+
+            new_values = tsne_model.fit_transform(tokens)
+
+            x = []
+            y = []
+            z = []
+            for value in new_values:
+                x.append(value[0])
+                y.append(value[1])
+                z.append(value[2])
+
+            trace = go.Scatter3d(
+                x=x,
+                y=y,
+                z=z,
+                text=labels,
+                textposition="top right",
+                mode="lines+markers+text",
+                marker={
+                    "size": 10,
+                    "opacity": 0.8,
+                },
+            )
+
+            # Configure the layout.
+            layout = go.Layout(
+                margin={"l": 0, "r": 0, "b": 0, "t": 0}, font={"color": "#DF55E2"}
+            )
+
+            data = [trace]
+
+            return go.Figure(data=data, layout=layout)
+
+        else:
+            tsne_model = TSNE(
+                perplexity=40, n_components=2, init="pca", n_iter=2500, random_state=23
+            )
+
+            new_values = tsne_model.fit_transform(tokens)
+
+            x = []
+            y = []
+            for value in new_values:
+                x.append(value[0])
+                y.append(value[1])
+
+            trace = go.Scatter(
+                x=x,
+                y=y,
+                text=labels,
+                textposition="top right",
+                mode="lines+markers+text",
+                marker={
+                    "size": 10,
+                    "opacity": 0.8,
+                },
+            )
+
+            # Configure the layout.
+            layout = go.Layout(
+                margin={"l": 0, "r": 0, "b": 0, "t": 0}, font={"color": "#DF55E2"}
+            )
+
+            data = [trace]
+
+            return go.Figure(data=data, layout=layout)
+
+    # Load substance meta
+    def get_substances(self, _aspect, n):
+        substance_list = []
+        substance_ids = {}
+        exclude = ["sodium", "sugar", "sugar_alcohol"]
+        _n = n
+        _aspect = _aspect.replace(" ", "_")
+        if _aspect in self.health_aspects:
+            aspect = self.health_aspects[_aspect]
+        else:
+            _aspect = difflib.get_close_matches("_aspect", self.health_aspects.keys())[
+                0
+            ]
+            aspect = self.health_aspects[_aspect]
+
+        substance_scoring = aspect["substance"]
+        if n != 0:
+            if n > len(substance_scoring):
+                n = len(substance_scoring)
+            substance_scoring = aspect["substance"][:n]
+
+        for substance in substance_scoring:
+            if substance[1] in exclude:
+                continue
+            if substance[1] not in substance_ids:
+                substance_list.append((substance[0], substance[1], _aspect))
+                substance_ids[substance[1]] = 1
+
+        for alias in aspect["alias"]:
+            n = _n
+            _substance_scoring = self.health_aspects[alias]["substance"]
+            if n != 0:
+                if n > len(_substance_scoring):
+                    n = len(_substance_scoring)
+                _substance_scoring = self.health_aspects[alias]["substance"][:n]
+
+            for substance in _substance_scoring:
+                if substance[1] in exclude:
+                    continue
+                if substance[1] not in substance_ids:
+                    substance_list.append((substance[0], substance[1], alias))
+                    substance_ids[substance[1]] = 1
+
+        n = _n
+        if len(substance_list) > n and n != 0:
+            substance_list = substance_list[:n]
+        substance_list = sorted(substance_list, key=lambda tup: tup[0], reverse=True)
+
+        return substance_list
+
+    # Load substance meta and return as DataFrame
+    def get_substances_df(self, _aspect, n):
+        substance_list = self.get_substances(_aspect, n)
+        substance_data = {"substance": [], "score": [], "health_aspect": []}
+        for substance in substance_list:
+            substance_data["score"].append(substance[0])
+            substance_data["substance"].append(substance[1])
+            substance_data["health_aspect"].append(substance[2])
+
+        datatypes = {"substance": str, "score": int, "health_aspect": str}
+
+        df = pd.DataFrame(data=substance_data)
+        df = df.astype(datatypes)
+
+        return df

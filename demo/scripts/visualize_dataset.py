@@ -40,6 +40,7 @@ def kpi(n, text):
     """
     return html
 
+
 def central_text(text):
     html = f"""<h2 class='central_text'>{text}</h2>"""
     return html
@@ -51,36 +52,41 @@ with open("scripts/style.css") as f:
 
 st.title("Welcome to Healthsea 🪐")
 
-data_load_state = st.subheader("Loading data...")
+intro, jellyfish = st.columns(2)
+jellyfish.markdown("\n")
+
+data_load_state = intro.subheader("Loading data...")
 health_aspects, products, conditions, benefits = load_data(
     health_aspect_path, product_path, condition_path, benefit_path
 )
 search_engine = HealthseaSearch(health_aspects, products, conditions, benefits)
-data_load_state.subheader("Discover the results of the pipeline ✨")
+data_load_state.subheader("Create easier access to health✨")
 
-intro, jellyfish = st.columns(2)
-
-jellyfish.image("data/img/jellyfish.png", use_column_width="auto")
+jellyfish.image("data/img/Jellymation.gif")
 intro.markdown(
-    "With healthsea we analyzed up to 1 million reviews. You can use the app to explore the results and get product and substance recommendations based on your choosen health aspect."
+    "Healthsea is a pipeline for analyzing user reviews to supplement products with the goal of extracting stated effects on health."
 )
-intro.markdown("""Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.""")
+intro.markdown(
+    """With this app, you're able to explore the results of healthsea that analyzed up to 1 million reviews. 
+    You can search for any health aspect, whether it is an disease (e.g. joint pain) or a desired health effect such as (e.g. energy),
+    and the app will return a list of products and substances with the highest score.
+    """
+)
+intro.markdown(
+    """If you want to learn more about the pipeline and it's architecture, you can read more in our [blog post](explosion.ai).
+    """
+)
 
 st.markdown("""---""")
 
 # KPI
 
-st.markdown(central_text("Dataset stats"), unsafe_allow_html=True)
+st.markdown(central_text("🎀 Dataset"), unsafe_allow_html=True)
 
-tmp1,kpi_products,tmp3,kpi_reviews,tmp5 = st.columns(5)
-kpi_aspects, kpi_condition, kpi_benefit = st.columns(3)
+kpi_products, kpi_reviews, kpi_condition, kpi_benefit = st.columns(4)
 
 kpi_products.markdown(kpi(len(products), "Products"), unsafe_allow_html=True)
 kpi_reviews.markdown(kpi(933.240, "Reviews"), unsafe_allow_html=True)
-
-kpi_aspects.markdown(
-    kpi(len(conditions) + len(benefits), "Health aspects"), unsafe_allow_html=True
-)
 kpi_condition.markdown(kpi(len(conditions), "Conditions"), unsafe_allow_html=True)
 kpi_benefit.markdown(kpi(len(benefits), "Benefits"), unsafe_allow_html=True)
 
@@ -88,7 +94,10 @@ st.markdown("""---""")
 
 # Search
 search = st.text_input(label="Search for an health aspect", value="joint pain")
-n = st.slider("Show top n results", min_value=1, max_value=100, value=10)
+n = st.slider("Show top n results", min_value=10, max_value=1000, value=25)
+
+st.markdown("""---""")
+st.markdown(central_text("🧃 Products"), unsafe_allow_html=True)
 
 # DataFrame
 st.write(search_engine.get_products_df(search, n))
@@ -106,8 +115,20 @@ if len(aspect_alias) > 0:
         kpi(len(search_engine.get_aspect(search)["products"]), "Products"),
         unsafe_allow_html=True,
     )
-    kpi_alias.write("Including similar aspects")
-    kpi_alias.json(aspect_alias)
+    kpi_alias.markdown(
+        kpi(len(aspect_alias), "Similar health aspects"),
+        unsafe_allow_html=True,
+    )
+
+    vectors = []
+    main_aspect = search_engine.get_aspect_meta(search)
+    vectors.append((main_aspect["name"], main_aspect["vector"]))
+    for aspect in aspect_alias:
+        current_aspect = search_engine.get_aspect_meta(aspect)
+        vectors.append((current_aspect["name"], current_aspect["vector"]))
+    st.markdown("\n")
+    st.write(search_engine.tsne_plot(vectors))
+
 else:
     kpi_mentions, kpi_product_mentions = st.columns(2)
     kpi_mentions.markdown(
@@ -120,3 +141,14 @@ else:
     )
 
 st.markdown("""---""")
+
+# Substances
+st.markdown(central_text("🍯 Substances"), unsafe_allow_html=True)
+
+# DataFrame
+st.write(search_engine.get_substances_df(search, n))
+kpi_tmp, kpi_substances = st.columns(2)
+kpi_substances.markdown(
+    kpi(len(search_engine.get_aspect(search)["substance"]), "Substances"),
+    unsafe_allow_html=True,
+)
