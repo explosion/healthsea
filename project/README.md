@@ -2,7 +2,7 @@
 
 # 🪐 spaCy Project: Healthsea
 
-This is the spaCy project for the Healthsea pipeline. It holds all training data and workflows for training a Named Entity Recognition model and a custom Text Classification model (Clausecat). You can read more in this [blog post](explosion.ai)
+This is the spaCy project for the Healthsea pipeline with all dataset and training workflows.
 
 ## 📋 project.yml
 
@@ -27,6 +27,7 @@ Commands are only re-run if their inputs have changed.
 | `train_clausecat` | Train the custom Clausecat component |
 | `evaluate_clausecat` | Evaluate a custom Clausecat component |
 | `evaluate` | Evaluate the healthsea pipeline |
+| `package` | Package your trained healthsea pipeline |
 | `reset` | Reset the project to its original state and delete all training process |
 
 ### ⏭ Workflows
@@ -53,7 +54,7 @@ in the project directory.
 | [`assets/ner/annotation.jsonl`](assets/ner/annotation.jsonl) | Local | NER annotations exported from Prodigy with 5000 examples and 2 labels |
 | [`assets/ner/train.spacy`](assets/ner/train.spacy) | Local | Training dataset for NER |
 | [`assets/ner/dev.spacy`](assets/ner/dev.spacy) | Local | Development dataset for NER |
-| [`assets/clausecat/annotation.jsonl`](assets/clausecat/annotation.jsonl) | Local | Annotations exported from Prodigy with 5000 examples and 4 classes (textcat.recipe) |
+| [`assets/clausecat/annotation.jsonl`](assets/clausecat/annotation.jsonl) | Local | Annotations exported from Prodigy with 5000 examples and 4 classes |
 | [`assets/clausecat/train.spacy`](assets/clausecat/train.spacy) | Local | Training dataset for Clausecat (Text Classification) |
 | [`assets/clausecat/dev.spacy`](assets/clausecat/dev.spacy) | Local | Development dataset for Clausecat (Text Classification) |
 | [`assets/end_to_end_evaluation.json`](assets/end_to_end_evaluation.json) | Local | End-to-end evaluation dataset |
@@ -67,6 +68,8 @@ The data for training and evaluation is provided in the assets folder. The ```pa
 
 ### 🤖 Training with GPU
 
-To train with the gpu it's required to have ```cuda``` installed that is compatible with your current ```torch``` version. More information about installation can be found in the [spaCy installation docs](https://spacy.io/usage#quickstart)
+To train with the gpu it's required to have ```cuda``` installed with a compatible ```torch``` version. More information about installation can be found in the [spaCy installation docs](https://spacy.io/usage#quickstart)
 
 You can change the ```gpu_id``` variable inside the ```project.yml``` to your current gpu device (normally 0, cpu is -1).
+
+> If you want to use transformers you need to have ```spacy-transformers``` installed

@@ -149,16 +149,16 @@ commands:
     deps:
       - ${vars.models.model_clausecat}
 
-  - name: "reset"
-    help: "Reset the project to its original state and delete all training process"
-    script:
-      - "python scripts/reset.py training/ner"
-      - "python scripts/reset.py training/clausecat"
-      - "python scripts/reset.py package"
-
   - name: "package"
     help: "Package your trained healthsea pipeline"
     script:
       - "python -m spacy package ${vars.models.model_clausecat} package --code scripts/clausecat/clause_aggregation.py,scripts/clausecat/clause_segmentation.py,scripts/clausecat/clausecat_component.py,scripts/clausecat/clausecat_model.py,scripts/clausecat/clausecat_reader.py --name healthsea --create-meta --build wheel --force"
     deps:
       - ${vars.models.model_clausecat}
+
+  - name: "reset"
+    help: "Reset the project to its original state and delete all training process"
+    script:
+      - "python scripts/reset.py training/ner"
+      - "python scripts/reset.py training/clausecat"
+      - "python scripts/reset.py package"

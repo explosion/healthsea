@@ -1,5 +1,5 @@
 # Welcome to Healthsea ✨
-Create better access to health with machine learning and natural language processing. This is the spaCy project of healthsea, a pipeline for analyzing user reviews to supplement products by extracting their effects on health. 
+Create better access to health with spaCy. Healthsea is a pipeline for analyzing user reviews to supplement products by extracting their effects on health. 
 
 > You can learn more about Healthsea in our [blog post](explosion.ai)!
 
@@ -26,7 +26,10 @@ However, it's likely that most of the products on the market are redundant or pr
 
 ## 🧭 Usage
 
-The pipeline processes reviews to supplements and returns health effects for every found health aspect. You can either train the pipeline yourself with the provided datasets in the spaCy project or directly download the trained Healthsea pipeline from Huggingface via `pip install https://huggingface.co/edichief/en_healthsea/resolve/main/en_healthsea-any-py3-none-any.whl`
+The pipeline processes reviews to supplements and returns health effects for every found health aspect. 
+
+You can either train the pipeline yourself with the provided datasets in the spaCy project or directly download the trained Healthsea pipeline from Huggingface via 
+`pip install https://huggingface.co/edichief/en_healthsea/resolve/main/en_healthsea-any-py3-none-any.whl`
 
 ```
 import spacy
@@ -102,13 +105,18 @@ After the NER, the pipeline uses a modified model for Clause Segmentation based 
 
 ## 🪐 SpaCy project
 The ```project``` folder contains a [spaCy project](https://spacy.io/usage/projects) with all training data and workflows.
+> It's required to have `spaCy` installed
 
 Use ```spacy project run``` inside the project folder to get an overview of all commands and assets. For more detailed documentation, visit the [project folders readme](https://github.com/thomashacker/healthsea/tree/main/project). 
+
+Use ````spacy project run install``` to install dependencies needed for the pipeline
 
 
 ## ✨ Demo project
 The ```demo``` folder contains two [streamlit apps](https://streamlit.io/) which visualize an analyzed dataset and show the pipeline.
+> It's required to have `spaCy` and `git LFS` installed
 
+Use ```spacy project run``` inside the demo  folder to get an overview of all commands and assets.
 For more detailed documentation, visit the [demo folders readme](https://github.com/thomashacker/healthsea/tree/main/demo).
 
-
+Use ```spacy project run install``` to install dependencies and download assets needed for the streamlit applications (800mb model, 400mb data)
