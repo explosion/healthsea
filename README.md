@@ -109,7 +109,7 @@ The ```project``` folder contains a [spaCy project](https://spacy.io/usage/proje
 
 Use ```spacy project run``` inside the project folder to get an overview of all commands and assets. For more detailed documentation, visit the [project folders readme](https://github.com/thomashacker/healthsea/tree/main/project). 
 
-Use ````spacy project run install``` to install dependencies needed for the pipeline
+Use ```spacy project run install``` to install dependencies needed for the pipeline
 
 
 ## ✨ Demo project
