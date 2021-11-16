@@ -1,6 +1,6 @@
-from altair.vegalite.v4.api import condition
 import pandas as pd
 import difflib
+from spacy.tokens import Doc
 
 import plotly
 import plotly.graph_objs as go
@@ -261,3 +261,36 @@ class HealthseaSearch:
         df = df.astype(datatypes)
 
         return df
+
+
+class HealthseaPipe:
+
+    # Get Clauses and their predictions
+    def get_clauses(self, doc):
+        clauses = []
+        for clause in doc._.clauses:
+            words = []
+            spaces = []
+            clause_slice = doc[clause["split_indices"][0] : clause["split_indices"][1]]
+
+            if clause["has_ent"]:
+                for token in clause_slice:
+                    if token.i == clause["ent_indices"][0]:
+                        words.append(
+                            clause["blinder"].replace(">", "").replace("<", "")
+                        )
+                        spaces.append(True)
+                    elif token.i not in range(
+                        clause["ent_indices"][0], clause["ent_indices"][1]
+                    ):
+                        words.append(token.text)
+                        spaces.append(token.whitespace_)
+                clauses.append(Doc(doc.vocab, words=words, spaces=spaces))
+
+            else:
+                for token in clause_slice:
+                    words.append(token.text)
+                    spaces.append(token.whitespace_)
+                clauses.append(Doc(doc.vocab, words=words, spaces=spaces))
+
+        return clauses

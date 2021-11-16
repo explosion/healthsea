@@ -15,3 +15,43 @@
     text-align: center;
     top: 50%;
 }
+
+.clause{
+    text-align: center;
+    border-style: solid;
+    border-width:  1px;
+    border-radius: 5px;
+    border-color: #1B7735;
+    box-shadow: 0px 5px #1B7735;
+    margin-left: 10%;
+    margin-right: 10%;
+    padding-top: 2%;
+    padding-bottom: 2%;
+    background-color: #3C9E58;
+    z-index: 5;
+    display: block;
+    position: relative;
+}
+
+.clause:hover {
+    transform: scale(1.1);
+  }
+
+.clause_text{
+    font-weight: bold;
+}
+
+.clause_meta{
+    text-align: center;
+    border-style: solid;
+    border-width:  1px;
+    border-radius: 5px;
+    border-color: #0c0c0e;
+    margin-left: 10%;
+    margin-right: 10%;
+    padding-top: 2%;
+    padding-bottom: 2%;
+    z-index: 3;
+    display: block;
+    position: relative;
+}

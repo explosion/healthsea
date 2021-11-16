@@ -6,10 +6,10 @@ vars:
   vectors_benefit: "data/benefit_vectors.json"
   health_aspects: "data/health_aspects.json"
   products: "data/products.json"
-
+  
 # These are the directories that the project needs. The project CLI will make
 # sure that they always exist.
-directories: ["data","scripts","models"]
+directories: ["data","scripts"]
 
 # Assets that should be downloaded or available in the directory. We're shipping
 # them with the project, so they won't have to be downloaded. But the
@@ -40,6 +40,8 @@ commands:
     help: "Install dependencies and requirements"
     script:
       - "pip install -r requirements.txt"
+      - "git lfs pull"
+      - "pip install https://huggingface.co/edichief/en_healthsea/resolve/main/en_healthsea-any-py3-none-any.whl"
 
   - name: "visualize_dataset"
     help: "Open a streamlit app for discovering the results of healthsea"
@@ -48,4 +50,10 @@ commands:
     deps:
       - ${vars.health_aspects}
       - ${vars.products}
+
+  - name: "visualize_pipeline"
+    help: "Open a streamlit app for testing your healthsea pipeline"
+    script:
+      - "python -m streamlit run scripts/visualize_pipeline.py"
+
 

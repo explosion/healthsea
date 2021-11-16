@@ -1,5 +1,4 @@
 import streamlit as st
-import typer
 from pathlib import Path
 import json
 from support_functions import HealthseaSearch

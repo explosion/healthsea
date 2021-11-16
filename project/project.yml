@@ -1,11 +1,10 @@
 title: "Healthsea"
-description: "This is the spaCy project for the Healthsea pipeline. It holds all training data and workflows for training a Named Entity Recognition model and a custom Text Classification model (Clausecat). You can read more in this [blog post](explosion.ai)"
+description: "This is the spaCy project for the Healthsea pipeline with all dataset and training workflows."
 # Variables can be referenced across the project.yml using ${vars.var_name}
 vars:
   version: "0.0.0"
   name: "healthsea"
 
-  # config_trf & config_tok2vec
   config: "config_tok2vec"
   train: "train"
   dev: "dev"
@@ -35,7 +34,7 @@ assets:
   - dest: "assets/ner/dev.spacy"
     description: "Development dataset for NER"
   - dest: "assets/clausecat/annotation.jsonl"
-    description: "Annotations exported from Prodigy with 5000 examples and 4 classes (textcat.recipe)"
+    description: "Annotations exported from Prodigy with 5000 examples and 4 classes"
   - dest: "assets/clausecat/train.spacy"
     description: "Training dataset for Clausecat (Text Classification)"
   - dest: "assets/clausecat/dev.spacy"
@@ -160,6 +159,6 @@ commands:
   - name: "package"
     help: "Package your trained healthsea pipeline"
     script:
-      - "python -m spacy package ${vars.models.model_clausecat} package --code scripts/clausecat/custom_code.py --name healthsea --build wheel --force"
+      - "python -m spacy package ${vars.models.model_clausecat} package --code scripts/clausecat/clause_aggregation.py,scripts/clausecat/clause_segmentation.py,scripts/clausecat/clausecat_component.py,scripts/clausecat/clausecat_model.py,scripts/clausecat/clausecat_reader.py --name healthsea --create-meta --build wheel --force"
     deps:
       - ${vars.models.model_clausecat}
