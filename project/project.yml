@@ -135,7 +135,7 @@ commands:
       - ${vars.models.model_clausecat}
 
   - name: "evaluate_clausecat"
-    help: "Evaluate a custom Clausecat component"
+    help: "Evaluate the trained Clausecat component"
     script:
       - "python scripts/evaluate_clausecat.py ${vars.models.model_clausecat} assets/clausecat/${vars.dev}.spacy"
     deps:
