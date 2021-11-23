@@ -105,7 +105,7 @@ After the NER, the pipeline uses a modified model for Clause Segmentation based 
 
 ---
 
-## 🪐 SpaCy project
+## 🪐 spaCy project
 The ```project``` folder contains a [spaCy project](https://spacy.io/usage/projects) with all training data and workflows.
 > It's required to have `spaCy` installed
 
