@@ -70,17 +70,17 @@ def main(model_path: Path, eval_path: Path):
                 scorer[health_effects_gold[entity]["label"]].fn += 1
                 scorer[health_effects_pred[entity]["label"]].fp += 1
                 uncorrect_ner.append(
-                    f"({eval['number']}) {entity} (Prediction: {health_effects_pred[entity]['label']}) (Expected: {health_effects_gold[entity]['label']})"
+                    f"({eval['number']}) Wrong label: {entity} (Prediction: {health_effects_pred[entity]['label']} - Expected: {health_effects_gold[entity]['label']})"
                 )
 
         for entity in left_join:
             scorer[health_effects_gold[entity]["label"]].fn += 1
-            uncorrect_ner.append(f"({eval['number']}) False negative {entity}")
+            uncorrect_ner.append(f"({eval['number']}) False negative: {entity}")
             data[eval["health_effects"][entity]["classification"]] -= 1
 
         for entity in right_join:
             scorer[health_effects_pred[entity]["label"]].fp += 1
-            uncorrect_ner.append(f"({eval['number']}) False positive {entity}")
+            uncorrect_ner.append(f"({eval['number']}) False positive: {entity}")
 
         # Compare TEXTCAT results
         for entity_index in middle_join:
@@ -90,8 +90,9 @@ def main(model_path: Path, eval_path: Path):
             ):
                 scorer[health_effects_gold[entity_index]["classification"]].tp += 1
             else:
+                # TODO: I would not display the sentence text by default, in order not to overwhelm the console at a first run. Instead, maybe make it an option to show the texts when you call python scripts/end_to_end_evaluation.py
                 uncorrect_textcat.append(
-                    f"({eval['number']}) {entity_index} (Prediction: {health_effects_pred[entity_index]['effect']}) (Expected: {health_effects_gold[entity_index]['classification']}) ({eval['text']})"
+                    f"({eval['number']}) {entity_index} (Prediction: {health_effects_pred[entity_index]['effect']} - Expected: {health_effects_gold[entity_index]['classification']}) (Text: {eval['text']})"
                 )
                 scorer[health_effects_pred[entity_index]["effect"]].fp += 1
                 scorer[health_effects_gold[entity_index]["classification"]].fn += 1
@@ -133,7 +134,7 @@ def main(model_path: Path, eval_path: Path):
     )
 
     msg.fail(
-        f"{len(uncorrect_ner)}/{len(data['BENEFIT'])+len(data['CONDITION'])} false predictions ({ner_error_percentage}%)"
+        f"{len(uncorrect_ner)}/{len(data['BENEFIT'])+len(data['CONDITION'])} wrong predictions ({ner_error_percentage}%)"
     )
     for error_ner in uncorrect_ner:
         print("  >> " + error_ner)
@@ -209,7 +210,7 @@ def main(model_path: Path, eval_path: Path):
         2,
     )
     msg.fail(
-        f"{len(uncorrect_textcat)}/{data['POSITIVE']+data['NEGATIVE']+data['NEUTRAL']} false predictions ({clausecat_error_percentage}%)"
+        f"{len(uncorrect_textcat)}/{data['POSITIVE']+data['NEGATIVE']+data['NEUTRAL']} wrong predictions ({clausecat_error_percentage}%)"
     )
     for error_textcat in uncorrect_textcat:
         print("  >> " + error_textcat)

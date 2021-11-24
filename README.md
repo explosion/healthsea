@@ -1,7 +1,7 @@
 # Welcome to Healthsea ✨
 Create better access to health with spaCy. Healthsea is a pipeline for analyzing user reviews to supplement products by extracting their effects on health. 
 
-> You can learn more about Healthsea in our [blog post](explosion.ai)!
+> You can learn more about Healthsea in our [blog post](https://explosion.ai/blog/)!
 
 ![](img/healthsea_anim.gif)
 
@@ -22,7 +22,7 @@ However, it's likely that most of the products on the market are redundant or pr
 | 🧭 **Usage**      | How to use the pipeline               |
 | ⚙️ **Pipeline**      | Learn more about the architecture of the pipeline               |
 | 🪐 **spaCy project**      | Introduction to the spaCy project               |
-| ✨ **Demo**                | Introduction to the demo project              |
+| ✨ **Demo**                | Introduction to the demo              |
 
 ## 🧭 Usage
 
@@ -89,34 +89,36 @@ print(doc._.health_effects)
 ## ⚙️ Pipeline
 
 The pipeline consists of the following components:
-`pipeline = sentencizer, tok2vec, ner, benepar, segmentation, clausecat, aggregation`
+```
+pipeline = [sentencizer, tok2vec, ner, benepar, segmentation, clausecat, aggregation]
+```
 
 It uses Named Entity Recognition to detect two types of entities ```Condition``` and ```Benefit```.
 
- ```Condition``` entities are defined as health aspects that are improved by decreasing them, they include diseases, symptoms and general health problems (e.g. pain in back). ```Benefit``` entities on the other hand, are desired states of health (muscle recovery, glowing skin) that improve by increasing them.
+ ```Condition``` entities are defined as health aspects that are improved by decreasing them. They include diseases, symptoms and general health problems (e.g. pain in back). ```Benefit``` entities on the other hand, are desired states of health (muscle recovery, glowing skin) that improve by increasing them.
 
 ![](img/ner_guide.PNG)
 
-After the NER, the pipeline uses a modified model for Clause Segmentation based on the [benepar parser](https://github.com/nikitakit/self-attentive-parser), Blinding entities and Text Classification. The model predicts four exclusive effects: `Positive, Negative, Neutral, and Anamnesis`.
+After the NER, the pipeline uses a modified model for Clause Segmentation based on the [benepar parser](https://github.com/nikitakit/self-attentive-parser), blinding entities and Text Classification. The model predicts four exclusive effects: `Positive, Negative, Neutral, and Anamnesis`.
 
 ![](img/clausecat_guide.PNG)
 
 ---
 
-## 🪐 SpaCy project
+## 🪐 spaCy project
 The ```project``` folder contains a [spaCy project](https://spacy.io/usage/projects) with all training data and workflows.
 > It's required to have `spaCy` installed
 
 Use ```spacy project run``` inside the project folder to get an overview of all commands and assets. For more detailed documentation, visit the [project folders readme](https://github.com/thomashacker/healthsea/tree/main/project). 
 
-Use ```spacy project run install``` to install dependencies needed for the pipeline
+Use ```spacy project run install``` to install dependencies needed for the pipeline.
 
 
-## ✨ Demo project
+## ✨ Demo
 The ```demo``` folder contains two [streamlit apps](https://streamlit.io/) which visualize an analyzed dataset and show the pipeline.
 > It's required to have `spaCy` and `git LFS` installed
 
-Use ```spacy project run``` inside the demo  folder to get an overview of all commands and assets.
+Use ```spacy project run``` inside the demo folder to get an overview of all commands and assets.
 For more detailed documentation, visit the [demo folders readme](https://github.com/thomashacker/healthsea/tree/main/demo).
 
-Use ```spacy project run install``` to install dependencies and download assets needed for the streamlit applications (800mb model, 400mb data)
+Use ```spacy project run install``` to install dependencies and download assets needed for the streamlit applications (800mb model, 400mb data).
