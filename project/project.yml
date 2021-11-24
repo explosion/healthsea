@@ -98,17 +98,6 @@ commands:
     deps:
       - "assets/ner/annotation.jsonl"
 
-  # You can skip this command if you're happy with the training files in the assets folder generated with the default split
-  - name: "parse_clausecat"
-    help: "Parse the textcat annotations into clausecat format and split into training and development set"
-    script:
-      - "python scripts/parsing/parse_clausecat.py assets/clausecat/annotation.jsonl assets/clausecat/${vars.train}.spacy assets/clausecat/${vars.dev}.spacy ${vars.eval_split}"
-    deps:
-      - "assets/clausecat/annotation.jsonl"
-    outputs:
-      - "assets/clausecat/${vars.train}.spacy"
-      - "assets/clausecat/${vars.dev}.spacy"
-
   - name: "train_ner"
     help: "Train an NER model"
     script:
@@ -127,6 +116,17 @@ commands:
       - "assets/ner/${vars.dev}.spacy"
       - ${vars.models.model_ner}
 
+  # You can skip this command if you're happy with the training files in the assets folder generated with the default split
+  - name: "parse_clausecat"
+    help: "Parse the textcat annotations into clausecat format and split into training and development set"
+    script:
+      - "python scripts/parsing/parse_clausecat.py assets/clausecat/annotation.jsonl assets/clausecat/${vars.train}.spacy assets/clausecat/${vars.dev}.spacy ${vars.eval_split}"
+    deps:
+      - "assets/clausecat/annotation.jsonl"
+    outputs:
+      - "assets/clausecat/${vars.train}.spacy"
+      - "assets/clausecat/${vars.dev}.spacy"
+
   - name: "train_clausecat"
     help: "Train the custom Clausecat component"
     script:
@@ -139,7 +139,7 @@ commands:
       - ${vars.models.model_clausecat}
 
   - name: "evaluate_clausecat"
-    help: "Evaluate a custom Clausecat component"
+    help: "Evaluate the trained Clausecat component"
     script:
       - "python scripts/evaluate_clausecat.py ${vars.models.model_clausecat} assets/clausecat/${vars.dev}.spacy"
     deps:
