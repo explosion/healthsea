@@ -634,5 +634,111 @@
             "bone_density": {"classification": "NEGATIVE", "label": "BENEFIT"},
             "muscle_mobility": {"classification": "NEGATIVE", "label": "BENEFIT"}
         }
+    },
+    {
+        "text":"Amazing effect on my mobility and I think my body gets more nutrition now. Since taking this my optimism and happiness increased drastically. The positivity of my thoughts increased and I have more fitness in my workouts!",
+        "number": 63,
+        "health_effects":
+        {
+            "mobility": {"classification": "POSITIVE", "label": "BENEFIT"},
+            "nutrition": {"classification": "POSITIVE", "label": "BENEFIT"},
+            "optimism": {"classification": "POSITIVE", "label": "BENEFIT"},
+            "happiness": {"classification": "POSITIVE", "label": "BENEFIT"},
+            "positivity": {"classification": "POSITIVE", "label": "BENEFIT"},
+            "fitness": {"classification": "POSITIVE", "label": "BENEFIT"}
+        }
+    },
+    {
+        "text":"I have much more confidence now and I'm more active. I'm not awkward anymore and my social health benefits from it. I feel more joy and have better fertility. When I go to VietVoDao, I have more stamina and my concentration increased as well.",
+        "number": 64,
+        "health_effects":
+        {
+            "confidence": {"classification": "POSITIVE", "label": "BENEFIT"},
+            "social_health": {"classification": "POSITIVE", "label": "BENEFIT"},
+            "joy": {"classification": "POSITIVE", "label": "BENEFIT"},
+            "fertility": {"classification": "POSITIVE", "label": "BENEFIT"},
+            "stamina": {"classification": "POSITIVE", "label": "BENEFIT"},
+            "concentration": {"classification": "POSITIVE", "label": "BENEFIT"}
+        }
+    },
+    {
+        "text":"More clear thoughts and I've got a better state of mind now. Finally I got lucid dreams. My precision and reflexes are enhanced by this product. My senses were alleviated. My tasting capabilities increased. ",
+        "number": 65,
+        "health_effects":
+        {
+            "clear_thoughts": {"classification": "POSITIVE", "label": "BENEFIT"},
+            "state_of_mind": {"classification": "POSITIVE", "label": "BENEFIT"},
+            "lucid_dreams": {"classification": "POSITIVE", "label": "BENEFIT"},
+            "precision": {"classification": "POSITIVE", "label": "BENEFIT"},
+            "reflexes": {"classification": "POSITIVE", "label": "BENEFIT"},
+            "senses": {"classification": "POSITIVE", "label": "BENEFIT"},
+            "tasting": {"classification": "POSITIVE", "label": "BENEFIT"}
+        }
+    },
+    {
+        "text":"After a long time I finally got my self-esteem and self-tolerance back! I feel so creative and got a better sense of smell. Hehe, my libido is overkill now and I feel a great lightness. ",
+        "number": 66,
+        "health_effects":
+        {
+            "self-esteem": {"classification": "POSITIVE", "label": "BENEFIT"},
+            "self-tolerance": {"classification": "POSITIVE", "label": "BENEFIT"},
+            "creative": {"classification": "POSITIVE", "label": "BENEFIT"},
+            "sense_of_smell": {"classification": "POSITIVE", "label": "BENEFIT"},
+            "libido": {"classification": "POSITIVE", "label": "BENEFIT"},
+            "lightness": {"classification": "POSITIVE", "label": "BENEFIT"}
+        }
+    },
+    {
+        "text":"I can feel more love now. This is perfect for your spleen. Feeling more enjoyment and more robust. Feeling more energetic and have more attention at school. My reaction speed were increased. Gums feel great. My folicles and mucosa are better now.",
+        "number": 67,
+        "health_effects":
+        {
+            "love": {"classification": "POSITIVE", "label": "BENEFIT"},
+            "spleen": {"classification": "POSITIVE", "label": "BENEFIT"},
+            "enjoyment": {"classification": "POSITIVE", "label": "BENEFIT"},
+            "robust": {"classification": "POSITIVE", "label": "BENEFIT"},
+            "energetic": {"classification": "POSITIVE", "label": "BENEFIT"},
+            "attention": {"classification": "POSITIVE", "label": "BENEFIT"},
+            "reaction_speed": {"classification": "POSITIVE", "label": "BENEFIT"},
+            "gums": {"classification": "POSITIVE", "label": "BENEFIT"},
+            "folicles": {"classification": "POSITIVE", "label": "BENEFIT"},
+            "mucosa": {"classification": "POSITIVE", "label": "BENEFIT"}
+        }
+    },
+    {
+        "text":"This absolutely bashed my asthma away. No more anxiety. Don't feel nauseous anymore in the morning. I have troubles with constipation and this product really helped. I don't feel the pms symptoms as much anymore.",
+        "number": 68,
+        "health_effects":
+        {
+            "asthma": {"classification": "POSITIVE", "label": "CONDITION"},
+            "anxiety": {"classification": "POSITIVE", "label": "CONDITION"},
+            "nauseous": {"classification": "POSITIVE", "label": "CONDITION"},
+            "constipation": {"classification": "POSITIVE", "label": "CONDITION"},
+            "pms": {"classification": "POSITIVE", "label": "CONDITION"}
+        }
+    },
+    {
+        "text":"This absolutely the worst for asthma. Got more anxiety from it. I feel nauseous after taking this product in the morning. I have troubles with constipation because of this product. I feel more pms symptoms as they get worse from this product.",
+        "number": 69,
+        "health_effects":
+        {
+            "asthma": {"classification": "NEGATIVE", "label": "CONDITION"},
+            "anxiety": {"classification": "NEGATIVE", "label": "CONDITION"},
+            "nauseous": {"classification": "NEGATIVE", "label": "CONDITION"},
+            "constipation": {"classification": "NEGATIVE", "label": "CONDITION"},
+            "pms": {"classification": "NEGATIVE", "label": "CONDITION"}
+        }
+    },
+    {
+        "text":"This does nothing for asthma. Didn't help my anxiety. I still feel nauseous in the morning, no effect. I have troubles with constipation and this product didn't do much. I still have pms issues.",
+        "number": 70,
+        "health_effects":
+        {
+            "asthma": {"classification": "NEUTRAL", "label": "CONDITION"},
+            "anxiety": {"classification": "NEUTRAL", "label": "CONDITION"},
+            "nauseous": {"classification": "NEUTRAL", "label": "CONDITION"},
+            "constipation": {"classification": "NEUTRAL", "label": "CONDITION"},
+            "pms": {"classification": "NEUTRAL", "label": "CONDITION"}
+        }
     }
 ]

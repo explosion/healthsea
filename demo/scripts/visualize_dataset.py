@@ -33,7 +33,7 @@ def load_data(
 def kpi(n, text):
     html = f"""
     <div class='kpi'>
-        <h1>{n}</h1>
+        <h1 class='kpi_header'>{n}</h1>
         <span>{text}</span>
     </div>
     """

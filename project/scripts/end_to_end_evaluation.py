@@ -15,7 +15,7 @@ from clausecat import clause_aggregation
 msg = Printer()
 
 
-def main(model_path: Path, eval_path: Path):
+def main(model_path: Path, eval_path: Path, verbose:bool):
     """This script is used to evaluate the healthsea pipeline with manually created examples."""
 
     nlp = spacy.load(model_path)
@@ -135,8 +135,10 @@ def main(model_path: Path, eval_path: Path):
     msg.fail(
         f"{len(uncorrect_ner)}/{len(data['BENEFIT'])+len(data['CONDITION'])} false predictions ({ner_error_percentage}%)"
     )
-    for error_ner in uncorrect_ner:
-        print("  >> " + error_ner)
+
+    if verbose:
+        for error_ner in uncorrect_ner:
+            print("  >> " + error_ner)
 
     msg.divider(f"Evaluating Text Classification")
     msg.info(
@@ -211,8 +213,13 @@ def main(model_path: Path, eval_path: Path):
     msg.fail(
         f"{len(uncorrect_textcat)}/{data['POSITIVE']+data['NEGATIVE']+data['NEUTRAL']} false predictions ({clausecat_error_percentage}%)"
     )
-    for error_textcat in uncorrect_textcat:
-        print("  >> " + error_textcat)
+
+    if verbose:
+        for error_textcat in uncorrect_textcat:
+            print("  >> " + error_textcat)
+    else:
+        print()
+        msg.info("You can set the 'verbose_eval' variable in the 'project.yml' to True for more details about false predictions")
 
 
 if __name__ == "__main__":

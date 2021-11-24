@@ -5,9 +5,13 @@ vars:
   version: "0.0.0"
   name: "healthsea"
 
+  # config_tok2vec or config_trf
   config: "config_tok2vec"
   train: "train"
   dev: "dev"
+
+  # True or False
+  verbose_eval: "False"
 
   models:
     model_ner: "training/ner/${vars.config}/model-best"
@@ -145,7 +149,7 @@ commands:
   - name: "evaluate"
     help: "Evaluate the healthsea pipeline"
     script:
-      - "python scripts/end_to_end_evaluation.py ${vars.models.model_clausecat} assets/end_to_end_evaluation.json"
+      - "python scripts/end_to_end_evaluation.py ${vars.models.model_clausecat} assets/end_to_end_evaluation.json ${vars.verbose_eval}"
     deps:
       - ${vars.models.model_clausecat}
 

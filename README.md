@@ -1,7 +1,8 @@
 # Welcome to Healthsea ✨
-Create better access to health with spaCy. Healthsea is a pipeline for analyzing user reviews to supplement products by extracting their effects on health. 
+## Create better access to health with spaCy. 
+Healthsea is a pipeline for analyzing user reviews to supplement products by extracting their effects on health. 
 
-> You can learn more about Healthsea in our [blog post](explosion.ai)!
+You can learn more about the Healthsea project in our [blog post](explosion.ai)!
 
 ![](img/healthsea_anim.gif)
 
@@ -14,6 +15,16 @@ However, it's likely that most of the products on the market are redundant or pr
 **Healthsea automizes the analysis and provides information in a more digestible way.** ✨
 
 ---
+
+## 🟢 Requirements
+
+To run this project you need:
+```
+spacy>=3.2.0
+benepar>=0.2.0
+torch>=1.6.0
+```
+You can install them in the project folder via `spacy project run install`
 
 ## 📖 Documentation
 

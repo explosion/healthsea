@@ -143,6 +143,7 @@ for effect in doc._.health_effects:
         ),
         unsafe_allow_html=True,
     )
+    st.markdown("\n")
 
 st.markdown("""---""")
 # Indepth

@@ -41,8 +41,8 @@ class Clause_aggregation:
                         "effects": [],
                         "effect": "NEUTRAL",
                         "label": str(clause["blinder"])
-                        .replace("<", "")
-                        .replace(">", ""),
+                        .replace("_", "")
+                        .replace("_", ""),
                         "text": clause["ent_name"],
                     }
                 health_effects[entity]["effects"].append(classification)

@@ -2,7 +2,10 @@ import spacy, benepar
 from spacy.tokens import Doc
 from typing import Tuple, List
 from spacy.language import Language
+import warnings
 
+warning_text =  "<class 'torch_struct.distributions.TreeCRF'> does not define `arg_constraints`. " + 'Please set `arg_constraints = {}` or initialize the distribution ' + 'with `validate_args=False` to turn off validation.'
+warnings.filterwarnings("ignore", warning_text)
 
 @Language.factory("healthsea.segmentation")
 def make_segmentation(nlp: Language, name: str):
@@ -30,7 +33,7 @@ class Clause_segmentation:
                             "split_indices": index_pair,
                             "has_ent": True,
                             "ent_indices": (entity.start, entity.end),
-                            "blinder": f"<{entity.label_}>",
+                            "blinder": f"_{entity.label_}_",
                             "ent_name": entity.text,
                             "cats": {},
                         }
