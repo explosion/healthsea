@@ -26,11 +26,11 @@ def build_blinder() -> Model[List[Doc], List[Doc]]:
     """
     return Model(
         "blinder",
-        forward=forward,
+        forward=forward_blinder,
     )
 
 
-def forward(
+def forward_blinder(
     model: Model[List[Doc], List[Doc]], docs: List[Doc], is_train: bool
 ) -> List[Doc]:
 

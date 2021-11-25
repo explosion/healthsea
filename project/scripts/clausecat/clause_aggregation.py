@@ -5,22 +5,21 @@ import operator
 
 @Language.factory("healthsea.aggregation")
 def create_clause_aggregation(nlp: Language, name: str):
-    return Clause_aggregation(nlp)
+    return ClauseAggregation(nlp, name)
 
 
-class Clause_aggregation:
+class ClauseAggregation:
     """Aggregate the predicted effects from the clausecat and apply the patient information logic"""
 
-    def __init__(self, nlp: Language):
+    def __init__(self, nlp: Language, name: str):
         self.nlp = nlp
+        self.name = name
 
     def __call__(self, doc: Doc):
-
         patient_information = []
         health_effects = {}
 
         for clause in doc._.clauses:
-
             classification = max(clause["cats"].items(), key=operator.itemgetter(1))[0]
 
             if not clause["has_ent"]:
@@ -31,11 +30,11 @@ class Clause_aggregation:
             entity = str(clause["ent_name"]).replace(" ", "_").strip().lower()
 
             # Collect patient information
-            if classification == "ANAMNESIS" and entity != None:
+            if classification == "ANAMNESIS" and entity is not None:
                 patient_information.append((entity, []))
 
             # Collect health effects
-            if entity != None:
+            if entity is not None:
                 if entity not in health_effects:
                     health_effects[entity] = {
                         "effects": [],
@@ -50,7 +49,6 @@ class Clause_aggregation:
         # Add patient information to list of health effects
         for patient_health in patient_information:
             entity = patient_health[0]
-            score = 0
             health_effects[entity]["effects"] += patient_health[1]
 
         # Aggregate health effects

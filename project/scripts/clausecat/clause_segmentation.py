@@ -4,23 +4,26 @@ from typing import Tuple, List
 from spacy.language import Language
 import warnings
 
+# fmt: off
 warning_text =  "<class 'torch_struct.distributions.TreeCRF'> does not define `arg_constraints`. " + 'Please set `arg_constraints = {}` or initialize the distribution ' + 'with `validate_args=False` to turn off validation.'
 warnings.filterwarnings("ignore", warning_text)
+# fmt: on
+
 
 @Language.factory("healthsea.segmentation")
 def make_segmentation(nlp: Language, name: str):
-    return Clause_segmentation(nlp, name)
+    return ClauseSegmentation(nlp, name)
 
 
-class Clause_segmentation:
+class ClauseSegmentation:
     """Use the benepar tree to split sentences and blind entities."""
 
-    def __init__(self, nlp, name):
+    def __init__(self, nlp: Language, name: str):
         self.nlp = nlp
         self.name = name
 
     def __call__(self, doc: Doc):
-        """Extract clauses and save the split indices in an custom attribute"""
+        """Extract clauses and save the split indices in a custom attribute"""
         clauses = []
         split_indices = self.benepar_split(doc)
 
@@ -61,8 +64,8 @@ class Clause_segmentation:
 
     def benepar_split(self, doc: Doc) -> List[Tuple]:
         """Split a doc into individual clauses
-        sentence (Span): Sentence of a Doc object
-        RETURNS (List[Span]): List of extracted clauses
+        doc (Doc): Input doc containing one or more sentences
+        RETURNS (List[Tuple]): List of extracted clauses, defined by their start-end offsets
         """
         split_indices = []
         for sentence in doc.sents:

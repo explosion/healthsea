@@ -16,10 +16,10 @@ msg = Printer()
 
 
 def main(model_path: Path, eval_path: Path):
-    """This script is used to evaulate the clausecat component"""
+    """This script is used to evaluate the clausecat component"""
 
     nlp = spacy.load(model_path)
-    reader = clausecat_reader.Clausecat_corpus(eval_path)
+    reader = clausecat_reader.ClausecatCorpus(eval_path)
     examples = reader(nlp)
 
     clausecat = nlp.get_pipe("clausecat")
