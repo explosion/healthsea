@@ -2,7 +2,7 @@ title: "Healthsea"
 description: "This is the spaCy project for the Healthsea pipeline with all dataset and training workflows."
 # Variables can be referenced across the project.yml using ${vars.var_name}
 vars:
-  version: "0.0.0"
+  version: "0.0.1"
   name: "healthsea"
 
   # config_tok2vec or config_trf
@@ -57,7 +57,6 @@ workflows:
   install:
     - requirements
   process_ner:
-    - parse_ner
     - analyze_ner
     - train_ner
     - evaluate_ner

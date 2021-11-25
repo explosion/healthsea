@@ -11,10 +11,10 @@ import copy
 
 @util.registry.readers("healthsea.clausecat_reader")
 def create_docbin_reader(path):
-    return Clausecat_corpus(path)
+    return ClausecatCorpus(path)
 
 
-class Clausecat_corpus:
+class ClausecatCorpus:
     def __init__(self, path: Union[str, Path]):
         self.path = util.ensure_path(path)
         if not Doc.has_extension("clauses"):

@@ -13,7 +13,7 @@ from spacy.scorer import Scorer
 from spacy.tokens import Doc
 from spacy.vocab import Vocab
 
-single_label_default_config = """
+default_config = """
 
 [model]
 @architectures = "healthsea.clausecat_model"
@@ -47,13 +47,13 @@ exclusive_classes = true
 ngram_size = 1
 no_output_layer = false
 """
-DEFAULT_SINGLE_CLAUSECAT_MODEL = Config().from_str(single_label_default_config)["model"]
+DEFAULT_CLAUSECAT_MODEL = Config().from_str(default_config)["model"]
 
 
 @Language.factory(
     "healthsea.clausecat",
     requires=["doc._.clauses"],
-    default_config={"threshold": 0.5, "model": DEFAULT_SINGLE_CLAUSECAT_MODEL},
+    default_config={"threshold": 0.5, "model": DEFAULT_CLAUSECAT_MODEL},
     default_score_weights={
         "cats_score": 1.0,
         "cats_score_desc": None,
@@ -115,8 +115,6 @@ class Clausecat(TrainablePipe):
 
         docs (Iterable[Doc]): The documents to predict.
         RETURNS: The models prediction for each document.
-
-        DOCS: https://spacy.io/api/textcategorizer#predict
         """
         if not any(len(doc) for doc in docs):
             # Handle cases where there are no tokens in any docs.
@@ -132,9 +130,7 @@ class Clausecat(TrainablePipe):
         """Modify a batch of Doc objects, using pre-computed scores.
 
         docs (Iterable[Doc]): The documents to modify.
-        scores: The scores to set, produced by TextCategorizer.predict.
-
-        DOCS: https://spacy.io/api/textcategorizer#set_annotations
+        scores: The scores to set, produced by Clausecat.predict.
         """
         clauses = []
         for doc in docs:
@@ -177,8 +173,6 @@ class Clausecat(TrainablePipe):
 
         label (str): The label to add.
         RETURNS (int): 0 if label is already present, otherwise 1.
-
-        DOCS: https://spacy.io/api/textcategorizer#add_label
         """
         if not isinstance(label, str):
             raise ValueError(Errors.E187)
@@ -230,8 +224,6 @@ class Clausecat(TrainablePipe):
         losses (Dict[str, float]): Optional record of the loss during training.
             Updated using the component name as the key.
         RETURNS (Dict[str, float]): The updated losses dictionary.
-
-        DOCS: https://spacy.io/api/textcategorizer#update
         """
         if losses is None:
             losses = {}
@@ -252,13 +244,13 @@ class Clausecat(TrainablePipe):
         examples (Iterable[Examples]): The batch of examples.
         scores: Scores representing the model's predictions.
         RETURNS (Tuple[float, float]): The loss and the gradient.
-
-        DOCS: https://spacy.io/api/textcategorizer#get_loss
         """
 
         truths, not_missing = self._examples_to_truth(examples)
         not_missing = self.model.ops.asarray(not_missing)
         d_scores = (scores - truths) / scores.shape[0]
+        # TODO: was this line missing?
+        # d_scores *= not_missing
         mean_square_error = (d_scores ** 2).sum(axis=1).mean()
         return float(mean_square_error), d_scores
 
@@ -267,8 +259,6 @@ class Clausecat(TrainablePipe):
 
         examples (Iterable[Example]): The examples to score.
         RETURNS (Dict[str, Any]): The scores, produced by Scorer.score_cats.
-
-        DOCS: https://spacy.io/api/textcategorizer#score
         """
 
         examples_clauses = []
