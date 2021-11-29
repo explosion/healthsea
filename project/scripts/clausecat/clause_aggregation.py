@@ -3,7 +3,7 @@ from spacy.language import Language
 import operator
 
 
-@Language.factory("healthsea.aggregation")
+@Language.factory("healthsea.aggregation.v1")
 def create_clause_aggregation(nlp: Language, name: str):
     return ClauseAggregation(nlp, name)
 

@@ -6,11 +6,11 @@ from wasabi import Printer, table
 import operator
 import benepar
 
-from clausecat import clausecat_component
-from clausecat import clausecat_model
-from clausecat import clausecat_reader
-from clausecat import clause_segmentation
-from clausecat import clause_aggregation
+import clausecat_component
+import clausecat_model
+import clausecat_reader
+import clause_segmentation
+import clause_aggregation
 
 msg = Printer()
 

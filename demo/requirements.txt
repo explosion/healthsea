@@ -1,4 +1,0 @@
-streamlit>=1.2.0
-plotly>=5.4.0
-scikit-learn>=1.0.1
-spacy-streamlit>=1.0.2

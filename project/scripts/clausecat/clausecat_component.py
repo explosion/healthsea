@@ -51,7 +51,7 @@ DEFAULT_CLAUSECAT_MODEL = Config().from_str(default_config)["model"]
 
 
 @Language.factory(
-    "healthsea.clausecat",
+    "healthsea.clausecat.v1",
     requires=["doc._.clauses"],
     default_config={"threshold": 0.5, "model": DEFAULT_CLAUSECAT_MODEL},
     default_score_weights={
@@ -249,8 +249,7 @@ class Clausecat(TrainablePipe):
         truths, not_missing = self._examples_to_truth(examples)
         not_missing = self.model.ops.asarray(not_missing)
         d_scores = (scores - truths) / scores.shape[0]
-        # TODO: was this line missing?
-        # d_scores *= not_missing
+        d_scores *= not_missing
         mean_square_error = (d_scores ** 2).sum(axis=1).mean()
         return float(mean_square_error), d_scores
 

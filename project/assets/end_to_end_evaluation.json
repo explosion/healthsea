@@ -436,15 +436,6 @@
         }
     },
     {
-        "text":"Best remedy for toothache. I was diagnosed with cavaties. This product made it worse.",
-        "number": 48,
-        "health_effects":
-        {
-            "toothache": {"classification": "POSITIVE", "label": "CONDITION"},
-            "cavaties": {"classification": "NEGATIVE", "label": "CONDITION"}
-        }
-    },
-    {
         "text":"Can't say I feel any improvement on my kidney pain.",
         "number": 49,
         "health_effects":

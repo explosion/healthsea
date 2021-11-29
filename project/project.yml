@@ -20,11 +20,11 @@ vars:
   prodigy:
     ner_db: "healthsea_ner_annotation"
 
-  gpu_id: -1
+  gpu_id: 0
   eval_split: 0.25
 
 # These are the directories that the project needs. The project CLI will make
-# sure that they always exist.
+# sure that they always exist. 
 directories: ["assets","training","configs","scripts","package"]
 
 # Assets that should be downloaded or available in the directory. We're shipping
@@ -61,9 +61,12 @@ workflows:
     - train_ner
     - evaluate_ner
   process_clausecat:
-    - parse_clausecat
+    - preprocess_clausecat
     - train_clausecat
     - evaluate_clausecat
+  finalize:
+    - evaluate
+    - package
 
 # Project commands, specified in a style similar to CI config files (e.g. Azure
 # pipelines). The name is the command name that lets you trigger the command
@@ -77,8 +80,8 @@ commands:
       - "python -m spacy download en_core_web_lg"
       - "python scripts/benepar_download.py"
 
-  # Works only with prodigy. Can be skipped otherwise, as the training files for the NER are already available in the assets folder
-  - name: "parse_ner"
+  # Optional: Works only with prodigy. Can be skipped otherwise, as the training files for the NER are already available in the assets folder
+  - name: "preprocess_ner"
     help: "Load the annotations to Prodigy and use data-to-spacy to split the data into a training and development set"
     script:
       - "python scripts/check_prodigy.py"
@@ -93,7 +96,7 @@ commands:
   - name: "analyze_ner"
     help: "Analyze the NER annotation dataset"
     script:
-      - "python scripts/parsing/analyze_ner_annotation.py assets/ner/annotation.jsonl"
+      - "python scripts/preprocessing/analyze_ner_annotation.py assets/ner/annotation.jsonl"
     deps:
       - "assets/ner/annotation.jsonl"
 
@@ -115,11 +118,11 @@ commands:
       - "assets/ner/${vars.dev}.spacy"
       - ${vars.models.model_ner}
 
-  # You can skip this command if you're happy with the training files in the assets folder generated with the default split
-  - name: "parse_clausecat"
+  # Optional: You can skip this command if you're happy with the training files in the assets folder generated with the default split
+  - name: "preprocess_clausecat"
     help: "Parse the textcat annotations into clausecat format and split into training and development set"
     script:
-      - "python scripts/parsing/parse_clausecat.py assets/clausecat/annotation.jsonl assets/clausecat/${vars.train}.spacy assets/clausecat/${vars.dev}.spacy ${vars.eval_split}"
+      - "python scripts/preprocessing/preprocess_clausecat.py assets/clausecat/annotation.jsonl assets/clausecat/${vars.train}.spacy assets/clausecat/${vars.dev}.spacy ${vars.eval_split}"
     deps:
       - "assets/clausecat/annotation.jsonl"
     outputs:
@@ -140,7 +143,7 @@ commands:
   - name: "evaluate_clausecat"
     help: "Evaluate the trained Clausecat component"
     script:
-      - "python scripts/evaluate_clausecat.py ${vars.models.model_clausecat} assets/clausecat/${vars.dev}.spacy"
+      - "python scripts/clausecat/evaluate_clausecat.py ${vars.models.model_clausecat} assets/clausecat/${vars.dev}.spacy"
     deps:
       - ${vars.models.model_clausecat}
       - "assets/clausecat/${vars.dev}.spacy"

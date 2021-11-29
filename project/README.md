@@ -1,8 +1,24 @@
-<!-- SPACY PROJECT: AUTO-GENERATED DOCS START (do not remove) -->
-
 # 🪐 spaCy Project: Healthsea
 
 This is the spaCy project for the Healthsea pipeline with all dataset and training workflows.
+
+### 💾 Data
+
+The data for training and evaluation is provided in the assets folder. The ```parse_ner``` command requires [prodigy](https://prodi.gy/) but isn't necessary for training since the data is already present.
+
+### 🤖 Training with GPU
+
+To train with the gpu it's required to have ```cuda``` installed with a compatible ```torch``` version. More information about installation can be found in the [spaCy installation docs](https://spacy.io/usage#quickstart)
+
+You can change the ```gpu_id``` variable inside the ```project.yml``` to your current gpu device (normally 0, cpu is -1).
+
+> If you want to use transformers you need to have ```spacy-transformers``` installed
+
+### Transformer
+
+In the `project.yml` you can change the `config` variable between two training configurations for the pipeline: `config_tok2vec` (for tok2vec embeddings) or `config_trf` (for transformer embeddings)(NER only)
+
+<!-- SPACY PROJECT: AUTO-GENERATED DOCS START (do not remove) -->
 
 ## 📋 project.yml
 
@@ -19,13 +35,13 @@ Commands are only re-run if their inputs have changed.
 | Command | Description |
 | --- | --- |
 | `requirements` | Install dependencies and requirements |
-| `parse_ner` | Load the annotations to Prodigy and use data-to-spacy to split the data into a training and development set |
+| `preprocess_ner` | Load the annotations to Prodigy and use data-to-spacy to split the data into a training and development set |
 | `analyze_ner` | Analyze the NER annotation dataset |
-| `parse_clausecat` | Parse the textcat annotations into clausecat format and split into training and development set |
 | `train_ner` | Train an NER model |
 | `evaluate_ner` | Evaluate the trained NER model |
+| `preprocess_clausecat` | Parse the textcat annotations into clausecat format and split into training and development set |
 | `train_clausecat` | Train the custom Clausecat component |
-| `evaluate_clausecat` | Evaluate a custom Clausecat component |
+| `evaluate_clausecat` | Evaluate the trained Clausecat component |
 | `evaluate` | Evaluate the healthsea pipeline |
 | `package` | Package your trained healthsea pipeline |
 | `reset` | Reset the project to its original state and delete all training process |
@@ -40,8 +56,9 @@ inputs have changed.
 | Workflow | Steps |
 | --- | --- |
 | `install` | `requirements` |
-| `process_ner` | `parse_ner` &rarr; `analyze_ner` &rarr; `train_ner` &rarr; `evaluate_ner` |
-| `process_clausecat` | `parse_clausecat` &rarr; `train_clausecat` &rarr; `evaluate_clausecat` |
+| `process_ner` | `analyze_ner` &rarr; `train_ner` &rarr; `evaluate_ner` |
+| `process_clausecat` | `preprocess_clausecat` &rarr; `train_clausecat` &rarr; `evaluate_clausecat` |
+| `finalize` | `evaluate` &rarr; `package` |
 
 ### 🗂 Assets
 
@@ -63,13 +80,4 @@ in the project directory.
 
 <!-- SPACY PROJECT: AUTO-GENERATED DOCS END (do not remove) -->
 
-### 💾 Data
-The data for training and evaluation is provided in the assets folder. The ```parse_ner``` command requires [prodigy](https://prodi.gy/) but isn't necessary for training since the data is already present.
 
-### 🤖 Training with GPU
-
-To train with the gpu it's required to have ```cuda``` installed with a compatible ```torch``` version. More information about installation can be found in the [spaCy installation docs](https://spacy.io/usage#quickstart)
-
-You can change the ```gpu_id``` variable inside the ```project.yml``` to your current gpu device (normally 0, cpu is -1).
-
-> If you want to use transformers you need to have ```spacy-transformers``` installed

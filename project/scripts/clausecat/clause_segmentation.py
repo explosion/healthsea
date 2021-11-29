@@ -10,7 +10,7 @@ warnings.filterwarnings("ignore", warning_text)
 # fmt: on
 
 
-@Language.factory("healthsea.segmentation")
+@Language.factory("healthsea.segmentation.v1")
 def make_segmentation(nlp: Language, name: str):
     return ClauseSegmentation(nlp, name)
 

@@ -90,7 +90,6 @@ def main(model_path: Path, eval_path: Path, verbose:bool):
             ):
                 scorer[health_effects_gold[entity_index]["classification"]].tp += 1
             else:
-                # TODO: I would not display the sentence text by default, in order not to overwhelm the console at a first run. Instead, maybe make it an option to show the texts when you call python scripts/end_to_end_evaluation.py
                 uncorrect_textcat.append(
                     f"({eval['number']}) {entity_index} (Prediction: {health_effects_pred[entity_index]['effect']} - Expected: {health_effects_gold[entity_index]['classification']}) (Text: {eval['text']})"
                 )

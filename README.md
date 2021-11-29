@@ -23,6 +23,7 @@ To run this project you need:
 spacy>=3.2.0
 benepar>=0.2.0
 torch>=1.6.0
+spacy-transformers>=1.1.2
 ```
 You can install them in the project folder via `spacy project run install`
 
@@ -110,15 +111,14 @@ It uses Named Entity Recognition to detect two types of entities ```Condition```
 
 ![](img/ner_guide.PNG)
 
-After the NER, the pipeline uses a modified model for Clause Segmentation based on the [benepar parser](https://github.com/nikitakit/self-attentive-parser), blinding entities and Text Classification. The model predicts four exclusive effects: `Positive, Negative, Neutral, and Anamnesis`.
+The pipeline uses a modified model that performs Clause Segmentation based on the [benepar parser](https://github.com/nikitakit/self-attentive-parser), Entity Blinding and Text Classification. It predicts four exclusive effects: `Positive, Negative, Neutral, and Anamnesis`.
 
 ![](img/clausecat_guide.PNG)
 
 ---
 
 ## 🪐 spaCy project
-The ```project``` folder contains a [spaCy project](https://spacy.io/usage/projects) with all training data and workflows.
-> It's required to have `spaCy` installed
+The ```project``` folder contains a [spaCy project](https://spacy.io/usage/projects) with all the training data and workflows.
 
 Use ```spacy project run``` inside the project folder to get an overview of all commands and assets. For more detailed documentation, visit the [project folders readme](https://github.com/thomashacker/healthsea/tree/main/project). 
 
@@ -126,10 +126,4 @@ Use ```spacy project run install``` to install dependencies needed for the pipel
 
 
 ## ✨ Demo
-The ```demo``` folder contains two [streamlit apps](https://streamlit.io/) which visualize an analyzed dataset and show the pipeline.
-> It's required to have `spaCy` and `git LFS` installed
-
-Use ```spacy project run``` inside the demo folder to get an overview of all commands and assets.
-For more detailed documentation, visit the [demo folders readme](https://github.com/thomashacker/healthsea/tree/main/demo).
-
-Use ```spacy project run install``` to install dependencies and download assets needed for the streamlit applications (800mb model, 400mb data).
+A ```demo``` for Healthsea can be found at [Hugging Face Spaces](https://huggingface.co/spaces/edichief/healthsea-demo) and presents a streamlit app for exploring analyzed results of the pipeline and showcases the individual processing steps.
