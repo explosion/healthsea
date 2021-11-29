@@ -709,11 +709,11 @@
         }
     },
     {
-        "text":"This absolutely the worst for asthma. Got more anxiety from it. I feel nauseous after taking this product in the morning. I have troubles with constipation because of this product. I feel more pms symptoms as they get worse from this product.",
+        "text":"This absolutely the worst for libido while 69. Got more anxiety from it. I feel nauseous after taking this product in the morning. I have troubles with constipation because of this product. I feel more pms symptoms as they get worse from this product.",
         "number": 69,
         "health_effects":
         {
-            "asthma": {"classification": "NEGATIVE", "label": "CONDITION"},
+            "libido": {"classification": "NEGATIVE", "label": "BENEFIT"},
             "anxiety": {"classification": "NEGATIVE", "label": "CONDITION"},
             "nauseous": {"classification": "NEGATIVE", "label": "CONDITION"},
             "constipation": {"classification": "NEGATIVE", "label": "CONDITION"},
@@ -730,6 +730,344 @@
             "nauseous": {"classification": "NEUTRAL", "label": "CONDITION"},
             "constipation": {"classification": "NEUTRAL", "label": "CONDITION"},
             "pms": {"classification": "NEUTRAL", "label": "CONDITION"}
+        }
+    },
+    {
+        "text":"I really feel a strong eudemonia with this product. It's awesome, I'm feeling an intense felicity and euphoria. This product helps my pleasure and gives me a great peace of mind.",
+        "number": 71,
+        "health_effects":
+        {
+            "eudemonia": {"classification": "POSITIVE", "label": "BENEFIT"},
+            "felicity": {"classification": "POSITIVE", "label": "BENEFIT"},
+            "euphoria": {"classification": "POSITIVE", "label": "BENEFIT"},
+            "pleasure": {"classification": "POSITIVE", "label": "BENEFIT"},
+            "peace_of_mind": {"classification": "POSITIVE", "label": "BENEFIT"}
+        }
+    },
+    {
+        "text":"This is perfect for energy. Helps with sleep. Supports the body when having an eye inflammation. Perfect protection against virus infections. Good for hypertension and improves symptoms of keratitis.",
+        "number": 72,
+        "health_effects":
+        {
+            "energy": {"classification": "POSITIVE", "label": "BENEFIT"},
+            "sleep": {"classification": "POSITIVE", "label": "BENEFIT"},
+            "eye_inflammation": {"classification": "POSITIVE", "label": "CONDITION"},
+            "virus_infections": {"classification": "POSITIVE", "label": "CONDITION"},
+            "hypertension": {"classification": "POSITIVE", "label": "CONDITION"},
+            "keratitis": {"classification": "POSITIVE", "label": "CONDITION"}
+        }
+    },
+    {
+        "text":"Amazing for the stomache and digestion. I'm having troubles with underweight and since taking this I was able to gain more weight. I can feel my muscle strength increasing and getting more joint mobility.",
+        "number": 73,
+        "health_effects":
+        {
+            "stomache": {"classification": "POSITIVE", "label": "BENEFIT"},
+            "digestion": {"classification": "POSITIVE", "label": "BENEFIT"},
+            "underweight": {"classification": "POSITIVE", "label": "CONDITION"},
+            "muscle_strength": {"classification": "POSITIVE", "label": "BENEFIT"},
+            "joint_mobility": {"classification": "POSITIVE", "label": "BENEFIT"}
+        }
+    },
+    {
+        "text":"This product suppresses my allergies and reduces my reflux. I don't have insomnia anymore! Perfect fix for constipation",
+        "number": 74,
+        "health_effects":
+        {
+            "allergies": {"classification": "POSITIVE", "label": "CONDITION"},
+            "reflux": {"classification": "POSITIVE", "label": "CONDITION"},
+            "insomnia": {"classification": "POSITIVE", "label": "CONDITION"},
+            "constipation": {"classification": "POSITIVE", "label": "CONDITION"}
+        }
+    },
+    {
+        "text":"Helped surviving covid and got rid of my asthma. Very helpful against meningitis and measles. I was suffering from headaches before. This product was the solution! Lifted up my mood and I'm not getting nauseous anymore.",
+        "number": 75,
+        "health_effects":
+        {
+            "covid": {"classification": "POSITIVE", "label": "CONDITION"},
+            "asthma": {"classification": "POSITIVE", "label": "CONDITION"},
+            "meningitis": {"classification": "POSITIVE", "label": "CONDITION"},
+            "measles": {"classification": "POSITIVE", "label": "CONDITION"},
+            "headaches": {"classification": "POSITIVE", "label": "CONDITION"},
+            "mood": {"classification": "POSITIVE", "label": "BENEFIT"},
+            "nauseous": {"classification": "POSITIVE", "label": "CONDITION"}
+        }
+    },
+    {
+        "text":"My doctor recommended me this product for backpain. It really helped. But it also had some effect on my arthritis.",
+        "number": 76,
+        "health_effects":
+        {
+            "backpain": {"classification": "POSITIVE", "label": "CONDITION"},
+            "arthritis": {"classification": "POSITIVE", "label": "CONDITION"}
+        }
+    },
+    {
+        "text":"Terrible for joint pain and back pain. I was diagnosed with arthritis a year ago and this product just made it worse. Get nauseous from this product. My mood crashes after I took these pills. Making asthma more whack than it already is.",
+        "number": 77,
+        "health_effects":
+        {
+            "joint_pain": {"classification": "NEGATIVE", "label": "CONDITION"},
+            "back_pain": {"classification": "NEGATIVE", "label": "CONDITION"},
+            "arthritis": {"classification": "NEGATIVE", "label": "CONDITION"},
+            "nauseous": {"classification": "NEGATIVE", "label": "CONDITION"},
+            "mood": {"classification": "NEGATIVE", "label": "CONDITION"},
+            "asthma": {"classification": "NEGATIVE", "label": "CONDITION"}
+        }
+    },
+    {
+        "text":"Caused herpes and made my skin even more dry. Not good for the kidney. Made me coughing real bad. Caused throat pain and headaches. I'm diagnosed with joint pain. This product made it worse.",
+        "number": 78,
+        "health_effects":
+        {
+            "herpes": {"classification": "NEGATIVE", "label": "CONDITION"},
+            "skin": {"classification": "NEGATIVE", "label": "BENEFIT"},
+            "kidney": {"classification": "NEGATIVE", "label": "BENEFIT"},
+            "coughing": {"classification": "NEGATIVE", "label": "CONDITION"},
+            "throat_pain": {"classification": "NEGATIVE", "label": "CONDITION"},
+            "headaches": {"classification": "NEGATIVE", "label": "CONDITION"},
+            "joint_pain": {"classification": "NEGATIVE", "label": "CONDITION"}
+        }
+    },
+    {
+        "text":"Caused side effects such as diarrhea and constipation. Made me sleep whack. Made my skin look very bad. Helped my running nose to get much more worse. Perfect for getting rashes.",
+        "number": 79,
+        "health_effects":
+        {
+            "diarrhea": {"classification": "NEGATIVE", "label": "CONDITION"},
+            "constipation": {"classification": "NEGATIVE", "label": "CONDITION"},
+            "sleep": {"classification": "NEGATIVE", "label": "BENEFIT"},
+            "skin": {"classification": "NEGATIVE", "label": "BENEFIT"},
+            "running_nose": {"classification": "NEGATIVE", "label": "CONDITION"},
+            "rashes": {"classification": "NEGATIVE", "label": "CONDITION"}
+        }
+    },
+    {
+        "text":"Caused side effects such as diarrhea and constipation. Made me sleep whack. Made my skin look very bad. Helped my running nose to get much more worse. Perfect for getting rashes.",
+        "number": 79,
+        "health_effects":
+        {
+            "diarrhea": {"classification": "NEGATIVE", "label": "CONDITION"},
+            "constipation": {"classification": "NEGATIVE", "label": "CONDITION"},
+            "sleep": {"classification": "NEGATIVE", "label": "BENEFIT"},
+            "skin": {"classification": "NEGATIVE", "label": "BENEFIT"},
+            "running_nose": {"classification": "NEGATIVE", "label": "CONDITION"},
+            "rashes": {"classification": "NEGATIVE", "label": "CONDITION"}
+        }
+    },
+    {
+        "text":"I felt an decrease in stamina and strength. This surely has made me sleep unbearable. I get nauseous from this. Really bad for digestion and stomache. After taking these pills, I felt a burning sensation behind the chest.",
+        "number": 80,
+        "health_effects":
+        {
+            "stamina": {"classification": "NEGATIVE", "label": "BENEFIT"},
+            "strength": {"classification": "NEGATIVE", "label": "BENEFIT"},
+            "sleep": {"classification": "NEGATIVE", "label": "BENEFIT"},
+            "nauseous": {"classification": "NEGATIVE", "label": "CONDITION"},
+            "digestion": {"classification": "NEGATIVE", "label": "CONDITION"},
+            "stomache": {"classification": "NEGATIVE", "label": "BENEFIT"},
+            "burning_sensation": {"classification": "NEGATIVE", "label": "CONDITION"}
+        }
+    },
+    {
+        "text":"Decreases energy and increases insomnia. The taste made me nauseous. I got diarrhea and constipation from it. Bad for theeth and hair. Made my skin ugly. ",
+        "number": 81,
+        "health_effects":
+        {
+            "energy": {"classification": "NEGATIVE", "label": "BENEFIT"},
+            "insomnia": {"classification": "NEGATIVE", "label": "CONDITION"},
+            "nauseous": {"classification": "NEGATIVE", "label": "CONDITION"},
+            "diarrhea": {"classification": "NEGATIVE", "label": "CONDITION"},
+            "constipation": {"classification": "NEGATIVE", "label": "CONDITION"},
+            "theeth": {"classification": "NEGATIVE", "label": "BENEFIT"},
+            "hair": {"classification": "NEGATIVE", "label": "BENEFIT"},
+            "skin": {"classification": "NEGATIVE", "label": "BENEFIT"}
+        }
+    },
+    {
+        "text":"Caused more numbness. Worsening my sleep and thus causing insomnia. Not feeling good in my stomache after taking. Couldn't breath after taking. Causing a runny nose.",
+        "number": 82,
+        "health_effects":
+        {
+            "numbness": {"classification": "NEGATIVE", "label": "CONDITION"},
+            "sleep": {"classification": "NEGATIVE", "label": "BENEFIT"},
+            "insomnia": {"classification": "NEGATIVE", "label": "CONDITION"},
+            "stomache": {"classification": "NEGATIVE", "label": "CONDITION"},
+            "breath": {"classification": "NEGATIVE", "label": "BENEFIT"},
+            "runny_nose": {"classification": "NEGATIVE", "label": "CONDITION"}
+        }
+    },
+    {
+        "text":"My doctor recommended this for arthritis and joint pain. I hope this works for headaches and migraines. I don't think it did anything to my digestion or sleep. I still no positive effect on my mood. The depression is still present, no effect. I try this for my hairloss.",
+        "number": 83,
+        "health_effects":
+        {
+            "arthritis": {"classification": "NEUTRAL", "label": "CONDITION"},
+            "joint_pain": {"classification": "NEUTRAL", "label": "CONDITION"},
+            "headaches": {"classification": "NEUTRAL", "label": "CONDITION"},
+            "migraines": {"classification": "NEUTRAL", "label": "CONDITION"},
+            "digestion": {"classification": "NEUTRAL", "label": "BENEFIT"},
+            "sleep": {"classification": "NEUTRAL", "label": "BENEFIT"},
+            "mood": {"classification": "NEUTRAL", "label": "BENEFIT"},
+            "depression": {"classification": "NEUTRAL", "label": "CONDITION"},
+            "hairloss": {"classification": "NEUTRAL", "label": "CONDITION"}
+        }
+    },
+    {
+        "text":"Diagnosed with reflux. This product didn't really help. I found myself trying this product for libido but no effect on that. It's said that this product may help muscle strength and muscle recovery. I didn't feel any improvement on my skin or nails. This product does not help digestion.",
+        "number": 84,
+        "health_effects":
+        {
+            "reflux": {"classification": "NEUTRAL", "label": "CONDITION"},
+            "libido": {"classification": "NEUTRAL", "label": "BENEFIT"},
+            "muscle_strength": {"classification": "NEUTRAL", "label": "BENEFIT"},
+            "muscle_recovery": {"classification": "NEUTRAL", "label": "BENEFIT"},
+            "skin": {"classification": "NEUTRAL", "label": "BENEFIT"},
+            "nails": {"classification": "NEUTRAL", "label": "BENEFIT"},
+            "digestion": {"classification": "NEUTRAL", "label": "BENEFIT"}
+        }
+    },
+    {
+        "text":"Did nothing for headaches. No effect on migraines. Effectless for constipation. Friends told me this might help lifting up my energy. No improvement in mood and anxiety. In terms of arthritis this product did absoulutely nothing.",
+        "number": 85,
+        "health_effects":
+        {
+            "headaches": {"classification": "NEUTRAL", "label": "CONDITION"},
+            "migraines": {"classification": "NEUTRAL", "label": "CONDITION"},
+            "constipation": {"classification": "NEUTRAL", "label": "CONDITION"},
+            "energy": {"classification": "NEUTRAL", "label": "BENEFIT"},
+            "mood": {"classification": "NEUTRAL", "label": "BENEFIT"},
+            "anxiety": {"classification": "NEUTRAL", "label": "CONDITION"},
+            "arthritis": {"classification": "NEUTRAL", "label": "CONDITION"}
+        }
+    },
+    {
+        "text":"No help for reflux. Still have my insomnia. This was recommended for joint pain and hip problems. I haven't felt a change in my stamina.",
+        "number": 86,
+        "health_effects":
+        {
+            "reflux": {"classification": "NEUTRAL", "label": "CONDITION"},
+            "insomnia": {"classification": "NEUTRAL", "label": "CONDITION"},
+            "joint_pain": {"classification": "NEUTRAL", "label": "CONDITION"},
+            "hip_problems": {"classification": "NEUTRAL", "label": "CONDITION"},
+            "stamina": {"classification": "NEUTRAL", "label": "BENEFIT"}
+        }
+    },
+    {
+        "text":"Does not work for arthritis and backpain.",
+        "number": 87,
+        "health_effects":
+        {
+            "arthritis": {"classification": "NEUTRAL", "label": "CONDITION"},
+            "backpain": {"classification": "NEUTRAL", "label": "CONDITION"}
+        }
+    },
+    {
+        "text":"Still waiting for an effect on skin or nails.",
+        "number": 88,
+        "health_effects":
+        {
+            "skin": {"classification": "NEUTRAL", "label": "BENEFIT"},
+            "nails": {"classification": "NEUTRAL", "label": "BENEFIT"}
+        }
+    },
+    {
+        "text":"I'm diagnosed with arthritis and joint pain.",
+        "number": 89,
+        "health_effects":
+        {
+            "arthritis": {"classification": "NEUTRAL", "label": "CONDITION"},
+            "joint_pain": {"classification": "NEUTRAL", "label": "CONDITION"}
+        }
+    },
+    {
+        "text":"I was told this might help my insomnia. I'm using this product to get more stamina.",
+        "number": 92,
+        "health_effects":
+        {
+            "insomnia": {"classification": "NEUTRAL", "label": "CONDITION"},
+            "stamina": {"classification": "NEUTRAL", "label": "BENEFIT"}
+        }
+    },
+    {
+        "text":"Did barely anything to my gastritis and didn't help my reflux either.",
+        "number": 93,
+        "health_effects":
+        {
+            "gastritis": {"classification": "NEUTRAL", "label": "CONDITION"},
+            "reflux": {"classification": "NEUTRAL", "label": "CONDITION"}
+        }
+    },
+    {
+        "text":"No effect on hair or nails.",
+        "number": 94,
+        "health_effects":
+        {
+            "hair": {"classification": "NEUTRAL", "label": "BENEFIT"},
+            "nails": {"classification": "NEUTRAL", "label": "BENEFIT"}
+        }
+    },
+    {
+        "text":"I bought this for headaches and migraines.",
+        "number": 95,
+        "health_effects":
+        {
+            "headaches": {"classification": "NEUTRAL", "label": "CONDITION"},
+            "migraines": {"classification": "NEUTRAL", "label": "CONDITION"}
+        }
+    },
+    {
+        "text":"It says that the product should help with rashes and lice.",
+        "number": 96,
+        "health_effects":
+        {
+            "rashes": {"classification": "NEUTRAL", "label": "CONDITION"},
+            "lice": {"classification": "NEUTRAL", "label": "CONDITION"}
+        }
+    },
+    {
+        "text":"This product didn't do anything for my constipation and bowel movements. Although it was recommended for reflux and gastritis, it did nothing.",
+        "number": 97,
+        "health_effects":
+        {
+            "constipation": {"classification": "NEUTRAL", "label": "CONDITION"},
+            "bowel_movements": {"classification": "NEUTRAL", "label": "BENEFIT"},
+            "reflux": {"classification": "NEUTRAL", "label": "CONDITION"},
+            "gastritis": {"classification": "NEUTRAL", "label": "CONDITION"}
+        }
+    },
+    {
+        "text":"No improvment in energy and sleep. No deterioration in terms of joint pain or arthritis.",
+        "number": 98,
+        "health_effects":
+        {
+            "energy": {"classification": "NEUTRAL", "label": "BENEFIT"},
+            "sleep": {"classification": "NEUTRAL", "label": "BENEFIT"},
+            "joint_pain": {"classification": "NEUTRAL", "label": "CONDITION"},
+            "arthritis": {"classification": "NEUTRAL", "label": "CONDITION"}
+        }
+    },
+    {
+        "text":"No increase in stamina or muscle strength. Might not work for my knee pain and back pain. No effect on migraine or sore throat",
+        "number": 99,
+        "health_effects":
+        {
+            "stamina": {"classification": "NEUTRAL", "label": "BENEFIT"},
+            "muscle_strength": {"classification": "NEUTRAL", "label": "BENEFIT"},
+            "knee_pain": {"classification": "NEUTRAL", "label": "CONDITION"},
+            "back_pain": {"classification": "NEUTRAL", "label": "CONDITION"},
+            "migraine": {"classification": "NEUTRAL", "label": "CONDITION"},
+            "sore_throat": {"classification": "NEUTRAL", "label": "CONDITION"}
+        }
+    },
+    {
+        "text":"Thanks for checking out Healthsea! It may not have increased your energy or improved your sleep, however I hope it was still an interesting project to look into.  ",
+        "number": 100,
+        "health_effects":
+        {
+            "energy": {"classification": "NEUTRAL", "label": "BENEFIT"},
+            "sleep": {"classification": "NEUTRAL", "label": "BENEFIT"}
         }
     }
 ]

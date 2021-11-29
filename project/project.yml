@@ -20,7 +20,7 @@ vars:
   prodigy:
     ner_db: "healthsea_ner_annotation"
 
-  gpu_id: 0
+  gpu_id: -1
   eval_split: 0.25
 
 # These are the directories that the project needs. The project CLI will make

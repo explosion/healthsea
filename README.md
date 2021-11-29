@@ -47,7 +47,7 @@ You can either train the pipeline yourself with the provided datasets in the spa
 import spacy
 
 nlp = spacy.load("en_healthsea")
-doc = nlp("This is great for joint pain")
+doc = nlp("This is great for joint pain.")
 
 # Clause Segmentation & Blinding
 print(doc._.clauses)
@@ -126,4 +126,4 @@ Use ```spacy project run install``` to install dependencies needed for the pipel
 
 
 ## ✨ Demo
-A ```demo``` for Healthsea can be found at [Hugging Face Spaces](https://huggingface.co/spaces/edichief/healthsea-demo) and presents a streamlit app for exploring analyzed results of the pipeline and showcases the individual processing steps.
+A ```demo``` for Healthsea can be found at [Hugging Face Spaces](https://huggingface.co/spaces/edichief/healthsea-demo) and presents a streamlit app for exploring analyzed results of the pipeline with productive data and gives insights into the individual processing steps of Healthsea.
