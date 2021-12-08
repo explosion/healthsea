@@ -2,7 +2,7 @@
 ## Create better access to health with spaCy. 
 Healthsea is a pipeline for analyzing user reviews to supplement products by extracting their effects on health. 
 
-> You can learn more about Healthsea in our [blog post](https://explosion.ai/blog/)!
+> Learn more about Healthsea in our [blog post](https://explosion.ai/blog/healthsea)!
 
 ![](img/healthsea_anim.gif)
 
@@ -34,14 +34,14 @@ You can install them in the project folder via `spacy project run install`
 | 🧭 **Usage**      | How to use the pipeline               |
 | ⚙️ **Pipeline**      | Learn more about the architecture of the pipeline               |
 | 🪐 **spaCy project**      | Introduction to the spaCy project               |
-| ✨ **Demo**                | Introduction to the demo              |
+| ✨ **Demos**                | Introduction to the Healthsea demos              |
 
 ## 🧭 Usage
 
 The pipeline processes reviews to supplements and returns health effects for every found health aspect. 
 
 You can either train the pipeline yourself with the provided datasets in the spaCy project or directly download the trained Healthsea pipeline from Huggingface via 
-`pip install https://huggingface.co/edichief/en_healthsea/resolve/main/en_healthsea-any-py3-none-any.whl`
+`pip install https://huggingface.co/explosion/en_healthsea/resolve/main/en_healthsea-any-py3-none-any.whl`
 
 ```
 import spacy
@@ -124,6 +124,12 @@ Use ```spacy project run``` inside the project folder to get an overview of all 
 
 Use ```spacy project run install``` to install dependencies needed for the pipeline.
 
-
 ## ✨ Demo
-A ```demo``` for Healthsea can be found at [Hugging Face Spaces](https://huggingface.co/spaces/edichief/healthsea-demo) and presents a streamlit app for exploring analyzed results of the pipeline with productive data and gives insights into the individual processing steps of Healthsea.
+
+### Healthsea Demo
+A `demo` for exploring the results of Healthsea on real data can be found at [Hugging Face Spaces](https://huggingface.co/spaces/spacy/healthsea-demo).
+
+### Healthsea Pipeline
+A `demo` for exploring the Healthsea pipeline with its individual processing steps can be found at [Hugging Face Spaces](https://huggingface.co/spaces/spacy/healthsea-pipeline).
+
+
