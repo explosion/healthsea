@@ -52,17 +52,10 @@ doc = nlp("This is great for joint pain.")
 # Clause Segmentation & Blinding
 print(doc._.clauses)
 
->     {
->    "split_indices": [
->        0,
->        7
->    ],
+>    {"split_indices": [0, 7],
 >    "has_ent": true,
->    "ent_indices": [
->        4,
->        6
->    ],
->    "blinder": "<CONDITION>",
+>    "ent_indices": [4, 6],
+>    "blinder": "_CONDITION_",
 >    "ent_name": "joint pain",
 >    "cats": {
 >        "POSITIVE": 0.9824668169021606,
@@ -70,29 +63,17 @@ print(doc._.clauses)
 >        "NEGATIVE": 0.00002889777533710003,
 >        "ANAMNESIS": 0.0001394189748680219
 >    },
->    "prediction_text": [
->        "This",
->        "is",
->        "great",
->        "for",
->        "<CONDITION>",
->        "!"
->    ]
->    }
+>    "prediction_text": ["This", "is", "great", "for", "_CONDITION_", "!"]}
 
 # Aggregated results
 print(doc._.health_effects)
 
->    {
->    "joint_pain": {
->        "effects": [
->        "POSITIVE"
->        ],
+>    {"joint_pain": {
+>        "effects": ["POSITIVE"],
 >        "effect": "POSITIVE",
 >        "label": "CONDITION",
 >        "text": "joint pain"
->       }
->    }
+>    }}
 
 ```
 
